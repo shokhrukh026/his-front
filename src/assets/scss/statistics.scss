@@ -1,0 +1,121 @@
+/* 
+========================
+    Project Name: HRM
+    Page: Statistics
+    Authors: Shokhrukh, etc
+    Authors Email: shokhrukh024@gmail.com
+    Version: 1.0.0
+========================
+========================
+    Table of Content
+========================
+1. PRIMARY_SECTION
+2. TABS_SECTION
+3. 
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+========================
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= PRIMARY_SECTION START ======= */
+#organization-by-level-table{
+    position: relative;
+}
+
+
+
+
+/* ======= PRIMARY_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+/* ======= TABS_SECTION START ======= */
+#by-type-region{
+    .nav-tabs{
+        border-bottom: 1px solid #B3BDD9 !important;
+        margin-bottom: 10px;
+
+        .nav-item{
+            
+            .active{
+                border-radius: 0 !important;
+                background: none;
+                color: #1464C0;
+                padding-bottom: 7px;
+                border-bottom: 3px solid #1464C0 !important;
+            }
+
+
+            .nav-link{
+                border-radius: none;
+                outline: none;
+                font-size: 20px;
+                line-height: 28px;
+                color: #1464C0 !important;
+                border: none;
+                
+                // border-bottom: 1px solid #B3BDD9;
+            }
+        }
+    }
+}
+
+
+
+.table__sticky{
+    position: sticky;
+    top: 0;
+    background: #6b91de;
+    color: #fff;
+
+    th{
+        position: sticky;
+        top: 0;
+        border-right: 1px solid white;
+    }
+}
+/* ======= TABS_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= PRIMARY_SECTION START ======= */
+
+
+
+
+
+/* ======= PRIMARY_SECTION END ======= */

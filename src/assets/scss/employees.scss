@@ -1,0 +1,383 @@
+/* 
+========================
+    Project Name: HRM
+    Authors: 
+    Authors Email: 
+    Version: 1.0.0
+========================
+========================
+    Table of Content
+========================
+1. PRIMARY_SECTION
+2. TABS_SECTION
+3. USER_INFO_SECTION
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+========================
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= PRIMARY_SECTION START ======= */
+
+
+
+
+
+/* ======= PRIMARY_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+/* ======= TABS_SECTION START ======= */
+.header-tab-block{
+    .nav-tabs{
+        border: none;
+
+        .nav-item{
+            
+            .active{
+                border-radius: 0 !important;
+                background: none;
+                color: black;
+                border-bottom: 2px solid black !important;
+            }
+
+
+            .nav-link{
+                border-radius: none;
+                outline: none;
+                font-size: 20px;
+                line-height: 28px;
+                margin: 0 2px;
+                border: none;
+                // border-bottom: 2px solid #D3DBDA;
+            }
+        }
+    }
+
+
+    .tab-content{
+        padding: 30px 0;
+        .tab-pane{
+
+        }
+    }
+}
+
+
+
+
+/* ======= TABS_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= USER_INFO_SECTION START ======= */
+.table-hover tbody tr:hover{
+    background: none !important;
+    
+}
+.user__info{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+
+    &_left{
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 32px !important;
+
+
+
+        &_photo{
+            width: 215px;
+            height: 215px;
+            background: #FFFFFF;
+            border: 5px solid #FFFFFF;
+            box-sizing: border-box;
+            border-radius: 50%;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+            margin-bottom: 20px;
+        }
+        &_full_name{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 150%;
+            /* or 36px */
+
+            display: flex;
+            align-items: center;
+            text-align: center;
+
+            color: #1B1B1B;
+            margin-bottom: 10px;
+        }
+        &_position{
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            /* identical to box height */
+
+            text-align: center;
+
+            color: #B3BDD9;
+            margin-bottom: 15px;
+        }
+        &_address{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 17px;
+            /* identical to box height */
+
+            text-align: center;
+
+            color: #1B1B1B;
+            margin-bottom: 25px;
+        }
+        &_email{
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            /* identical to box height */
+
+
+            color: #C8C8C8;
+            margin-bottom: 25px;
+        }
+        &_phone_btn{
+            color: #FFFFFF;
+            background: linear-gradient(110.81deg, #14ADFF -1.78%, #1464C0 94.52%);
+            box-shadow: 0px 10px 30px rgba(20, 100, 192, 0.3);
+            border-radius: 8px;
+            padding: 18px 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+            
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        &_phone_btn:last-child{
+            margin-bottom: 0!important;
+        }
+    }
+    &_right{
+        width: 75%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        .card{
+            margin-left: 20px;
+            width: 100%;
+        }
+
+
+        &_title{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 22px;
+            /* identical to box height */
+
+            color: #1B1B1B;
+        }
+
+        &_table{
+            border: 1px solid #E1E5F0 !important;
+            border-radius: 14px !important;
+
+
+            table tbody tr th{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+
+                color: #B3BDD9;
+            }
+            table tbody tr td{
+                text-align: right;
+            }
+            
+            table,
+            table tbody tr th,
+            table tbody tr td{
+                border: none !important;
+                border-bottom: 1px solid #E1E5F0 !important;
+            }
+            table,
+            table tbody tr:last-child th,
+            table tbody tr:last-child td{
+                border-bottom: none !important;
+            }
+        }
+    }
+}
+
+
+
+
+
+.modal-body{
+    margin: 0px !important;
+    padding: 50px !important;
+}
+.modal__block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    &_close{
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-end;
+
+        position: absolute;
+        right: 15px;
+        top: 15px;
+    }
+
+    &_title{
+        font-style: normal;
+        font-weight: bold;
+        font-size: 32px;
+        line-height: 39px;
+        /* identical to box height */
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        color: #1B1B1B;
+        margin-bottom: 40px;
+    }
+
+    &_subtitle{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        /* identical to box height */
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        color: #1B1B1B;
+        margin-bottom: 10px;
+    }
+
+    &_form{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+
+        &_left{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            width: 50%;
+            margin: 10px 15px 10px 0;
+        }
+        &_right{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+
+            width: 50%;
+            margin: 10px 0 10px 15px;
+        }
+    }
+
+    &_btn_grey{
+        background: #F6F9FB;
+        border-radius: 8px; 
+        width: 150px;
+        height: 40px;
+
+        border: none;
+        color: #B3BDD9;
+
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+    }
+    &_btn_primary{
+        background: #1464C0;
+        border-radius: 8px; 
+        width: 150px;
+        height: 40px;
+
+        border: none;
+        color: #fff;
+
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    &_footer{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+
+        margin-top: 20px;
+    }
+}
+
+
+/* ======= USER_INFO_SECTION END ======= */
+
+
+
