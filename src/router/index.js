@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     { 
         path: '/', 
-        component: () => import('../layouts/MainLayout.vue'), 
+        component: () => import('../layouts/MainLayout2.vue'), 
         children: [
             // { path: '', component: () => import('../views/Home/Index.vue')},
             { path: 'home', component: () => import('../views/Home/Index.vue')},

@@ -1,6 +1,18 @@
 <template>
 <div id="section1" class="header-tab-block">
 
+    <div class="row mb-3">
+        <h1 class="text-black mx-4 px-1 fz-18rem">{{$t('users')}}</h1>
+        <!-- @if (Auth::user()->hasPermissionTo('employees_create')) -->
+            <a href="{{ route('employees.create') }}" class="btn btn-primary mb-3 text-nowrap d-flex align-center">
+                <i class="fas fa-plus mr-2 fz-12px"></i> 
+                
+                {{$t('add_employee')}}
+            </a>
+        <!-- @endif -->
+    </div>
+
+
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="employees-tab" data-toggle="tab" href="#employees-tab-panel" role="tab"
@@ -27,25 +39,25 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <input type="tel" data-inputmask-mask="99999999999999" class="form-control" name="pinfl"
-                                    :placeholder="$t('app.pin')" v-model="filterBasic.pinfl">
+                                    :placeholder="$t('pin')" v-model="filterBasic.pinfl">
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <input type="text" class="form-control" style="width:100%" name="firstname"
-                                    :placeholder="$t('app.personName')" v-model="filterBasic.firstname">
+                                    :placeholder="$t('personName')" v-model="filterBasic.firstname">
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <input type="text" class="form-control" style="width:100%" name="lastname"
-                                    :placeholder="$t('app.surname')" v-model="filterBasic.lastname">
+                                    :placeholder="$t('surname')" v-model="filterBasic.lastname">
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <input type="text" class="form-control" style="width:100%" name="middlename"
-                                    :placeholder="$t('app.middle_name')" v-model="filterBasic.middlename">
+                                    :placeholder="$t('middle_name')" v-model="filterBasic.middlename">
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
@@ -60,7 +72,7 @@
                                 <v-select :reduce="elem => elem.id" label="name_full" 
                                 v-model="filterBasic.organization_id" :searchable="true"
                                 :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                class="form-control" :placeholder="$t('app.organizations')">
+                                class="form-control" :placeholder="$t('organizations')">
                                     <template #no-options>
                                         Нет результатов
                                     </template>
@@ -91,33 +103,18 @@
                                     <input type="checkbox" class="custom-control-input" v-model="filterBasic.with_subdivisions"
                                      id="with_subdivisions" name="with_subdivisions">
                                     <label class="custom-control-label small" for="with_subdivisions">
-                                        {{$t('app.with_subdivisions')}}
+                                        {{$t('with_subdivisions')}}
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6 col-lg-3">
                             <div class="form-group">
-
+                                <!-- <multiselect :options="departmentsList" v-model="filterBasic.branch_id" class="form-control" :placeholder="$t('chamberTypes.branch')"></multiselect> -->
                                 <v-select :reduce="elem => elem.id" label="name" 
                                 v-model="filterBasic.branch_id"
                                 :filterable="false" :options="departmentsList" 
-                                class="form-control" :placeholder="$t('app.chamberTypes.branch')">
-                                    <!-- <template slot="no-options">
-                                        Нет результатов
-                                    </template>
-                                    <template slot="option" slot-scope="option">
-                                        <div class="">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                                    <template slot="selected-option" slot-scope="option">
-                                        <div class="selected">
-                                            {{ option.name }}
-                                        </div>
-                                    </template> -->
-
-
+                                class="form-control" :placeholder="$t('chamberTypes.branch')">
                                     <template #no-options>
                                         Нет результатов
                                     </template>
@@ -131,11 +128,7 @@
                                             {{ option.name }}
                                         </div>
                                     </template>
-
-                                    <!-- <li slot="list-footer" class="pagination">
-                                        <button :disabled="!hasPrevPage" @click="getPrevOrganizationList()">Предыдущее</button>
-                                        <button :disabled="!hasNextPage" @click="getNextOrganizationList()">Следующее</button>
-                                    </li> -->
+                              
                                 </v-select>
                                 
                             </div>
@@ -146,21 +139,7 @@
                                 <v-select :reduce="elem => elem.id" label="name" 
                                 v-model="filterBasic.position_id"
                                 :filterable="false" :options="positionsList" 
-                                class="form-control" :placeholder="$t('app.position')">
-                                    <!-- <template slot="no-options">
-                                        Нет результатов
-                                    </template>
-                                    <template slot="option" slot-scope="option">
-                                        <div class="">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                                    <template slot="selected-option" slot-scope="option">
-                                        <div class="selected">
-                                            {{ option.name }}
-                                        </div>
-                                    </template> -->
-
+                                class="form-control" :placeholder="$t('position')">
 
                                     <template #no-options>
                                         Нет результатов
@@ -175,12 +154,7 @@
                                             {{ option.name }}
                                         </div>
                                     </template>
-
-
-                                    <!-- <li slot="list-footer" class="pagination">
-                                        <button :disabled="!hasPrevPage" @click="getPrevOrganizationList()">Предыдущее</button>
-                                        <button :disabled="!hasNextPage" @click="getNextOrganizationList()">Следующее</button>
-                                    </li> -->
+                               
                                 </v-select>
                                 
                             </div>
@@ -191,21 +165,7 @@
                                 <v-select :reduce="elem => elem.id" label="name" 
                                 v-model="filterBasic.leave_type_id"
                                 :filterable="false" :options="leaveTypeList"  
-                                class="form-control" :placeholder="$t('app.leave_type')">
-                                    <!-- <template slot="no-options">
-                                        Нет результатов
-                                    </template>
-                                    <template slot="option" slot-scope="option">
-                                        <div class="">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                                    <template slot="selected-option" slot-scope="option">
-                                        <div class="selected">
-                                            {{ option.name }}
-                                        </div>
-                                    </template> -->
-
+                                class="form-control" :placeholder="$t('leave_type')">
 
                                     <template #no-options>
                                         Нет результатов
@@ -227,7 +187,7 @@
                         </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-filter mr-2 fz-12px"></i>{{$t('app.filter')}}
+                                <i class="fa fa-filter mr-2 fz-12px"></i>{{$t('filter')}}
                             </button>
                         </div>
                     </div>
@@ -242,14 +202,14 @@
                                 @csrf
                                 <div class="" slot="header">
                                     <h4 class="modal-title mb-4">
-                                        {{$t('app.delete_employee')}}
+                                        {{$t('delete_employee')}}
                                     </h4>
                                 </div>
 
                                 <div class="" slot="body">
                                     <div>
                                         <p>
-                                            {{$t('app.do_you_really_want_to_delete_questionless')}} <span
+                                            {{$t('do_you_really_want_to_delete_questionless')}} <span
                                                 class="font-weight-bold">{{ employee . official_full_name }}</span>
                                         </p>
                                     </div>
@@ -258,8 +218,8 @@
 
                                 <div class="d-flex justify-content-end" slot="footer">
                                     <button type="button" class="btn btn-light"
-                                        v-on:click="showDeleteAlertModal=false">{{$t('app.cancel')}}</button>
-                                    <button type="submit" class="btn btn-danger">{{$t('app.delete')}}</button>
+                                        v-on:click="showDeleteAlertModal=false">{{$t('cancel')}}</button>
+                                    <button type="submit" class="btn btn-danger">{{$t('delete')}}</button>
                                 </div>
                             </form>
 
@@ -271,19 +231,19 @@
                                 <thead>
                                     <tr role="row">
                                         <th class="p-2">
-                                            {{$t('app.full_name')}}
+                                            {{$t('full_name')}}
                                         </th>
                                         <th class="p-2">
-                                            {{$t('app.organization')}}
+                                            {{$t('organization')}}
                                         </th>
                                         <th class="p-2">
-                                            {{$t('app.department')}}
+                                            {{$t('department')}}
                                         </th>
                                         <th class="p-2">
-                                            {{$t('app.position')}}
+                                            {{$t('position')}}
                                         </th>
                                         <th class="p-2" width="1">
-                                            {{$t('app.action')}}
+                                            {{$t('action')}}
                                         </th>
                                     </tr>
                                 </thead>
@@ -345,7 +305,7 @@
                         </div>
                         <div class="pagination-wrapper row align-items-center justify-content-between mx-0 pt-2">
                             <!-- <div class="col-auto">{{ $employees->links() }}</div>
-                            <div class="col-auto mb-2 py-1 text-primary font-weight-bold">{{$t('app.total')}}
+                            <div class="col-auto mb-2 py-1 text-primary font-weight-bold">{{$t('total')}}
                                 : {{ number_format($employees->total(), 0, '.', ' ') }}</div> -->
                         </div>
                     </div>
@@ -855,19 +815,19 @@
                             <input v-model="filter.lastname" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Фамилия" class="form-control">
                             <input v-model="filter.middlename" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Отчество" class="form-control">
 
-                            <v-select :options="genderList" :reduce="elem => elem.value" label="name" value="value" :placeholder="$t('app.userGender')"
+                            <v-select :options="genderList" :reduce="elem => elem.value" label="name" value="value" :placeholder="$t('userGender')"
                             v-if="filterRadio == 'basicInfo'" v-model="filter.gender" class="form-control"></v-select>
 
                             <input v-model="filter.birth_date" v-if="filterRadio == 'basicInfo'" type="date" placeholder="Дата рождения" class="form-control">
 
                             
-                            <v-select :options="nationalitiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.nationality')"
+                            <v-select :options="nationalitiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('nationality')"
                             v-if="filterRadio == 'basicInfo'" v-model="filter.nationality_id" class="form-control"></v-select>
 
-                            <v-select :options="countriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.citizenship')"
+                            <v-select :options="countriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('citizenship')"
                             v-if="filterRadio == 'basicInfo'" v-model="filter.citizenship_id" class="form-control"></v-select>
 
-                            <v-select :options="countriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.birth_country')"
+                            <v-select :options="countriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('birth_country')"
                             v-if="filterRadio == 'basicInfo'" v-model="filter.birth_country_id" class="form-control"></v-select>
 
 
@@ -883,10 +843,10 @@
 
 
                             <!-- =============== FILTER_BY_PASSPORT START =============== -->
-                            <v-select :options="identityCardTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.passport_type')"
+                            <v-select :options="identityCardTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('passport_type')"
                             v-if="filterRadio == 'passportData'" v-model="filter.identity_card_type_id" class="form-control"></v-select>
 
-                            <!-- <input v-if="filterRadio == 'passportData'" v-model="filter.identity_card_given" type="text" placeholder="Кем выдан"> -->
+                            <input v-if="filterRadio == 'passportData'" v-model="filter.identity_card_given" type="text" placeholder="Кем выдан">
                             <input v-if="filterRadio == 'passportData'" v-model="filter.identity_card_number" type="text" placeholder="Серия и номер" class="form-control">
                             <input v-if="filterRadio == 'passportData'" v-model="filter.start_date" type="date" placeholder="Дата выдачи" class="form-control">
                             <input v-if="filterRadio == 'passportData'" v-model="filter.end_date" type="date" placeholder="Срок действия" class="form-control">
@@ -898,19 +858,19 @@
 
                             
                             <!-- =============== FILTER_BY_EDUCATION START =============== -->
-                            <v-select :options="educationTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.education_type')"
+                            <v-select :options="educationTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('education_type')"
                             v-if="filterRadio == 'education'" v-model="filter.education_type" class="form-control"></v-select>
 
-                            <v-select :options="institutionsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.educational_organization')"
+                            <v-select :options="institutionsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('educational_organization')"
                             v-if="filterRadio == 'education'" v-model="filter.institution_id" class="form-control"></v-select>
 
-                            <v-select :options="educationLevelsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.education_degree')"
+                            <v-select :options="educationLevelsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('education_degree')"
                             v-if="filterRadio == 'education'" v-model="filter.education_level_id" class="form-control"></v-select>
 
-                            <v-select :options="specialitiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.specialty')"
+                            <v-select :options="specialitiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('specialty')"
                             v-if="filterRadio == 'education'" v-model="filter.specialty_id" class="form-control"></v-select>
 
-                            <v-select :options="facultiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.faculty')"
+                            <v-select :options="facultiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('faculty')"
                             v-if="filterRadio == 'education'" v-model="filter.faculty_id" class="form-control"></v-select>
 
                             <input v-model="filter.begin_year" v-if="filterRadio == 'education'" type="date" placeholder="Год вступления" class="form-control"> 
@@ -923,10 +883,10 @@
 
 
                             <!-- =============== FILTER_BY_PROFESSION START =============== -->
-                            <v-select :options="categoriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.category_type')"
+                            <v-select :options="categoriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('category_type')"
                             v-if="filterRadio == 'profession'" v-model="filter.category_id" class="form-control"></v-select>
 
-                            <v-select :options="specialityCategoryTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.specialty')"
+                            <v-select :options="specialityCategoryTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('specialty')"
                             v-if="filterRadio == 'profession'" v-model="filter.speciality_category_type_id" class="form-control"></v-select>
                             
 
@@ -939,16 +899,16 @@
 
 
                             <!-- =============== FILTER_BY_OTHERS START =============== -->
-                            <v-select :options="scientLevelsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.scient_degree')"
+                            <v-select :options="scientLevelsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('scient_degree')"
                             v-if="filterRadio == 'other'" v-model="otherForm.scient_level_id" class="form-control"></v-select>
 
-                            <v-select :options="partyTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.party_membership')"
+                            <v-select :options="partyTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('party_membership')"
                             v-if="filterRadio == 'other'" v-model="otherForm.political_party_type_id" class="form-control"></v-select>
 
-                            <v-select :options="governmentAwardTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.government_award')"
+                            <v-select :options="governmentAwardTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('government_award')"
                             v-if="filterRadio == 'other'" v-model="otherForm.government_award_type_id" class="form-control"></v-select>
 
-                            <v-select :options="languageList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('app.language')"
+                            <v-select :options="languageList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('language')"
                             v-if="filterRadio == 'other'" v-model="otherForm.language_type_id" class="form-control"></v-select>
                             <!-- =============== FILTER_BY_OTHERS END =============== -->
 
@@ -957,7 +917,7 @@
                         </div>
                         <div class="filter-inputs mt-3">
                             <button @click="applyFilters()" class="btn btn-primary d-flex align-center justify-center">
-                                <span>{{$t('app.apply')}}</span>
+                                <span>{{$t('apply')}}</span>
                             </button>
                         </div>
                     </div>
@@ -1384,7 +1344,11 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
 export default {
+    components: {
+        Multiselect 
+    },
     data(){
         return {
             // ============= PRIMARY START =============
@@ -2074,6 +2038,7 @@ export default {
 }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 
 </style>

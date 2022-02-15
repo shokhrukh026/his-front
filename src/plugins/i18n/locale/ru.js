@@ -7,19 +7,17 @@ export default{
     identity_document: 'Документ удостоверяющий личность',
     update_department: 'Изменить отдел',
     userGender: 'Пол',
-    // movementTypes =>
-    // array (
-    //     receive: 'Приход',
-    //     consume: 'Назначение',
-    //     edit: 'Отредактирован',
-    //     liquidate: 'Ликвидация',
-    //     transfer: 'Перевод',
-    // )',
-    // reg =>
-    // array (
-    //     id: 'Регистрационный номер',
-    //     date: 'Дата регистрации',
-    // )',
+    movementTypes: {
+        receive: 'Приход',
+        consume: 'Назначение',
+        edit: 'Отредактирован',
+        liquidate: 'Ликвидация',
+        transfer: 'Перевод',
+    },
+    reg: {
+        id: 'Регистрационный номер',
+        date: 'Дата регистрации',
+    },
     glucose_level_full_stomach: 'Уровень глюкозы на сытый желудок',
     total_cholesterol: 'Общий холестерин',
     protein_urine: 'Белок в моче',
@@ -39,24 +37,22 @@ export default{
     profile: 'Профиль',
     created: 'Дата создания',
     Guide: 'Руководство',
-    // laratable =>
-    // array (
-    //     processing: 'Подождите...',
-    //     lengthMenu: 'Показать _MENU_ записей',
-    //     infoFiltered: '(отфильтровано из _MAX_ записей)',
-    //     zeroRecords: 'Записи отсутствуют.',
-    //     emptyTable: 'В таблице отсутствуют данные',
-    //     paginate =>
-    //     array (
-    //     first: 'Первая',
-    //     previous: 'Предыдущая',
-    //     next: 'Следующая',
-    //     last: 'Последняя',
-    //     )',
-    //     info: 'Записи с _START_ до _END_ из _TOTAL_ записей',
-    //     loadingRecords: 'Загрузка записей...',
-    //     infoEmpty: 'Записи с 0 до 0 из 0 записей',
-    // )',
+    laratable:{
+            processing: 'Подождите...',
+            lengthMenu: 'Показать _MENU_ записей',
+            infoFiltered: '(отфильтровано из _MAX_ записей)',
+            zeroRecords: 'Записи отсутствуют.',
+            emptyTable: 'В таблице отсутствуют данные',
+            paginate: {
+                first: 'Первая',
+                previous: 'Предыдущая',
+                next: 'Следующая',
+                last: 'Последняя',
+            },
+            info: 'Записи с _START_ до _END_ из _TOTAL_ записей',
+            loadingRecords: 'Загрузка записей...',
+            infoEmpty: 'Записи с 0 до 0 из 0 записей',
+    },
     full_name_placeholder: 'Фамилия Имя',
     trainings: 'Тренинги',
     level_id: 'Масштаб предоставления медицинских услуг',
@@ -132,17 +128,15 @@ export default{
     deleted_at: 'Удалён',
     middle_name: 'Отчество',
     description: 'Описание',
-    // outbox =>
-    // array (
-    //     id: 'Исходящий номер',
-    //     date: 'Дата исходящего письма',
-    // )',
-    // address =>
-    // array (
-    //     latitude: 'Координаты', северная широта',
-    //     longitude: 'Координаты', восточная долгота',
-    //     location: 'Местоположение',
-    // )',
+    outbox: {
+        id: 'Исходящий номер',
+        date: 'Дата исходящего письма',
+    },
+    address: {
+        latitude: 'Координаты северная широта',
+        longitude: 'Координаты восточная долгота',
+        location: 'Местоположение',
+    },
     therapy: 'Лечение',
     chambers: 'Палаты',
     contact_number: 'Контактный телефон',
@@ -427,13 +421,12 @@ export default{
     link: 'Ссылка',
     order: 'Порядок',
     category: 'Категория',
-    // userRoles =>
-    // array (
-    //     $role: 'Роли',
-    //     user: 'Лечебное учреждение',
-    //     admin: 'Администрация',
-    //     monitor: 'Мониторинг',
-    // )',
+    userRoles: {
+        role: 'Роли',
+        user: 'Лечебное учреждение',
+        admin: 'Администрация',
+        monitor: 'Мониторинг',
+    },
     home: 'Дом',
     previously_selected_country: 'Ранее выбранная страна',
     registration_date: 'Дата регистрации',
@@ -444,13 +437,12 @@ export default{
     all_types: 'Все типы',
     start_date: 'Начальная дата',
     final_date: 'Конечная дата',
-    // analyzesStatuses =>
-    // array (
-    //     $analysis: 'Статусы анализов',
-    //     $patient->analysis: 'Анализы резидента',
-    //     negative: 'Отрицательный',
-    //     positive: 'Положительный',
-    // )',
+    analyzesStatuses: {
+        $analysis: 'Статусы анализов',
+        $patientAnalysis: 'Анализы резидента',
+        negative: 'Отрицательный',
+        positive: 'Положительный',
+    },
     export: 'Экспорт',
     total: 'Общее количество',
     sms: 'Смс',

@@ -117,16 +117,16 @@
 
     <div class="row">
         <div class="col-12" id="by-type-region">
-{{count }}
+
             <div class="card">
                 <div class="card-body" id="by-type">
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#by_hospital">{{$t('app.by_hospital')}}</a>
+                            <a class="nav-link active" data-toggle="tab" href="#by_hospital">{{$t('by_hospital')}}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#by_employees">{{$t('app.by_employees')}}</a>
+                            <a class="nav-link" data-toggle="tab" href="#by_employees">{{$t('by_employees')}}</a>
                         </li>
                     </ul>
 
@@ -136,8 +136,8 @@
                                 <table id="organization-by-level-table" class="table table-sm table-striped" style="width:100%;">
                                     <thead class="table__sticky">
                                         <tr>
-                                            <th >{{$t('app.type')}}</th>
-                                            <th class="pr-4">{{$t('app.total')}}</th>
+                                            <th >{{$t('type')}}</th>
+                                            <th class="pr-4">{{$t('total')}}</th>
                                             <template v-for="(state, index) in states" :key="index">
                                               <th>{{ state.name }}</th>
                                             </template>
@@ -203,8 +203,8 @@
                                 <table id="organization-by-level-table" class="table table-sm table-striped" style="width:100%">
                                     <thead class="table__sticky">
                                         <tr>
-                                            <th>{{$t('app.type')}}</th>
-                                            <th class="pr-4">{{$t('app.total')}}</th>
+                                            <th>{{$t('type')}}</th>
+                                            <th class="pr-4">{{$t('total')}}</th>
                                             <!-- @foreach ($byEmployee['states'] as $state)
                                                 <th>{{ $state->name }}</th>
                                             @endforeach -->
@@ -293,7 +293,7 @@ export default {
       legend: { show: false },
       stroke: { show: true, colors: ['transparent']},
       xaxis: {
-          categories: [i18n.t('dashboard.region'), "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')", "@lang('dashboard.region')"],
+          categories: [i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region'), i18n.t('dashboard.region')],
           labels: { style: { colors: '#2c313a' } }
       },
       grid: { borderColor: '#efefef'},
@@ -332,7 +332,7 @@ export default {
         legend: { show: false },
         stroke: { show: true, width: 8, colors: ['transparent'] },
         xaxis: {
-            categories: [i18n.t('dashboard.organ'), "@lang('dashboard.organ')", "@lang('dashboard.organ')", "@lang('dashboard.organ')", "@lang('dashboard.organ')", "@lang('dashboard.organ')", "@lang('dashboard.organ')", "@lang('dashboard.organ')"],
+            categories: [i18n.t('dashboard.organ'), i18n.t('dashboard.organ'), i18n.t('dashboard.organ'), i18n.t('dashboard.organ'), i18n.t('dashboard.organ'), i18n.t('dashboard.organ'), i18n.t('dashboard.organ'), i18n.t('dashboard.organ')],
             labels: {
                 style: {
                     colors: '#2c313a'

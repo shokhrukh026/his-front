@@ -182,7 +182,7 @@ $custom-switch-indicator-size: $custom-control-indicator-size - $input-border-wi
 
 
 
-/* ======= FONT_SIZES START ======= */
+/* ======= FONT_SIZES_PX START ======= */
 .fz-10px{
     font-size: 10px;
 }
@@ -228,6 +228,61 @@ $custom-switch-indicator-size: $custom-control-indicator-size - $input-border-wi
 .fz-24px{
     font-size: 24px;
 }
-/* ======= FONT_SIZES END ======= */
+/* ======= FONT_SIZES_PX END ======= */
 
 
+
+
+
+
+
+
+
+
+/* ======= FONT_SIZES_REM START ======= */
+.fz-10rem{
+    font-size: 1.0rem;
+}
+.fz-11rem{
+    font-size: 1.1rem;
+}
+.fz-12rem{
+    font-size: 1.2rem;
+}
+.fz-13rem{
+    font-size: 1.3rem;
+}
+.fz-14rem{
+    font-size: 1.4rem;
+}
+.fz-15rem{
+    font-size: 1.5rem;
+}
+.fz-16rem{
+    font-size: 1.6rem;
+}
+.fz-17rem{
+    font-size: 1.7rem;
+}
+.fz-18rem{
+    font-size: 1.8rem;
+}
+.fz-19rem{
+    font-size: 1.9rem;
+}
+.fz-20rem{
+    font-size: 2.0rem;
+}
+.fz-21rem{
+    font-size: 2.1rem;
+}
+.fz-22rem{
+    font-size: 2.2rem;
+}
+.fz-23rem{
+    font-size: 2.3rem;
+}
+.fz-24rem{
+    font-size: 2.4rem;
+}
+/* ======= FONT_SIZES_REM END ======= */

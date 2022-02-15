@@ -12,10 +12,10 @@ import './assets/css/style.css'
 
 // import VueApexCharts from 'vue-apexcharts'
 import VueApexCharts from "vue3-apexcharts";
-import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css';
 
+import vSelect from "vue-select";
 
+import "vue-select/dist/vue-select.css";
 
 import uz from './plugins/i18n/locale/uz'
 import ru from './plugins/i18n/locale/ru'
@@ -41,8 +41,6 @@ app.use(i18n)
 app.use(VueApexCharts)
 
 app.component('apexchart', VueApexCharts)
-app.component('v-select', vSelect)
-
-
+app.component("v-select", vSelect);
 
 app.mount('#app')
