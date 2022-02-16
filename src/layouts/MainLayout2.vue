@@ -3,7 +3,7 @@
     <div class="wrapper">
         <Navbar></Navbar>
         <Sidebar></Sidebar>
-        <div class="content-wrapper">
+        <div class="content-wrapper" :class="sidebarCollapse ? '' : 'sidebar__close'">
             <!-- <div class="content-header">@yield("contentHeader")</div> -->
 
             <!-- @include('errors.validation') -->
@@ -24,15 +24,42 @@
 </template>
 
 <script>
+
+</script>
+
+
+
+
+
+<script>
+import { useStore } from '../stores/main'
+import { storeToRefs } from 'pinia'
+
 import Navbar from './components/Navbar.vue'
 import Sidebar from './components/Sidebar2.vue'
 import Footer from './components/Footer.vue'
+    
 export default {
     components: {
         Navbar,
         Sidebar,
         Footer
     },
+    setup() {
+        const store = useStore()
+        const { sidebarCollapse } = storeToRefs(store)
+
+
+        return {
+        // you can return the whole store instance to use it in the template
+        store,
+        sidebarCollapse
+        }
+    },
+    mounted(){
+      
+    }
+
 }
 </script>
 

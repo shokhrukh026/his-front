@@ -1,5 +1,5 @@
 <template>
- <div class="main-footer d-print-none border-top-none">
+ <div class="main-footer d-print-none border-top-none" :class="sidebarCollapse ? '' : 'sidebar__close'">
 	<div class="d-flex justify-content-between">
         &copy; {{$t('ministry_of_health_of_the_republic_of_uzb')}}, {{new Date().getFullYear()}}
         <div class="d-flex brand-text text-bold">
@@ -11,8 +11,22 @@
 </template>
 
 <script>
-export default {
+import { ref, onMounted } from 'vue'
+// import { useI18n } from "vue-i18n";
+import { useStore } from '../../stores/main'
+import { storeToRefs } from 'pinia'
 
+export default {
+  setup() {
+    const store = useStore()
+    const { sidebarCollapse } = storeToRefs(store)
+
+
+    return {
+      store,
+      sidebarCollapse
+    }
+  }
 }
 </script>
 

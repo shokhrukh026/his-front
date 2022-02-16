@@ -171,9 +171,7 @@ export default {
 </script>
 
 <style>
-.sidebar__collapse{
-    width: 10% !important;
-}
+
 
 
 

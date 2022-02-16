@@ -1,5 +1,5 @@
 <template>
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light justify-content-between flex-wrap">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light justify-content-between flex-wrap" :class="sidebarCollapse ? '' : 'sidebar__close'">
     <div class="col-md-auto px-0">
         <div class="d-flex">
             <div class="col-auto pl-0">
@@ -187,11 +187,10 @@ import { storeToRefs } from 'pinia'
 export default {
   setup() {
     const store = useStore()
-    const { name, sidebarCollapse } = storeToRefs(store)
+    const { sidebarCollapse } = storeToRefs(store)
 
 
     return {
-      // you can return the whole store instance to use it in the template
       store,
       sidebarCollapse
     }
