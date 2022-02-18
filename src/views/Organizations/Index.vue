@@ -1,15 +1,19 @@
 <template>
-<div class="row mb-3">
-    <h1 class="text-dark mx-2 px-2 fz-18rem">{{$t('organizations')}}</h1>
-    <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
-    <a href="{{route('organizations.create')}}" class="btn btn-primary text-nowrap d-flex align-center">
-        <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_organization')}}
-    </a>
-    <!-- @endif -->
+<div class="d-flex justify-space-between mb-4">
+    <div class="d-flex">
+        <h1 class="text-dark fz-18rem">{{$t('organizations')}}</h1>
+        <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
+        <a href="{{route('organizations.create')}}" class="btn btn-primary text-nowrap ml-3">
+            <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_organization')}}
+        </a>
+        <!-- @endif -->
+    </div>
     
-    <a href="{{route('exportToExcel')}}" class="btn btn-success text-nowrap ml-auto d-flex align-center" style="margin-right: 10px;">
-        <i class="fa fa-file-alt mr-2 fz-12px"></i> {{$t('export.excel')}}
-    </a>
+    <div class="d-flex">
+        <a href="{{route('exportToExcel')}}" class="btn btn-success text-nowrap ml-3">
+            <i class="fa fa-file-alt mr-2 fz-12px"></i> {{$t('export.excel')}}
+        </a>
+    </div>
 </div>
 <div class="row">
     <form action="?" class="col-12 mb-2">

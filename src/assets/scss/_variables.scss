@@ -67,6 +67,14 @@ $custom-switch-indicator-size: $custom-control-indicator-size - $input-border-wi
 
 
 
+/* ======= FLEX START ======= */
+.justify-space-between{
+    justify-content: space-between;
+}
+
+/* ======= FLEX END ======= */
+
+
 
 /* ======= BTNS START ======= */
 .btn-outline-dark{

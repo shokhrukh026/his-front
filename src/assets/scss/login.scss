@@ -1,0 +1,142 @@
+/* 
+========================
+    Project Name: HRM
+    Page Name: Login
+    Authors: 
+    Authors Email: 
+    Version: 1.0.0
+========================
+========================
+    Table of Content
+========================
+1. PRIMARY_SECTION
+2. LOGIN_SECTION
+3. 
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+========================
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= PRIMARY_SECTION START ======= */
+
+
+
+
+
+/* ======= PRIMARY_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= LOGIN_SECTION START ======= */
+.login__page{
+    background-image: url('../img/bg-login.png');
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    .login__card{
+        background: #fff;
+        padding: 55px;
+        backdrop-filter: blur(4px);
+        border-radius: 26px;
+
+        width: 40%;
+        height: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        &_title{
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 40px;
+            line-height: 49px;
+            /* identical to box height */
+            
+            text-align: center;
+            color: #1B1B1B;
+            margin-bottom: 10px;
+        }
+        &_subtitle{
+            font-family: Montserrat;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 20px;
+            /* identical to box height */
+
+            text-align: center;
+
+            color: #1B1B1B;
+            margin-bottom: 50px;
+        }
+        &_input{
+            background: rgba(20, 100, 192, 0.06);
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            height: 50px;
+            margin-bottom: 25px;
+        }
+        &_remember{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        &_checkbox{
+            background: rgba(20, 100, 192, 0.1);
+            border-radius: 5px;
+        }
+        &_btn{
+            background: linear-gradient(110.81deg, #14ADFF -1.78%, #1464C0 94.52%);
+            box-shadow: 0px 10px 30px rgba(20, 100, 192, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            color: #FFF;
+        }
+    }
+}
+
+
+
+
+/* ======= LOGIN_SECTION END ======= */
+

@@ -1,1346 +1,2066 @@
 <template>
-<div id="section1" class="header-tab-block">
+<div class="d-flex justify-content-end">
+        <h4 class="m-0 text-dark my-2">
+            <!-- {{ $employee->OfficialFullName }} -->
+        </h4>
+    </div>
+    <div class="d-flex justify-content-between">
+        <a href="{{ url()->previous() }}" class="btn btn-primary">
+            <i class="fas fa-angle-double-left mr-1"></i> {{$t('back')}}
+        </a>
 
-    <div class="row mb-3">
-        <h1 class="text-black mx-4 px-1 fz-18rem">{{$t('users')}}</h1>
-        <!-- @if (Auth::user()->hasPermissionTo('employees_create')) -->
-            <a href="{{ route('employees.create') }}" class="btn btn-primary mb-3 text-nowrap d-flex align-center">
-                <i class="fas fa-plus mr-2 fz-12px"></i> 
-                
-                {{$t('add_employee')}}
+        <div id="actions" class="d-flex">
+
+            <!-- @if (Auth::user()->hasPermissionTo('employees_edit')) -->
+
+                <a href="{{ route('employees.edit', $employee) }}" class="btn btn-warning text-white">
+                    <i class="fas fa-edit mr-1"></i> {{$t('edit')}}
+                </a>
+            <!-- @endif -->
+
+            <button class="btn btn-primary ml-2" id="additional-actions-button">
+                <i class="fas fa-plus mr-1" id="additional-actions-icon"></i> 
+                <span>{{$t('additional_actions')}}</span>
+            </button>
+        </div>
+    </div>
+    <div id="additional-actions-panel">
+        <div class="d-flex justify-content-start flex-wrap my-1">
+            <a href="{{ route('employees.additional-information', $employee) }}" class="btn btn-outline-success mr-2 my-1">
+                <i class="fas fa-users mr-1"></i> 
+                <span>{{$t('additional_information')}}</span>
             </a>
-        <!-- @endif -->
+            <a href="{{ route('employees.relatives', $employee) }}" class="btn btn-outline-success mr-2 my-1">
+                <i class="fas fa-users mr-1"></i> 
+                <span>{{$t('add_relatives')}}</span>
+            </a>
+            <!-- @if (Auth::user()->hasPermissionTo('education_diploma_create')) -->
+                <a href="{{ route('employees.education-diplomas.create', $employee) }}" class="btn btn-outline-success mr-2 my-1">
+                    <i class="fas fa-plus mr-1"></i> 
+                    <span>{{$t('add_education_diploma')}}</span>
+                </a>
+            <!-- @endif -->
+
+
+            <!-- @if (Auth::user()->hasPermissionTo('science_diploma_create')) -->
+                <a href="{{ route('employees.scient-diplomas.create', $employee) }}" class="btn btn-outline-success mr-2 my-1">
+                    <i class="fas fa-plus mr-1"></i> 
+                    <span>{{$t('add_scient_diploma')}}</span>
+                </a>
+            <!-- @endif -->
+
+            <!-- @if (Auth::user()->hasPermissionTo('speciality_category_create')) -->
+
+            <a href="{{ route('specialty-categories.create', $employee) }}"
+            class="btn btn-outline-success mr-2 my-1">
+                <i class="fas fa-plus mr-1"></i>  
+                <span>{{$t('create_specialty_category')}}</span>
+            </a>
+            <!-- @endif -->
+            <!-- @if($workplaceIsCommon) -->
+                <a href="javascript:void(0)" class="btn btn-outline-success mr-2 my-1" onclick="modal.showModal()">
+                    <i class="fas fa-plus mr-1"></i> 
+                    <span>{{$t('add_leave')}}</span>
+                </a>
+            <!-- @endif -->
+        </div>
     </div>
 
 
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="employees-tab" data-toggle="tab" href="#employees-tab-panel" role="tab"
-                aria-controls="employees-tab-panel" aria-selected="true">Сотрудники</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="search-by-hierarchy-tab" data-toggle="tab" href="#search-by-hierarchy-panel"
-                role="tab" aria-controls="search-by-hierarchy-panel" aria-selected="false">Поиск по иерархии</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="search-by-criteria-tab" data-toggle="tab" href="#search-by-criteria-panel"
-                role="tab" aria-controls="search-by-criteria-panel" aria-selected="false">Поиск по критериям</a>
-        </li>
-    </ul>
-
-    <div class="tab-content">
-
-        <div class="tab-pane fade show active" id="employees-tab-panel" role="tabpanel" aria-labelledby="employees-tab">
-
-            <div class="row">
-                <!-- <form action="{{ route('employees.index') }}" @submit="onSubmit()" class="col-12"> -->
-                <form @submit="onSubmit()" class="col-12">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <input type="tel" data-inputmask-mask="99999999999999" class="form-control" name="pinfl"
-                                    :placeholder="$t('pin')" v-model="filterBasic.pinfl">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
-                                <input type="text" class="form-control" style="width:100%" name="firstname"
-                                    :placeholder="$t('personName')" v-model="filterBasic.firstname">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
-                                <input type="text" class="form-control" style="width:100%" name="lastname"
-                                    :placeholder="$t('surname')" v-model="filterBasic.lastname">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
-                                <input type="text" class="form-control" style="width:100%" name="middlename"
-                                    :placeholder="$t('middle_name')" v-model="filterBasic.middlename">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
-
-                                <input v-model="filterBasic.organization_id" name="organization_id" id="organization" style="display: none;">
-                                <input v-model="filterBasic.branch_id" name="branch_id" id="branch" style="display: none;">
-                                <input v-model="filterBasic.position_id" name="position_id" id="position" style="display: none;">
-                                <input v-model="filterBasic.leave_type_id" name="leave_type_id" id="leave_type_id" style="display: none;">
 
 
-                                <v-select :reduce="elem => elem.id" label="name_full" 
-                                v-model="filterBasic.organization_id" :searchable="true"
-                                :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                class="form-control" :placeholder="$t('organizations')">
-                                    <template #no-options>
-                                        Нет результатов
-                                    </template>
-                                    <template #option>
-                                        <div class="">
-                                            {{ option.name_full }}
-                                        </div>
-                                    </template>
-                                    <template #selected-option>
-                                        <div class="selected">
-                                            {{ option.name_full }}
-                                        </div>
-                                    </template>
 
-                                    <template #list-footer>
-                                        <li class="pagination">
-                                            <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                            <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                        </li>
-                                    </template>
-                                </v-select>
 
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3 d-flex align-items-center">
-                            <div class="form-group px-2">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" v-model="filterBasic.with_subdivisions"
-                                     id="with_subdivisions" name="with_subdivisions">
-                                    <label class="custom-control-label small" for="with_subdivisions">
-                                        {{$t('with_subdivisions')}}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
-                                <!-- <multiselect :options="departmentsList" v-model="filterBasic.branch_id" class="form-control" :placeholder="$t('chamberTypes.branch')"></multiselect> -->
-                                <v-select :reduce="elem => elem.id" label="name" 
-                                v-model="filterBasic.branch_id"
-                                :filterable="false" :options="departmentsList" 
-                                class="form-control" :placeholder="$t('chamberTypes.branch')">
-                                    <template #no-options>
-                                        Нет результатов
-                                    </template>
-                                    <template #option>
-                                        <div class="">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                                    <template #selected-option>
-                                        <div class="selected">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                              
-                                </v-select>
-                                
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
 
-                                <v-select :reduce="elem => elem.id" label="name" 
-                                v-model="filterBasic.position_id"
-                                :filterable="false" :options="positionsList" 
-                                class="form-control" :placeholder="$t('position')">
 
-                                    <template #no-options>
-                                        Нет результатов
-                                    </template>
-                                    <template #option>
-                                        <div class="">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                                    <template #selected-option>
-                                        <div class="selected">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                               
-                                </v-select>
-                                
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group">
-                             
-                                <v-select :reduce="elem => elem.id" label="name" 
-                                v-model="filterBasic.leave_type_id"
-                                :filterable="false" :options="leaveTypeList"  
-                                class="form-control" :placeholder="$t('leave_type')">
 
-                                    <template #no-options>
-                                        Нет результатов
-                                    </template>
-                                    <template #option>
-                                        <div class="">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
-                                    <template #selected-option>
-                                        <div class="selected">
-                                            {{ option.name }}
-                                        </div>
-                                    </template>
 
-                                </v-select>
 
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-filter mr-2 fz-12px"></i>{{$t('filter')}}
-                            </button>
-                        </div>
-                    </div>
-                </form>
+    <div class="user__info" id="user_info">
+        <div class="user__info_left card">
+            <div class="user__info_left_photo">
+                <!-- <img src="APP_URL+ ':' + PORT + personDetails.photo" alt=""> -->
             </div>
-            <div class="row">
-                <div class="col-12" id="delete-modal">
-                    <div class="delete-modal">
-                        <!-- <modal v-if="showDeleteAlertModal" @close="showDeleteAlertModal=false">
-                            <form id="modal-form" slot="modal-container" method="POST" :action="url">
-                                @method('DELETE')
-                                @csrf
-                                <div class="" slot="header">
-                                    <h4 class="modal-title mb-4">
-                                        {{$t('delete_employee')}}
-                                    </h4>
-                                </div>
+            <span class="user__info_left_full_name">
+                <!-- {{$employee->employeeNames[0]->firstname}}
+                {{$employee->employeeNames[0]->lastname}}
+                {{$employee->employeeNames[0]->middlename}} -->
+            </span>
 
-                                <div class="" slot="body">
-                                    <div>
-                                        <p>
-                                            {{$t('do_you_really_want_to_delete_questionless')}} <span
-                                                class="font-weight-bold">{{ employee . official_full_name }}</span>
-                                        </p>
-                                    </div>
+            <span  class="user__info_left_position">
+                <template v-for="(place, index) in workplaces">{{index == 0 ? place.organization_structure.position.name : ', ' + place.organization_structure.position.name}}</template>
+            </span>
+            
 
-                                </div>
+            <!-- @foreach ($employee->employeeAddresses as $key=>$address) -->
+            <span class="user__info_left_address">
+                <!-- {{ $address->country->name ? $address->country->name . ', ' : '' }} 
+                {{ $address->state->name ? $address->state->name . ', ' : '' }}
+                {{ $address->city->name ? $address->city->name . ', ' : '' }}
+                {{ $address->district->name ? $address->district->name . ', ' : '' }}
+                {{ $address->postal_code ? $address->postal_code . ', ' : '' }}
+                {{ $address->line ? $address->line : '' }} -->
+            </span>
+            <!-- @endforeach -->
 
-                                <div class="d-flex justify-content-end" slot="footer">
-                                    <button type="button" class="btn btn-light"
-                                        v-on:click="showDeleteAlertModal=false">{{$t('cancel')}}</button>
-                                    <button type="submit" class="btn btn-danger">{{$t('delete')}}</button>
-                                </div>
-                            </form>
+            <!-- @foreach ($employee->employeeTelecoms as $telecom) -->
+            <!-- @if ($telecom->contactPointSystem->label == 'email') -->
+                <span class="user__info_left_email">
+                    <!-- {{ $telecom->value ?? '' }} -->
+                </span>
+            <!-- @endif -->
+            <!-- @endforeach -->
 
-                        </modal> -->
-                    </div>
-                    <div class="card box-shadow-none border-none">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-sm mb-0">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="p-2">
-                                            {{$t('full_name')}}
-                                        </th>
-                                        <th class="p-2">
-                                            {{$t('organization')}}
-                                        </th>
-                                        <th class="p-2">
-                                            {{$t('department')}}
-                                        </th>
-                                        <th class="p-2">
-                                            {{$t('position')}}
-                                        </th>
-                                        <th class="p-2" width="1">
-                                            {{$t('action')}}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- @foreach ($employees as $employee)
-                                    @php
-                                    $officialName = $employee->employeeNames()->first();
-                                    $workplace = $employee->employeeWorkplaces()->first();
-                                    $org = null;
-                                    $dep = null;
-                                    $position = null;
-                                    if ($workplace) {
-                                    $dep = $workplace->organizationStructure->department;
-                                    $org = $workplace->organizationStructure->organization;
-                                    $position = $workplace->organizationStructure->position;
-                                    //if(!$dep){
-                                    //$upperOrgId=App\Domain\Organization\Entities\OrganizationStructure::findUpperOrganization($workplace->organizationStructure);
-                                    //$upperOrg=App\Domain\Organization\Entities\Organization::find($upperOrgId);
-                                    //$dep=$upperOrg?$upperOrg->departmentAffiliation:null;
-                                    //}
-                                    }
-                                    @endphp
-                                    <tr>
-                                        <td class="p-2">
-                                            {{ $officialName->firstname }}&nbsp;{{ $officialName->lastname }}
-                                            &nbsp;{{ $officialName->middlename }}
-                                        </td>
-                                        <td class="p-2">{{ $org ? $org->name_full : '-' }}</td>
-                                        <td class="p-2">{{ $dep ? $dep->name : '-' }}</td>
-                                        <td class="p-2">{{ $position ? $position->name : '-' }}</td>
-                                        <td class="p-2 pr-3">
-                                            <div class="d-flex justify-content-end">
-                                                @if (auth()->user()->hasPermissionTo('employees_view'))
-                                                <a class="btn btn-sm bg-success d-flex align-center"
-                                                    href="{{ route('employees.show', $employee) }}">
-                                                    <i class="fas fa-eye" style="color: white;"></i>
-                                                </a>
-                                                @endif
-                                                @if (auth()->user()->hasPermissionTo('employees_edit'))
-                                                <a class="btn btn-sm bg-info ml-2 d-flex align-center"
-                                                    href="{{ route('employees.edit', $employee) }}">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </a>
-                                                @endif
-                                                @if (auth()->user()->hasPermissionTo('employees_delete'))
-                                                <a class="btn btn-sm bg-danger ml-2 d-flex align-center"
-                                                    href="javascript:void(0)"
-                                                    data-employee="{{ $employee->official_full_name }}"
-                                                    v-on:click="getEmployee($event, {{ $employee }})">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="pagination-wrapper row align-items-center justify-content-between mx-0 pt-2">
-                            <!-- <div class="col-auto">{{ $employees->links() }}</div>
-                            <div class="col-auto mb-2 py-1 text-primary font-weight-bold">{{$t('total')}}
-                                : {{ number_format($employees->total(), 0, '.', ' ') }}</div> -->
-                        </div>
-                    </div>
+            <!-- @foreach ($employee->employeeTelecoms as $telecom) -->
+            <!-- @if ($telecom->contactPointSystem->label == 'phone') -->
+            <button class="user__info_left_phone_btn">
+                <img src="{{asset('icons/Calling.svg')}}" alt="">
+                <span class="ml-1">
+                    <!-- {{ $telecom->value ?? '' }} -->
+                </span>
+
+                <!-- <div class="card-header">
+                    <h4>{{$t('contact_points')}}</h4>
                 </div>
-            </div>
+                <div class="card-body">
+                    @foreach ($employee->employeeTelecoms as $telecom)
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                            @if ($telecom->contactPointSystem->label == 'phone')
+                                <tr>
+                                    <th class="w-50">
+                                        {{$t('phone')}} &nbsp;({{ $telecom->contactPointUse->name }})
+                                    </th>
+                                    <td>{{ $telecom->value ?? '' }}</td>
+                                </tr>
+                            @endif
+                            @if ($telecom->contactPointSystem->label == 'email')
+                                <tr>
+                                    <th class="w-50">
+                                        {{$t('email')}} &nbsp;({{ $telecom->contactPointUse->name }})
+                                    </th>
+                                    <td>{{ $telecom->value ?? '' }}</td>
+                                </tr>
+                            @endif
+                            @if ($telecom->contactPointSystem->label == 'sms')
+                                <tr>
+                                    <th class="w-50">
+                                        {{$t('sms')}} &nbsp;({{ $telecom->contactPointUse->name }})
+                                    </th>
+                                    <td>{{ $telecom->value }}</td>
+                                </tr>
+                            @endif
+                            @if ($telecom->contactPointSystem->label == 'url')
+                                <tr>
+                                    <th class="w-50">
+                                        {{$t('url')}} &nbsp;({{ $telecom->contactPointUse->name }})
+                                    </th>
+                                    <td>{{ $telecom->value }}</td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    @endforeach
+                </div> -->
+
+
+
+            </button>
+            <!-- @endif -->
+            <!-- @endforeach -->
         </div>
+        <div class="user__info_right">
 
+            <div class="card" id="by-type-region">
+                <div class="card-body" id="by-type">
 
-
-        <div class="tab-pane fade" id="search-by-hierarchy-panel" role="tabpanel"
-            aria-labelledby="search-by-hierarchy-tab">
-
-            <div class="main-block_inner">
-                <div class="info-menu">
-                    <ul class="info-menu__item" v-if="hierarchyList.data && hierarchyList.data.organization">
-                        <li class="info-menu__item-text border-bottom-none" @click="backFilterButton()"
-                            v-if="hierarchyList.data.organization">
-                            <svg class="result__user_right__accordion__header__img" width="14" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                                y="0px" viewBox="0 0 330 330"
-                                style="enable-background:new 0 0 330 330; transform: rotate(90deg); margin: 0 5px 2px 0;"
-                                xml:space="preserve">
-                                <path id="XMLID_225_"
-                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                            </svg>
-                            Назад
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#user__main_data">{{$t('main_data')}} </a>
                         </li>
-
-                        <li onclick="animateAccordion0()" id="accordionParent"
-                            class="info-menu__item-text accordion__top" data-toggle="collapse"
-                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
-                            v-if="hierarchyList.data.organization && hierarchyList.data.organization.name">
-                            <div style="width: 90%; font-style: italic;">{{hierarchyList.data.organization.name}}</div>
-
-
-                            <svg class="result__user_right__accordion__header__img svg_arrow" id="accordion_icon0"
-                                width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 330 330"
-                                style="enable-background:new 0 0 330 330;" xml:space="preserve">
-                                <path id="XMLID_225_"
-                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                            </svg>
-
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#user__workplace">{{$t('work_place')}} </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#user__education">{{$t('education')}} </a>
                         </li>
-
-                        <div id="collapseOne" class="accordion__bottom collapse show" data-parent="#accordionParent"
-                            v-if="hierarchyList.data.organization && hierarchyList.data.organization.organization_structure">
-                            <li class="info-menu__item-text"
-                                v-for="(item1, index1) in hierarchyList.data.organization.organization_structure"
-                                :key="index1" @click="applySearchByHierarchy(item1.id) && addDepartmentToBreadcrumb(item1.node.name)">{{item1.node.name}}
-                            </li>
-                        </div>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#user__address">{{$t('the_address')}} </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#user__vacation">{{$t('vacation')}} </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#user__other">{{$t('other')}} </a>
+                        </li>
                     </ul>
-                    <ul class="info-menu__item">
-                        <div class="mt-2 mb-3">
-                            <input type="text" class="form-control" style="width:100%" v-model="searchHierarchy" placeholder="Искать">
-                        </div>
 
-                        <div class="hierarchy__children">
-                            <li class="info-menu__item-text" v-for="(item2, index2) in hierarchyList2" :key="index2"
-                                @click="getHierarchy(item2.id, item2.name)">{{item2.name}}
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-                <div class="result">
-                    <h3 class="result__title">
-                        <template v-for="(item, index) in hierarchyListNames">
-                            {{item}} 
-                            {{index != (hierarchyListNames.length - 1) ? ' » ' : ''}}
-                        </template>
-                    </h3>
-                    <div v-if="employeesList.length == 0 && !errorMessage" class="spinner__container">
-                        <scale-loader :loading="loading" :color="color" :height="spinnerHeight" :width="spinnerWidth"></scale-loader>
-                    </div>
-                    <div v-if="errorMessage" class="spinner__container">
-                        <h3 class="mb-4">Данные не найдены!</h3>
-                    </div>
-                    <div id="employees">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active show" id="user__main_data">
+                            <!-- <span class="ml-1" v-pre>{{ $employee->employeeTelecoms }}</span> -->
 
-                        <div class="result-list" v-if="!isshow">
-                            <div class="result-list__items d-flex align-start justify-space-between"
-                                v-for="(item4, index) in employeesList" :key="index" @click="openinfo(item4)">
-                                <div>
-                                    <h5 class="result-list__items__profession">
-                                        {{getWorkplacePositions(item4.workplaces)}}
-                                    </h5>
-                                    <h5 class="result-list__items__name">{{ item4.name }}</h5>
-                                    <span class="result-list__items__experience">
-                                        {{getWorkplaceDepartments(item4.workplaces)}}
-                                    </span>
-                                </div>
 
-                                <div>
-                                    <img :src="item4.img" alt="" class="result-list__items__img">
-                                </div>
+                            <div class="d-flex justify-space-between mt-4 mb-3">
+                                <span class="user__info_right_title">Личные и паспортные данные</span>
+                                <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#personal_info_modal" >
+                                    <!-- @click.prevent = "showMainModal({{$employee->load('nationality')->load('citizenship')->load('birthCountry')}})" -->
+                                    <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                </button>
                             </div>
-                        </div>
-                        <paginate 
-                            v-if="employeesList.length != 0 && !isshow"
-                            :page-count="pageCount"
-                            :page-range="9"
-                            :prev-text="'Avvalgi'"
-                            :next-text="'Keyingi'"
-                            :container-class="'pagination_new'"
-                            v-model="page"
-                            :click-handler="getEmployees"
-                            style="margin-top: 32px;"
-                        >
-                        </paginate>
 
 
+                            <div class="user__info_right_table">
+                                <table class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <th class="w-50">ID</th>
+                                            <!-- <td>{{ $employee->id }}</td> -->
+                                        </tr>
+                                        <!-- @if ($employee->user) -->
+                                            <tr>
+                                                <th class="w-50">{{$t('username')}}</th>
+                                                <!-- <td>{{ $employee->user->username ?? '' }}</td> -->
+                                            </tr>
+                                        <!-- @endif -->
+                                        <tr>
+                                            <th class="w-50">{{$t('pin')}}</th>
+                                            <!-- <td>{{ $employee->pinfl }}</td> -->
+                                        </tr>
 
+                                        <!-- {{--
+                                            <tr>
+                                                <th class="w-50">{{$t('inn')}}</th>
+                                                <td>{{$employee->tin}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('inps')}}</th>
+                                                <td>{{$employee->inps}}</td>
+                                            </tr> 
+                                        --}} -->
 
-
-
-
-
-
-                        <div class="result-user" v-if="isshow">
-                            <span class="result-user-close-icon" @click="openlist">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M16.6665 18.0002L5.99983 7.3335C5.63539 6.96906 5.63539 6.36461 5.99983 6.00017C6.36428 5.63572 6.96873 5.63572 7.33317 6.00017L17.9999 16.6669C18.3643 17.0313 18.3643 17.6358 17.9999 18.0002C17.6354 18.3647 17.031 18.3647 16.6665 18.0002Z"
-                                        fill="#223555" />
-                                    <path
-                                        d="M6.00012 18.0002C5.63568 17.6358 5.63568 17.0313 6.00012 16.6669L16.6668 6.00017C17.0313 5.63572 17.6357 5.63572 18.0002 6.00017C18.3646 6.36461 18.3646 6.96906 18.0002 7.3335L7.33346 18.0002C6.96902 18.3647 6.36457 18.3647 6.00012 18.0002Z"
-                                        fill="#223555" />
-                                </svg>
-                            </span>
-                            <div class="result__user">
-                                <div class="result__user__left">
-                                    <div class="result__user__left__inner">
-                                        <div class="result__user__items">
-                                            <h4 class="result__user__items__profession">
-                                                {{getWorkplacePositions(personDetails.workplaces)}}
-                                            </h4>
-                                            <h3 class="result__user__items__name">{{personDetails.name ? personDetails.name : 'Ф.И.О.'}}</h3>
-                                            <div class="result__user__items__bio">
-                                                <div class="result__user__items__bio__block">
-                                                    <span>ПИНФЛ</span>
-                                                    <p>{{personDetails.pinfl ? personDetails.pinfl : '-'}}</p>
-                                                </div>
-                                                <div class="result__user__items__bio__block">
-                                                    <span>Пол</span>
-                                                    <p>{{personDetails.gender ? personDetails.gender : '-'}}</p>
-                                                </div>
-                                                <div class="result__user__items__bio__block">
-                                                    <span>Национальность</span>
-                                                    <p>{{personDetails.nationality ? personDetails.nationality : '-'}}</p>
-                                                </div>
-                                                <div class="result__user__items__bio__block">
-                                                    <span>Дата рождения</span>
-                                                    <p>{{$moment(personDetails.birth_date).format('DD-MM-YYYY')}}</p>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="result__user__image">
-                                            <img style="object-fit: cover;" :src="APP_URL+ ':' + PORT + personDetails.photo"  alt="">
-                                            <div class="overlay">
-                                                <div class="text">Фото</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="result__user__locations">
-                                        <h4 class="result__user__locations__title">Место жительства</h4>
-                                        <div class="result__user__locations__citizenship">
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>Место рождения</span>
-                                                <p>{{personDetails.birth_place ? personDetails.birth_place : '-'}}</p>
-                                            </div>
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>Гражданство</span>
-                                                <p>{{personDetails.citizenship ? personDetails.citizenship : '-'}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="result__user__locations__place">
-                                            <span>Адрес проживания</span>
-                                            <p v-for="(item, index2) in personDetails.addresses" :key="index2">
-                                                {{getAddress(item)}}
-                                            </p>
-                                            <!-- <p>{{personDetails.address ? personDetails.address : '-'}}</p> -->
-                                        </div>
-                                    </div>
-                                    <div class="result__user__passport-info">
-                                        <h4 class="result__user__locations__title">Паспортные данные</h4>
-                                        <div v-for="(item, index) in personDetails.identity_cards" :key="index">
-                                            <div class="result__user__locations__citizenship">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Тип</span>
-                                                    <p>{{item.type.name}}</p>
-                                                </div>
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Серия и номер</span>
-                                                    <p>{{item.number}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="result__user__locations__citizenship">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Дата выдачи</span>
-                                                    <p>{{$moment(item.start_date).format('DD-MM-YYYY')}}</p>
-                                                </div>
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Срок действия</span>
-                                                    <p>{{$moment(item.end_date).format('DD-MM-YYYY')}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="result__user__locations__place">
-                                                <span>Кем выдан</span>
-                                                <p>{{item.issuer}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="result__user__locations">
-                                        <h4 class="result__user__locations__title">Карьера</h4>
-                                        <div class="result__user__locations__citizenship">
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>Партийность</span>
-                                                <p>{{personDetails.political_party ? personDetails.political_party : '-' }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="result__user__locations__citizenship">
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>Гос награды</span>
-                                                <p>{{getAcademicStatuses(personDetails.government_awards)}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="result__user__locations__citizenship">
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>Ученое звание</span>
-                                                <p>{{getAcademicStatuses(personDetails.academic_statuses)}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="result__user__locations__place">
-                                            <span>Языки</span>
-                                            <p>{{getAcademicStatuses(personDetails.languages)}}</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="result__user__passport-info">
-                                        <h4 class="result__user__locations__title">Контакты</h4>
-                                        <div class="result__user__locations__citizenship" 
-                                        v-for="(item, index) in personDetails.contacts" :key="index">
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>Тип</span>
-                                                <p>{{item.use}}</p>
-                                            </div>
-                                            <div class="result__user__locations__citizenship__state">
-                                                <span>{{item.type == 'phone' ? 'НОМЕР ТЕЛЕФОНА' : 'ЭЛЕКТРОННАЯ ПОЧТА'}}</span>
-                                                <p>{{item.value}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="result__user_right">
-                                    <div class="result__user_right__accordion" id="accordion_block">
-
-                                        <div class="result__user_right__accordion__header"
-                                            onclick="animateAccordion('accordion_body1', 'accordion_icon1')">
-                                            <span>Места работы</span>
-                                            <!--  <img class="result__user_right__accordion__header__img" id="accordion_icon" src="./img/Stroke1.png" alt="">-->
-                                            <svg class="result__user_right__accordion__header__img" id="accordion_icon1"
-                                                width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                xml:space="preserve">
-                                                <path id="XMLID_225_"
-                                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                            </svg>
-                                        </div>
-                                        <div class="result__user_right__accordion__body" id="accordion_body1">
-                                            <div class="result__user_right__accordion__body__inner"
-                                                v-for="(item, index) in personDetails.workplaces" :key="index">
-                                                <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                        {{item.position}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.organization.name}}</h5>
-                                                    <span class="result-user__items__experience">{{item.department}}</span>
-                                                </div>
-                                                <div class="result__user__locations__place ml-2">
-                                                    <span class="user__items__experience">Начало работы</span>
-                                                    <p>{{item.start_date}}</p>
-                                                </div>
-                                            </div>
-
-                                            <hr v-if="personDetails.previous_workplaces.length != 0">
-
-                                            <div class="result__user_right__accordion__body__inner"
-                                                v-for="(item, index) in personDetails.previous_workplaces" :key="index">
-                                                <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                        {{item.position}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.organization}}</h5>
-                                                    <span class="result-user__items__experience">{{item.department}}</span>
-                                                </div>
-                                                <div class="result__user__locations__place ml-2">
-                                                    <span>Период работы</span>
-                                                    <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="result__user_right__accordion__header"
-                                            onclick="animateAccordion('accordion_body3', 'accordion_icon3')">
-                                            <span>Родственники</span>
-
-                                            <svg class="result__user_right__accordion__header__img" id="accordion_icon3"
-                                                width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                xml:space="preserve">
-                                                <path id="XMLID_225_"
-                                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                        c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                        s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                            </svg>
-                                        </div>
-                                        <div class="result__user_right__accordion__body" id="accordion_body3">
-                                            <div class="result__user_right__accordion__body__inner"
-                                                v-for="(item, index) in personDetails.relatives" :key="index">
-                                                <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                        {{item.relativity_type}}
-                                                    </h5>
-                                                    <h5 class="result-user__items__name mb-3">{{item.full_name}}</h5>
-                                                    <h5 class="result-user__items__experience">{{item.birth_info}}</h5>
-                                                    <h5 class="result-user__items__experience">{{item.workplace_and_position}}</h5>
-                                                    <span class="result-user__items__experience">{{item.address}}</span>
-                                                </div>
-                                                <!-- <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                        {{item.relativity_type}}: 
-                                                        {{item.full_name}}
-                                                    </h5>
-                                                    <h5 class="result-user__items__name">Год и место рождения: {{item.birth_info}}</h5>
-                                                    <h5 class="result-user__items__name">Рабочее место и должность: {{item.workplace_and_position}}</h5>
-                                                    <span class="result-user__items__experience">Адрес: {{item.address}}</span>
-                                                </div> -->
-                                                <!-- <div class="result__user__locations__place ml-2">
-                                                    <span>ПЕРИОД РАБОТЫ</span>
-                                                    <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                </div> -->
-                                            </div>
-                                        </div>
-
-                                        <div class="result__user_right__accordion__header"
-                                            onclick="animateAccordion('accordion_body4', 'accordion_icon4')">
-                                            <span>Образование</span>
-                                            <!--                    <img class="result__user_right__accordion__header__img" id="accordion_icon" src="./img/Stroke1.png" alt="">-->
-                                            <svg class="result__user_right__accordion__header__img" id="accordion_icon4"
-                                                width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                xml:space="preserve">
-                                                <path id="XMLID_225_"
-                                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                            </svg>
-                                        </div>
-                                        <div class="result__user_right__accordion__body" id="accordion_body4">
-                                            <div class="result__user_right__accordion__body__inner"
-                                                v-for="(item, index) in personDetails.education_diplomas" :key="index">
-                                                <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                        {{item.education_level.name}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.institution}}</h5>
-                                                    <span class="result-user__items__name">Номер: {{item.number}}</span> <br>
-                                                    <span class="result-user__items__name">Дата получения диплома: {{item.issued_date}}</span>
-                                                </div>
-                                                <div class="result__user__locations__place ml-2">
-                                                    <span>ПЕРИОД УЧЕБЫ</span>
-                                                    <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="result__user_right__accordion__header"
-                                            onclick="animateAccordion('accordion_body5', 'accordion_icon5')">
-                                            <span>Категория</span>
-                                            <svg class="result__user_right__accordion__header__img" id="accordion_icon5"
-                                                width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                xml:space="preserve">
-                                                <path id="XMLID_225_"
-                                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                            </svg>
-                                        </div>
-                                        <div class="result__user_right__accordion__body" id="accordion_body5">
-                                            <div class="result__user_right__accordion__body__inner"
-                                                v-for="(item, index) in personDetails.categories" :key="index">
-                                                <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                        {{item.name}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.category}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.certificate_number}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.category_type}}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <!-- <div class="result__user_right__accordion__header"
-                                            onclick="animateAccordion6()">
-                                            <span>Контакты</span>
-                                            <svg class="result__user_right__accordion__header__img" id="accordion_icon6"
-                                                width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                xml:space="preserve">
-                                                <path id="XMLID_225_"
-                                                    d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                    c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                    s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                            </svg>
-                                        </div>
-                                        <div class="result__user_right__accordion__body" id="accordion_body6">
-                                            <div class="result__user_right__accordion__body__inner"
-                                                v-for="(item, index) in personDetails.contacts">
-                                                <div class="result__user_right__accordion__body__inner__item">
-                                                    <h5 class="result-user__items__profession">
-                                                    {{item.type == 'phone' ? 'Тип: ' : ''}}  {{item.use}}</h5>
-                                                    <h5 class="result-user__items__name">{{item.value}}</h5>
-                                                </div>
-                                            </div>
-                                        </div> -->
-
-                                        
-                                    </div>
-                                </div>
+                                        <tr>
+                                            <th class="w-50">{{$t('date_of_birth')}}</th>
+                                            <!-- <td>{{ $employee->birth_date }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('nationality')}}</th>
+                                            <!-- <td>{{ $employee->nationality->name ?? '' }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('birth_country')}}</th>
+                                            <!-- <td>{{ $employee->birthCountry->name ?? '' }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('userGenders.$gender')}}</th>
+                                            <!-- <td>{{ __("genders.$employee->gender") }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('citizenship')}}</th>
+                                            <!-- <td>{{ $employee->citizenship->name ?? '' }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('birth_place')}}</th>
+                                            <!-- <td>{{ $employee->birth_place }}</td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+
+
+
+
+                            <div class="d-flex justify-space-between mt-4 mb-3">
+                                <span class="user__info_right_title">Документ, удостоверяющий личность</span>
+                                <!-- {{-- <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#passport_info_modal">
+                                    <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                </button> --}} -->
+                            </div>
+
+                            <div class="user__info_right_table">
+                                <!-- @foreach ($employee->employeeIdentityCards as $identityCard) -->
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <th class="w-50">{{$t('identity_card_type')}}</th>
+                                                <!-- <td>{{ $identityCard->identityCardType->name ?? '' }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('issuer_name')}}</th>
+                                                <!-- <td>{{ $identityCard->issuer_name }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('identity_card_number')}}</th>
+                                                <!-- <td>{{ $identityCard->identity_card_number }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('start_date')}}</th>
+                                                <!-- <td>{{ $identityCard->start_date }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('end_date')}}</th>
+                                                <!-- <td>{{ $identityCard->end_date }}</td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                <!-- @endforeach -->
+                            </div>
+
+
                         </div>
+                        <div class="tab-pane fade in" id="user__workplace">
+                            <div id="workplace-status">
 
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="tab-pane fade" id="search-by-criteria-panel" role="tabpanel"
-            aria-labelledby="search-by-criteria-tab">
-
-            <div class="main-block_inner">
-                <div class="info-menu">
-                    <ul class="info-menu__item filter-left-bar">
-                        <li>
-                            <label>
-                                <input v-model="filterRadio" type="radio" value="basicInfo">
-                                <span>Основные данные</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input v-model="filterRadio" type="radio" value="passportData">
-                                <span>Паспортные данные</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input v-model="filterRadio" type="radio" value="education">
-                                <span>Образование</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input v-model="filterRadio" type="radio" value="profession">
-                                <span>Профессия</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input v-model="filterRadio" type="radio" value="other">
-                                <span>Прочее</span>
-                            </label>
-                        </li>
-                        <hr class="my-2">
-                        <li>
-                            <label>
-                                <input v-model="filterRadio" type="radio" value="results">
-                                <span>Результаты поиска</span>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="result">
-                    <div class="card filter-card" v-if="filterRadio != 'results'">
-                        <div class="filter-inputs">
-
-                            <!-- =============== FILTER_BY_BASIC_INFO START =============== -->
-                            <input v-model="filter.pinfl" v-if="filterRadio == 'basicInfo'" type="text" placeholder="ПИНФЛ" class="form-control">
-                            <input v-model="filter.firstname" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Имя" class="form-control">
-                            <input v-model="filter.lastname" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Фамилия" class="form-control">
-                            <input v-model="filter.middlename" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Отчество" class="form-control">
-
-                            <v-select :options="genderList" :reduce="elem => elem.value" label="name" value="value" :placeholder="$t('userGender')"
-                            v-if="filterRadio == 'basicInfo'" v-model="filter.gender" class="form-control"></v-select>
-
-                            <input v-model="filter.birth_date" v-if="filterRadio == 'basicInfo'" type="date" placeholder="Дата рождения" class="form-control">
-
-                            
-                            <v-select :options="nationalitiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('nationality')"
-                            v-if="filterRadio == 'basicInfo'" v-model="filter.nationality_id" class="form-control"></v-select>
-
-                            <v-select :options="countriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('citizenship')"
-                            v-if="filterRadio == 'basicInfo'" v-model="filter.citizenship_id" class="form-control"></v-select>
-
-                            <v-select :options="countriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('birth_country')"
-                            v-if="filterRadio == 'basicInfo'" v-model="filter.birth_country_id" class="form-control"></v-select>
-
-
-                            <input v-model="filter.birth_place" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Место рождения" class="form-control">
-                            <input v-model="filter.phone" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Номер телефона" class="form-control">
-                            <input v-model="filter.email" v-if="filterRadio == 'basicInfo'" type="text" placeholder="Электронная почта" class="form-control">
-                            <!-- =============== FILTER_BY_BASIC_INFO END =============== -->
-
-                           
-
-
-
-
-
-                            <!-- =============== FILTER_BY_PASSPORT START =============== -->
-                            <v-select :options="identityCardTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('passport_type')"
-                            v-if="filterRadio == 'passportData'" v-model="filter.identity_card_type_id" class="form-control"></v-select>
-
-                            <input v-if="filterRadio == 'passportData'" v-model="filter.identity_card_given" type="text" placeholder="Кем выдан">
-                            <input v-if="filterRadio == 'passportData'" v-model="filter.identity_card_number" type="text" placeholder="Серия и номер" class="form-control">
-                            <input v-if="filterRadio == 'passportData'" v-model="filter.start_date" type="date" placeholder="Дата выдачи" class="form-control">
-                            <input v-if="filterRadio == 'passportData'" v-model="filter.end_date" type="date" placeholder="Срок действия" class="form-control">
-                            <!-- =============== FILTER_BY_PASSPORT END =============== -->
-
-
-
-
-
-                            
-                            <!-- =============== FILTER_BY_EDUCATION START =============== -->
-                            <v-select :options="educationTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('education_type')"
-                            v-if="filterRadio == 'education'" v-model="filter.education_type" class="form-control"></v-select>
-
-                            <v-select :options="institutionsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('educational_organization')"
-                            v-if="filterRadio == 'education'" v-model="filter.institution_id" class="form-control"></v-select>
-
-                            <v-select :options="educationLevelsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('education_degree')"
-                            v-if="filterRadio == 'education'" v-model="filter.education_level_id" class="form-control"></v-select>
-
-                            <v-select :options="specialitiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('specialty')"
-                            v-if="filterRadio == 'education'" v-model="filter.specialty_id" class="form-control"></v-select>
-
-                            <v-select :options="facultiesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('faculty')"
-                            v-if="filterRadio == 'education'" v-model="filter.faculty_id" class="form-control"></v-select>
-
-                            <input v-model="filter.begin_year" v-if="filterRadio == 'education'" type="date" placeholder="Год вступления" class="form-control"> 
-                            <input v-model="filter.diploma_number" v-if="filterRadio == 'education'" type="text" placeholder="Номер диплома" class="form-control">
-                            <input v-model="filter.end_year" v-if="filterRadio == 'education'" type="date" placeholder="Год окончания" class="form-control"> 
-                            <!-- =============== FILTER_BY_EDUCATION END =============== -->
-
-
-
-
-
-                            <!-- =============== FILTER_BY_PROFESSION START =============== -->
-                            <v-select :options="categoriesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('category_type')"
-                            v-if="filterRadio == 'profession'" v-model="filter.category_id" class="form-control"></v-select>
-
-                            <v-select :options="specialityCategoryTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('specialty')"
-                            v-if="filterRadio == 'profession'" v-model="filter.speciality_category_type_id" class="form-control"></v-select>
-                            
-
-                            <input v-model="filter.diploma_given_date" v-if="filterRadio == 'profession'" type="date" placeholder="Год получения" class="form-control">
-                            <!-- =============== FILTER_BY_PROFESSION START =============== -->
-
-
-
-
-
-
-                            <!-- =============== FILTER_BY_OTHERS START =============== -->
-                            <v-select :options="scientLevelsList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('scient_degree')"
-                            v-if="filterRadio == 'other'" v-model="otherForm.scient_level_id" class="form-control"></v-select>
-
-                            <v-select :options="partyTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('party_membership')"
-                            v-if="filterRadio == 'other'" v-model="otherForm.political_party_type_id" class="form-control"></v-select>
-
-                            <v-select :options="governmentAwardTypesList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('government_award')"
-                            v-if="filterRadio == 'other'" v-model="otherForm.government_award_type_id" class="form-control"></v-select>
-
-                            <v-select :options="languageList" :reduce="elem => elem.id" label="name" value="id" :placeholder="$t('language')"
-                            v-if="filterRadio == 'other'" v-model="otherForm.language_type_id" class="form-control"></v-select>
-                            <!-- =============== FILTER_BY_OTHERS END =============== -->
-
-
-                            
-                        </div>
-                        <div class="filter-inputs mt-3">
-                            <button @click="applyFilters()" class="btn btn-primary d-flex align-center justify-center">
-                                <span>{{$t('apply')}}</span>
-                            </button>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div v-else>
-                        <!-- <h3 class="result__title">Организация » Суборганизация » Разделение » Подразделение</h3> -->
-                        <div v-if="employeesList2.length == 0 && !errorMessage2" class="spinner__container">
-                            <scale-loader :loading="loading2" :color="color" :height="spinnerHeight" :width="spinnerWidth"></scale-loader>
-                        </div>
-                        <div v-if="errorMessage2" class="spinner__container">
-                            <h3 class="mb-4">Данные не найдены!</h3>
-                        </div>
-                        <div id="employees" v-else>
-
-                            <div class="result-list" v-if="!isshow2">
-                                <div class="result-list__items d-flex align-start justify-space-between"
-                                    v-for="(item4, index) in employeesList2" :key="index" @click="openinfo2(item4)">
-                                    <div>
-                                        <h5 class="result-list__items__profession">
-                                            {{getWorkplacePositions(item4.workplaces)}}
-                                        </h5>
-                                        <h5 class="result-list__items__name">{{ item4.name }}</h5>
-                                        <span class="result-list__items__experience">
-                                            {{getWorkplaceDepartments(item4.workplaces)}}
+                                <div class="my-5">
+                                    <hr>
+                                    <h4 class="text-center my-1">{{$t('current_workplaces')}}</h4>
+                                    <hr>
+                                </div>
+                                <div v-for="(place, index) in workplaces" :key="index">
+    
+                                    <div class="d-flex justify-space-between mt-4 mb-3">
+                                        <span class="user__info_right_title">{{ place.organization_structure.organization.name_full ?? '' }}</span>
+                                        <span>
+                                        <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#work_info_modal">
+                                            <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                        </button>
+                                        <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
                                         </span>
                                     </div>
+        
+                                    <div class="user__info_right_table">
+                                        
+                                        <table class="table table-bordered table-hover mb-3">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="w-50">{{$t('organization')}}</th>
+                                                    <td>{{ place.organization_structure.organization.name_full ?? '' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('department')}}</th>
+                                                    <td>{{ place.organization_structure?.department?.name ?? '-' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('position')}}</th>
+                                                    <!-- <td>{{place.organization_structure.position.name}}</td> -->
+                                                    <td>{{place.full_path}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('workplace_rate')}}</th>
+                                                    <td>{{ place.rate ?? '-' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('start_date')}}</th>
+                                                    <td>{{ place.start_date ?? '-' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('end_date')}}</th>
+                                                    <td>{{ place.end_date ?? '-' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('is_active')}}</th>
+                                                    <td>
+                                                        <!-- @if($workplaceIsCommon) -->
+                                                            <div class="form-group pr-2">
+                                                                <div class="custom-control custom-switch"
+                                                                    v-on:click="onStatusChange(index,place)">
+                                                                    <input type="checkbox" class="custom-control-input" :key="place.id"
+                                                                        :checked="place.status">
+                                                                    <label class="custom-control-label small"
+                                                                        for="is_active">
+                                                                        <!-- {{place.status?"{{$t('active')}}":"{{$t('inactive')}}"}} -->
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        <!-- @else -->
+                                                            <!-- <span>{{place.status?"{{$t('active')}}":"{{$t('inactive')}}"}}<span> -->
+                                                        <!-- @endif -->
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+    
+                                    </div>
+    
+                                </div>
+                            </div>
 
+                            <div>
+                                <div class="my-5">
+                                    <hr>
+                                    <h4 class="text-center my-1">{{$t('previous_workplaces')}}</h4>
+                                    <hr>
+                                </div>
+                                <!-- @if(($oldWorkplaces = $employee->oldWorkplaces) && $employee->oldWorkplaces->count())
+                                    @foreach($oldWorkplaces->sortByDesc('start_date') as $ow) -->
+                                    <div class="d-flex justify-space-between mt-4 mb-3">
+                                        <span class="user__info_right_title">
+                                            <!-- {{ $ow->organization }} -->
+                                        </span>
+                                        <span>
+                                            <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#worked_info_modal" >
+                                            <!-- @click="getId({{$ow->id}})" -->
+                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            </button>
+                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="user__info_right_table mb-3">
+                                        <table class="table table-bordered table-hover mb-3">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="w-50">{{$t('organization')}}</th>
+                                                    <!-- <td>{{$ow->organization}}</td> -->
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('department')}}</th>
+                                                    <!-- <td>{{$ow->department}}</td> -->
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('position')}}</th>
+                                                    <!-- <td>{{$ow->position}}</td> -->
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('workplace_rate')}}</th>
+                                                    <!-- <td>{{$ow->rate}}</td> -->
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('start_date')}}</th>
+                                                    <!-- <td>{{$ow->start_date}}</td> -->
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-50">{{$t('end_date')}}</th>
+                                                    <!-- <td>{{$ow->end_date}}</td> -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- @endforeach
+                                @endif -->
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade in" id="user__education">
+                            <!-- @if(($educationDiplomas = $employee->educationDiplomas) && $employee->educationDiplomas->count())
+                                @foreach ($educationDiplomas as $educationDiploma) -->
+
+                                <div class="d-flex justify-content-end align-center mt-3 mb-4">
+                                    <!-- @i f (Auth::user()->hasPermissionTo('training_create')) -->
+                                        <a href="{{ route('education-diplomas.trainings.create', $educationDiploma) }}" class="btn bg-info">
+                                            {{$t('create_training')}}
+                                        </a>
+                                    <!-- @endif -->
+                                </div>
+
+
+                                <div class="d-flex justify-content-between align-center mt-3 mb-2">
+                                    <span class="user__info_right_title">
+                                        <!-- {{ $educationDiploma->faculty->name ?? '' }} -->
+                                    </span>
+                                    <div class="d-flex align-center">
+                                        <!-- @if (Auth::user()->hasPermissionTo('education_diploma_edit')) -->
+                                            <!-- <a href="{{ route('employees.education-diplomas.edit', [$employee, $educationDiploma]) }}" class="ml-2"> -->
+                                                <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#education_info_modal">
+                                                    <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                </button>
+                                            <!-- </a> -->
+                                        <!-- @endif -->
+                                        <!-- @if (Auth::user()->hasPermissionTo('education_diploma_create')) -->
+                                            <form action="{{ route('employees.education-diplomas.destroy', [$employee, $educationDiploma]) }}" method="POST">
+                                                <!-- @csrf
+                                                @method('DELETE') -->
+                                                <button type="submit" class="p-0 ml-2 border-none bg-white">
+                                                    <!-- <i class="fa fa-trash" style="color: #ffffff"></i> -->
+                                                    <img src="{{asset('icons/Delete.svg')}}" alt="">
+                                                </button>
+                                            </form>
+                                        <!-- @endif -->
+                                    </div>
+                                </div>
+                                <div class="user__info_right_table">
+                                    <table class="table table-bordered table-hover">
+
+                                        <tbody>
+                                        <tr>
+                                            <th class="w-50">{{$t('specialty')}}</th>
+                                            <!-- <td>{{ $educationDiploma->faculty->name ?? '' }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('education_level')}}</th>
+                                            <!-- <td>{{ $educationDiploma->educationLevel->name ?? '' }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('organization')}}</th>
+                                            <!-- <td>{{ $educationDiploma->thatTimeInstitution->name ?? '' }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('number')}}</th>
+                                            <!-- <td>{{ $educationDiploma->number }}</td> -->
+                                        </tr>
+                                        <!-- {{-- <tr>
+                                            <th class="w-50">{{$t('issued_date')}}</th>
+                                            <td>{{ $educationDiploma->issued_date }}</td>
+                                        </tr> --}} -->
+                                        <tr>
+                                            <th class="w-50">{{$t('start_date')}}</th>
+                                            <!-- <td>{{ $educationDiploma->start_date }}</td> -->
+                                        </tr>
+                                        <tr>
+                                            <th class="w-50">{{$t('end_date')}}</th>
+                                            <!-- <td>{{ $educationDiploma->end_date }}</td> -->
+                                        </tr>
+                                        <!-- @if ($educationDiploma->specialtyCategory->count() > 0) -->
+                                            <tr>
+                                                <th>{{$t('specialty_categories')}}</th>
+                                                <td>
+                                                    <!-- @foreach ($educationDiploma->specialtyCategory as $specialtyCategory) -->
+                                                        <!-- <table class="table table-bordered table-hover">
+                                                            <tbody>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('category')}}</th>
+                                                                <td>{{ $specialtyCategory->category->name ?? '' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('organization')}}</th>
+                                                                <td>{{ $specialtyCategory->organization->name_full ?? '' }}
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('certificate_number')}}</th>
+                                                                <td>{{ $specialtyCategory->certificate_number }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('certificate_date')}}</th>
+                                                                <td>{{ $specialtyCategory->certificate_date }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('issued_date')}}</th>
+                                                                <td>{{ $specialtyCategory->issued_date }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('certificate_validity')}}
+                                                                </th>
+                                                                <td>{{ $specialtyCategory->certificate_validity }}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table> -->
+                                                        <br>
+                                                    <!-- @endforeach -->
+                                                </td>
+                                            </tr>
+                                        <!-- @endif
+                                        @if ($educationDiploma->trainings->count() > 0) -->
+                                            <tr>
+                                                <th>{{$t('trainings')}}</th>
+                                                <td>
+                                                    <!-- @foreach ($educationDiploma->trainings as $training) -->
+                                                        <table class="table table-bordered table-hover">
+                                                            <thead>
+                                                            <form
+                                                                action="{{ route('education-diplomas.trainings.destroy', [$educationDiploma, $training]) }}"
+                                                                method="POST">
+                                                                <!-- @csrf
+                                                                @method('DELETE') -->
+                                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                                    <i class="fa fa-trash" style="color: #ffffff"></i>
+                                                                </button>
+                                                            </form>
+                                                            <a href="{{ route('education-diplomas.trainings.edit', [$educationDiploma, $training]) }}"
+                                                            class="btn bg-info btn-sm">
+                                                                <i class="fa fa-edit" style="  color: #ffffff"></i>
+                                                            </a>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('organization')}}</th>
+                                                                <!-- <td>{{ $training->organization->name_full ?? '' }}</td> -->
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('certificate_number')}}</th>
+                                                                <!-- <td>{{ $training->certificate_number }}</td> -->
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('certificate_date')}}</th>
+                                                                <!-- <td>{{ $training->certificate_date }}</td> -->
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('duration')}}</th>
+                                                                <!-- <td>{{ $training->duration }}</td> -->
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('start_date')}}</th>
+                                                                <!-- <td>{{ $training->start_date }}</td> -->
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-50">{{$t('end_date')}}</th>
+                                                                <!-- <td>{{ $training->end_date }}</td> -->
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <br>
+                                                    <!-- @endforeach -->
+                                                </td>
+                                            </tr>
+                                        <!-- @endif -->
+
+                                        <!-- @if ($educationDiploma->specialtyCategory->count() > 0) -->
+                                            <tr>
+                                                <th>{{$t('specialty_categories')}}</th>
+                                                <td>
+                                                    <!-- @foreach ($educationDiploma->specialtyCategory as $specialtyCategory) -->
+                                                        <!-- <table class="table table-bordered table-hover">
+                                                            <thead>
+                                                                <form
+                                                                    action="{{ route('education-diplomas.specialty-categories.destroy', [$educationDiploma, $specialtyCategory]) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                                        <i class="fa fa-trash" style="color: #ffffff"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <a href="{{ route('education-diplomas.specialty-categories.edit', [$educationDiploma, $specialtyCategory]) }}"
+                                                                class="btn bg-info btn-sm">
+                                                                    <i class="fa fa-edit" style="  color: #ffffff"></i>
+                                                                </a>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('category')}}</th>
+                                                                    <td>{{ $specialtyCategory->category->name ?? '' }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('organization')}}</th>
+                                                                    <td>{{ $specialtyCategory->organization->name_full ?? '' }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('certificate_number')}}</th>
+                                                                    <td>{{ $specialtyCategory->certificate_number }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('certificate_date')}}</th>
+                                                                    <td>{{ $specialtyCategory->certificate_date }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('issued_date')}}</th>
+                                                                    <td>{{ $specialtyCategory->issued_date }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('certificate_validity')}}</th>
+                                                                    <td>{{ $specialtyCategory->certificate_validity }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <br> -->
+                                                    <!-- @endforeach -->
+                                                </td>
+                                            </tr>
+                                        <!-- @endif -->
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- @endforeach -->
+
+                            <!-- @endif -->
+                        </div>
+                        <div class="tab-pane fade in" id="user__address">
+                            <!-- @foreach ($employee->employeeAddresses as $key=>$address) -->
+
+                                <div class="d-flex justify-space-between mt-4 mb-3">
+                                    <span class="user__info_right_title">{{$t('the_address')}} {{$key + 1}}</span>
+                                    <span>
+                                        <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#address_info_modal">
+                                            <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                        </button>
+                                        <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                    </span>
+                                </div>
+    
+                                <div class="user__info_right_table">
+                                    
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <!-- {{-- <tr>
+                                                <th class="w-50">{{$t('use')}}</th>
+                                                <td>{{$address->addressUse->name ?? ''}}</td>
+                                            </tr> --}} -->
+                                            <tr>
+                                                <th class="w-50">{{$t('country')}}</th>
+                                                <!-- <td>{{ $address->country->name ?? '' }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('state')}}</th>
+                                                <!-- <td>{{ $address->state->name ?? '' }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('city')}}</th>
+                                                <!-- <td>{{ $address->city->name ?? '' }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('district')}}</th>
+                                                <!-- <td>{{ $address->district->name ?? '' }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('postal_code')}}</th>
+                                                <!-- <td>{{ $address->postal_code }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('line')}}</th>
+                                                <!-- <td>{{ $address->line }}</td> -->
+                                            </tr>
+                                            <!-- {{-- <tr>
+                                                <th class="w-50">{{$t('start_date')}}</th>
+                                                <td>{{ $address->start_date ? $address->start_date->format("Y-m-d") : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('end_date')}}</th>
+                                                <td>{{ $address->end_date  ? $address->end_date->format("Y-m-d") : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('latitude')}}</th>
+                                                <td>{{ $address->latitude }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('longitude')}}</th>
+                                                <td>{{ $address->longitude }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('altitude')}}</th>
+                                                <td>{{ $address->altitude }}</td>
+                                            </tr> --}} -->
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            <!-- @endforeach -->
+                        </div>
+                        <div class="tab-pane fade in" id="user__vacation">
+                            <div id="leave">
+
+                                <div class="d-flex justify-content-end align-center mt-4" @click="showModal()">
+                                    <span class="user__info_right_title mr-2">Добавить Отпуск</span>
+                                    <img src="{{asset('icons/Plus-circle.svg')}}" alt="">
+                                </div>
+    
+    
+    
+    
+    
+    
+                                <div>
                                     <div>
-                                        <img :src="item4.img" alt="" class="result-list__items__img">
+                                        <h4>{{$t('leaves')}}</h4>
                                     </div>
+    
+                                    <div>
+                                        <table class="table table-bordered table-hover">
+                                            <!-- @if ($employeeLeaves->count() > 0) -->
+                                                <tr>
+                                                    <td>
+                                                        <!-- @foreach ($employeeLeaves as $leave) -->
+                                                            <div class="mb-2">
+                                                                <!-- {{--<a href="javascript:void(0)"  v-on:click="deleteLeave('{{$leave}}')" class="btn btn-danger btn-sm">
+                                                                        <i class="fa fa-trash" style="color: #ffffff"></i>
+                                                                    </a>
+                                                                --}}
+     -->
+    
+                                                                <!-- @if($workplaceIsCommon) -->
+                                                                    <a href="javascript:void(0)" class="btn bg-info btn-sm">
+                                                                    <!-- v-on:click="updateLeave({{ $leave }})" -->
+                                                                        <i class="fa fa-edit" style="color: #ffffff"></i>
+                                                                    </a>
+                                                                <!-- @endif -->
+    
+                                                            </div>
+                                                            <table class="table table-bordered table-hover">
+                                                                <thead>
+    
+    
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('workplace')}}</th>
+                                                                    <!-- <td>{{ $leave->workplace->organizationStructure->organization->name_full . 
+                                                                        ' > ' . ($leave->workplace->organizationStructure->ancestors->count()
+                                                                        ? implode(
+                                                                                ' > ',
+                                                                                $leave->workplace->organizationStructure->ancestors->values()->pluck('node.name')->toArray(),
+                                                                            ) .
+                                                                            ' > ' .
+                                                                            $leave->workplace->organizationStructure->position->name
+                                                                        : '') }}
+                                                                    </td> -->
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('leave_type')}}</th>
+                                                                    <!-- <td>{{ $leave->leaveType->name }}</td> -->
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('start_date')}}</th>
+                                                                    <!-- <td>{{ $leave->start_date }}</td> -->
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('end_date')}}</th>
+                                                                    <!-- <td>{{ $leave->end_date }}</td> -->
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-50">{{$t('commentary')}}</th>
+                                                                    <!-- <td>{{ $leave->note }}</td> -->
+                                                                </tr>
+    
+                                                                </tbody>
+                                                            </table>
+                                                            <br>
+                                                        <!-- @endforeach -->
+                                                    </td>
+                                                </tr>
+                                            <!-- @endif -->
+                                        </table>
+                                    </div>
+    
+                                    <div class="row">
+                                        <!-- <modal v-if="showLeaveModal" @close="showLeaveModal = false">
+                                            <form id="modal-form" slot="modal-container" @submit.prevent="submit">
+    
+                                                <div class="" slot=" header">
+                                                    <h4 class="modal-title mb-4">
+                                                        {{$t('add_leave')}}
+                                                    </h4>
+                                                </div>
+    
+                                                
+                                                <div class="" slot="body">
+    
+                                                    <div class="form-group">
+                                                        <label>{{$t('workplace')}}</label>
+                                                        <div class="row">
+                                                            <div class="col-12" v-for="(workplace,index) in employee_workplaces"
+                                                                :key="index">
+                                                                <label>
+                                                                    <input type="checkbox" name="workplace_id[]" id="workplace_id"
+                                                                        v-bind:class="[submitType==submitTypes.update?'d-none':'']"
+                                                                        v-model="workplace_id" :value="workplace.id"
+                                                                        :required="!workplace_id.length">
+                                                                    {{ workplace . full_path }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+    
+                                                    <div class="form-group">
+                                                        <label>{{$t('leave_type')}}</label>
+                                                        <select class="form-control" name="leave_type_id" id="leave_type"
+                                                                v-model="leave_type_id" required>
+                                                            <option value="">{{$t('choose')}}</option>
+                                                            <option v-for="(leave, index) in leaves" :value="leave.id" :key="index">
+                                                                {{ leave . name }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+    
+    
+                                                    <div class="form-group">
+                                                        <label>{{$t('start_date')}}</label>
+                                                        <input type="date" class="form-control" name="start_date" v-model="start_date" required>
+                                                    </div>
+    
+                                                    <div class="form-group">
+                                                        <label>{{$t('end_date')}}</label>
+                                                        <input type="date" class="form-control" name="end_date" v-model="end_date">
+                                                    </div>
+    
+                                                    <div class="form-group">
+                                                        <label>{{$t('commentary')}}</label>
+                                                        <textarea type="text" class="form-control" name="note" id="note" v-model="note"></textarea>
+                                                    </div>
+    
+                                                </div>
+    
+                                                
+                                                <div class="d-flex justify-content-end" slot="footer">
+                                                    <button type="button" class="btn btn-light"
+                                                            v-on:click="cancel">{{$t('cancel')}}</button>
+                                                    <button type="submit" class="btn btn-primary">{{$t('save')}}</button>
+                                                </div>
+                                            </form>
+    
+                                        </modal> -->
+                                    </div>
+    
                                 </div>
 
+
+
+
+
+
+
+
+
                             </div>
-                            <paginate 
-                            v-if="employeesList2.length != 0 && !isshow2"
-                            :page-count="pageCount2"
-                            :page-range="9"
-                            :prev-text="'Avvalgi'"
-                            :next-text="'Keyingi'"
-                            :container-class="'pagination_new'"
-                            v-model="page2"
-                            :click-handler="getFilteredEmployees"
-                            style="margin-top: 32px;"
-                            >
-                            </paginate>
 
 
 
-
-
-
-
-
-
-                            <div class="result-user" v-if="isshow2">
-                                <span class="result-user-close-icon" @click="openlist2">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M16.6665 18.0002L5.99983 7.3335C5.63539 6.96906 5.63539 6.36461 5.99983 6.00017C6.36428 5.63572 6.96873 5.63572 7.33317 6.00017L17.9999 16.6669C18.3643 17.0313 18.3643 17.6358 17.9999 18.0002C17.6354 18.3647 17.031 18.3647 16.6665 18.0002Z"
-                                            fill="#223555" />
-                                        <path
-                                            d="M6.00012 18.0002C5.63568 17.6358 5.63568 17.0313 6.00012 16.6669L16.6668 6.00017C17.0313 5.63572 17.6357 5.63572 18.0002 6.00017C18.3646 6.36461 18.3646 6.96906 18.0002 7.3335L7.33346 18.0002C6.96902 18.3647 6.36457 18.3647 6.00012 18.0002Z"
-                                            fill="#223555" />
-                                    </svg>
-                                </span>
-                                <div class="result__user">
-                                    <div class="result__user__left">
-                                        <div class="result__user__left__inner">
-                                            <div class="result__user__items">
-                                                <h4 class="result__user__items__profession">
-                                                    {{getWorkplacePositions(personDetails2.workplaces)}}
-                                                </h4>
-                                                <h3 class="result__user__items__name">{{personDetails2.name ? personDetails2.name : 'Ф.И.О.'}}</h3>
-                                                <div class="result__user__items__bio">
-                                                    <div class="result__user__items__bio__block">
-                                                        <span>ПИНФЛ</span>
-                                                        <p>{{personDetails2.pinfl ? personDetails2.pinfl : '-'}}</p>
-                                                    </div>
-                                                    <div class="result__user__items__bio__block">
-                                                        <span>Пол</span>
-                                                        <p>{{personDetails2.gender ? personDetails2.gender : '-'}}</p>
-                                                    </div>
-                                                    <div class="result__user__items__bio__block">
-                                                        <span>Национальность</span>
-                                                        <p>{{personDetails2.nationality ? personDetails2.nationality : '-'}}</p>
-                                                    </div>
-                                                    <div class="result__user__items__bio__block">
-                                                        <span>Дата рождения</span>
-                                                        <p>{{$moment(personDetails2.birth_date).format('DD-MM-YYYY')}}</p>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                            <div class="result__user__image">
-                                                <img style="object-fit: cover;" :src="APP_URL+ ':' + PORT + personDetails2.photo"  alt="">
-                                                <div class="overlay">
-                                                    <div class="text">Фото</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="result__user__locations">
-                                            <h4 class="result__user__locations__title">Место жительства</h4>
-                                            <div class="result__user__locations__citizenship">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Место рождения</span>
-                                                    <p>{{personDetails2.birth_place ? personDetails2.birth_place : '-'}}</p>
-                                                </div>
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Гражданство</span>
-                                                    <p>{{personDetails2.citizenship ? personDetails2.citizenship : '-'}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="result__user__locations__place">
-                                                <span>Адрес проживания</span>
-                                                <p v-for="(item, index2) in personDetails2.addresses" :key="index2">
-                                                    {{getAddress(item)}}
-                                                </p>
-                                                <!-- <p>{{personDetails2.address ? personDetails2.address : '-'}}</p> -->
-                                            </div>
-                                        </div>
-                                        <div class="result__user__passport-info">
-                                            <h4 class="result__user__locations__title">Паспортные данные</h4>
-                                            <div v-for="(item, index) in personDetails2.identity_cards" :key="index">
-                                                <div class="result__user__locations__citizenship">
-                                                    <div class="result__user__locations__citizenship__state">
-                                                        <span>Тип</span>
-                                                        <p>{{item.type.name}}</p>
-                                                    </div>
-                                                    <div class="result__user__locations__citizenship__state">
-                                                        <span>Серия и номер</span>
-                                                        <p>{{item.number}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="result__user__locations__citizenship">
-                                                    <div class="result__user__locations__citizenship__state">
-                                                        <span>Дата выдачи</span>
-                                                        <p>{{$moment(item.start_date).format('DD-MM-YYYY')}}</p>
-                                                    </div>
-                                                    <div class="result__user__locations__citizenship__state">
-                                                        <span>Срок действия</span>
-                                                        <p>{{$moment(item.end_date).format('DD-MM-YYYY')}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="result__user__locations__place">
-                                                    <span>Кем выдан</span>
-                                                    <p>{{item.issuer}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="result__user__locations">
-                                            <h4 class="result__user__locations__title">Карьера</h4>
-                                            <div class="result__user__locations__citizenship">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Партийность</span>
-                                                    <p>{{personDetails2.political_party ? personDetails2.political_party : '-' }}</p>
-                                                </div>
-                                            </div>
-                                            <div class="result__user__locations__citizenship">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Гос награды</span>
-                                                    <p>{{getAcademicStatuses(personDetails2.government_awards)}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="result__user__locations__citizenship">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Ученое звание</span>
-                                                    <p>{{getAcademicStatuses(personDetails2.academic_statuses)}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="result__user__locations__place">
-                                                <span>Языки</span>
-                                                <p>{{getAcademicStatuses(personDetails2.languages)}}</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="result__user__passport-info">
-                                            <h4 class="result__user__locations__title">Контакты</h4>
-                                            <div class="result__user__locations__citizenship" 
-                                            v-for="(item, index) in personDetails2.contacts" :key="index">
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>Тип</span>
-                                                    <p>{{item.use}}</p>
-                                                </div>
-                                                <div class="result__user__locations__citizenship__state">
-                                                    <span>{{item.type == 'phone' ? 'НОМЕР ТЕЛЕФОНА' : 'ЭЛЕКТРОННАЯ ПОЧТА'}}</span>
-                                                    <p>{{item.value}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="result__user_right">
-                                        <div class="result__user_right__accordion" id="accordion_block">
-
-                                            <div class="result__user_right__accordion__header"
-                                                onclick="animateAccordion('accordion_body7', 'accordion_icon7')">
-                                                <span>Места работы</span>
-                                                <!--  <img class="result__user_right__accordion__header__img" id="accordion_icon" src="./img/Stroke1.png" alt="">-->
-                                                <svg class="result__user_right__accordion__header__img" id="accordion_icon7"
-                                                    width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                    xml:space="preserve">
-                                                    <path id="XMLID_225_"
-                                                        d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                        c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                        s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                                </svg>
-                                            </div>
-                                            <div class="result__user_right__accordion__body" id="accordion_body7">
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.workplaces" :key="index">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.position}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.organization.name}}</h5>
-                                                        <span class="result-user__items__experience">{{item.department}}</span>
-                                                    </div>
-                                                    <div class="result__user__locations__place ml-2">
-                                                        <span class="user__items__experience">Начало работы</span>
-                                                        <p>{{item.start_date}}</p>
-                                                    </div>
-                                                </div>
-
-                                                <hr v-if="personDetails2.previous_workplaces.length != 0">
-
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.previous_workplaces" :key="index">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.position}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.organization}}</h5>
-                                                        <span class="result-user__items__experience">{{item.department}}</span>
-                                                    </div>
-                                                    <div class="result__user__locations__place ml-2">
-                                                        <span>Период работы</span>
-                                                        <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- <div class="result__user_right__accordion__header"
-                                                onclick="animateAccordion2()">
-                                                <span>Преыдущие места работы</span>
-                                                <svg class="result__user_right__accordion__header__img" id="accordion_icon2"
-                                                    width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                    xml:space="preserve">
-                                                    <path id="XMLID_225_"
-                                                        d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                        c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                        s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                                </svg>
-                                            </div>
-                                            <div class="result__user_right__accordion__body" id="accordion_body2">
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.previous_workplaces">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.position}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.organization}}</h5>
-                                                        <span class="result-user__items__experience">{{item.department}}</span>
-                                                    </div>
-                                                    <div class="result__user__locations__place ml-2">
-                                                        <span>ПЕРИОД РАБОТЫ</span>
-                                                        <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            
-                                            <div class="result__user_right__accordion__header"
-                                                onclick="animateAccordion('accordion_body8', 'accordion_icon8')">
-                                                <span>Родственники</span>
-                                                <!-- <img class="result__user_right__accordion__header__img" id="accordion_icon" src="./img/Stroke1.png" alt=""> -->
-                                                <svg class="result__user_right__accordion__header__img" id="accordion_icon8"
-                                                    width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                    xml:space="preserve">
-                                                    <path id="XMLID_225_"
-                                                        d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                            c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                            s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                                </svg>
-                                            </div>
-                                            <div class="result__user_right__accordion__body" id="accordion_body8">
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.relatives" :key="index">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.relativity_type}}
-                                                        </h5>
-                                                        <h5 class="result-user__items__name mb-3">{{item.full_name}}</h5>
-                                                        <h5 class="result-user__items__experience">{{item.birth_info}}</h5>
-                                                        <h5 class="result-user__items__experience">{{item.workplace_and_position}}</h5>
-                                                        <span class="result-user__items__experience">{{item.address}}</span>
-                                                    </div>
-                                                    <!-- <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.relativity_type}}: 
-                                                            {{item.full_name}}
-                                                        </h5>
-                                                        <h5 class="result-user__items__name">Год и место рождения: {{item.birth_info}}</h5>
-                                                        <h5 class="result-user__items__name">Рабочее место и должность: {{item.workplace_and_position}}</h5>
-                                                        <span class="result-user__items__experience">Адрес: {{item.address}}</span>
-                                                    </div> -->
-                                                    <!-- <div class="result__user__locations__place ml-2">
-                                                        <span>ПЕРИОД РАБОТЫ</span>
-                                                        <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                    </div> -->
-                                                </div>
-                                            </div>
-
-                                            <div class="result__user_right__accordion__header"
-                                                onclick="animateAccordion('accordion_body9', 'accordion_icon9')">
-                                                <span>Образование</span>
-                                                <!--                    <img class="result__user_right__accordion__header__img" id="accordion_icon" src="./img/Stroke1.png" alt="">-->
-                                                <svg class="result__user_right__accordion__header__img" id="accordion_icon9"
-                                                    width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                    xml:space="preserve">
-                                                    <path id="XMLID_225_"
-                                                        d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                        c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                        s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                                </svg>
-                                            </div>
-                                            <div class="result__user_right__accordion__body" id="accordion_body9">
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.education_diplomas" :key="index">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.education_level.name}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.institution}}</h5>
-                                                        <span class="result-user__items__name">Номер: {{item.number}}</span> <br>
-                                                        <span class="result-user__items__name">Дата получения диплома: {{item.issued_date}}</span>
-                                                    </div>
-                                                    <div class="result__user__locations__place ml-2">
-                                                        <span>ПЕРИОД УЧЕБЫ</span>
-                                                        <p>{{item.start_date}} - {{item.end_date}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="result__user_right__accordion__header"
-                                                onclick="animateAccordion('accordion_body10', 'accordion_icon10')">
-                                                <span>Категория</span>
-                                                <!--                    <img class="result__user_right__accordion__header__img" id="accordion_icon" src="./img/Stroke1.png" alt="">-->
-                                                <svg class="result__user_right__accordion__header__img" id="accordion_icon10"
-                                                    width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                    xml:space="preserve">
-                                                    <path id="XMLID_225_"
-                                                        d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                        c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                        s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                                </svg>
-                                            </div>
-                                            <div class="result__user_right__accordion__body" id="accordion_body10">
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.categories" :key="index">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                            {{item.name}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.category}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.certificate_number}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.category_type}}</h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <!-- <div class="result__user_right__accordion__header"
-                                                onclick="animateAccordion6()">
-                                                <span>Контакты</span>
-                                                <svg class="result__user_right__accordion__header__img" id="accordion_icon6"
-                                                    width="14" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;"
-                                                    xml:space="preserve">
-                                                    <path id="XMLID_225_"
-                                                        d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393
-                                                        c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393
-                                                        s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z" />
-                                                </svg>
-                                            </div>
-                                            <div class="result__user_right__accordion__body" id="accordion_body6">
-                                                <div class="result__user_right__accordion__body__inner"
-                                                    v-for="(item, index) in personDetails2.contacts">
-                                                    <div class="result__user_right__accordion__body__inner__item">
-                                                        <h5 class="result-user__items__profession">
-                                                        {{item.type == 'phone' ? 'Тип: ' : ''}}  {{item.use}}</h5>
-                                                        <h5 class="result-user__items__name">{{item.value}}</h5>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
 
 
                         </div>
+                        <div class="tab-pane fade in" id="user__other">
+
+                            <!-- @if(($languages = $employee->languages) && $employee->languages->count()) -->
+                                <div class="">
+                                    <!-- <div class="my-5">
+                                        <hr>
+                                        <h4 class="text-center my-1">{{$t('employee_languages')</h4>
+                                        <hr>
+                                    </div> -->
+
+                                    <div class="d-flex justify-space-between mt-4 mb-3">
+                                        <span class="user__info_right_title">{{$t('employee_languages')}}</span>
+                                        <span>
+                                            <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#languages_info_modal">
+                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            </button>
+                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        </span>
+                                    </div>
+                                    <div class="user__info_right_table">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                            <!-- @foreach ($languages as $key => $language) -->
+                                                <tr>
+                                                    <th class="w-50">
+                                                        {{$t('language')}} #{{$key + 1}}
+                                                    </th>
+                                                    <td>
+                                                        <!-- {{ $language->languageType->name }} -->
+                                                    </td>
+                                                </tr>
+                                            <!-- @endforeach -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!-- @endif -->
+
+
+
+                            <!-- @if(($governmentAwards = $employee->governmentAwards) && $employee->governmentAwards->count()) -->
+                                <div>
+                                    <!-- <div class="my-5">
+                                        <hr>
+                                        <h4 class="text-center my-1">{{$t('employee_government_awards')</h4>
+                                        <hr>
+                                    </div> -->
+
+                                    <div class="d-flex justify-space-between mt-4 mb-3">
+                                        <span class="user__info_right_title">{{$t('employee_government_awards')}}</span>
+                                        <span>
+                                            <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#government_info_modal">
+                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            </button>
+                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        </span>
+                                    </div>
+                                    <div class="user__info_right_table">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                            <!-- @foreach ($governmentAwards as $governmentAward) -->
+                                                <tr>
+                                                    <th class="w-50">
+                                                        {{$t('government_award')}}
+                                                    </th>
+                                                    <td>
+                                                        <!-- {{ $governmentAward->governmentAwardType->name }} -->
+                                                    </td>
+                                                </tr>
+                                            <!-- @endforeach -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!-- @endif -->
+                            <!-- @if($politicalParty = $employee->politicalParty) -->
+                                <div>
+                                    <!-- <div class="my-5">
+                                        <hr>
+                                        <h4 class="text-center my-1">{{$t('employee_political_party')</h4>
+                                        <hr>
+                                    </div> -->
+
+                                    <div class="d-flex justify-space-between mt-4 mb-3">
+                                        <span class="user__info_right_title">{{$t('employee_political_party')}}</span>
+                                        <span>
+                                            <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#political_party_info_modal">
+                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            </button>
+                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        </span>
+                                    </div>
+                                    <div class="user__info_right_table">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                            <tr>
+                                                <th>{{$t('political_party')}}</th>
+                                                <td class="w-50">
+                                                    <!-- {{ $politicalParty->politicalPartyType->name }} -->
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!-- @endif -->
+
+
+                            <div>
+                                <!-- <div class="my-5">
+                                    <hr>
+                                    <h4 class="text-center my-1">{{$t('specialty_categories')</h4>
+                                    <hr>
+                                </div> -->
+
+                                <div class="d-flex justify-space-between mt-4 mb-3">
+                                    <span class="user__info_right_title">{{$t('specialty_categories')}}</span>
+                                    <span>
+                                        <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#speciality_categories_info_modal">
+                                            <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                        </button>
+                                        <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                    </span>
+                                </div>
+                                <!-- @foreach ($employee->specialtyCategories as $specialtyCategory) -->
+                                <div class="d-flex my-2 table-actions">
+                                    <form
+                                        action="{{ route('specialty-categories.destroy', ['employee'=>$employee,'specialty_category'=> $specialtyCategory]) }}"
+                                        method="POST">
+                                        <!-- @csrf
+                                        @method('DELETE') -->
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash" style="color: #ffffff"></i>
+                                        </button>
+                                    </form>
+                                    <a href="{{ route('specialty-categories.edit', ['employee'=>$employee,'specialty_category'=> $specialtyCategory]) }}" class="ml-2 btn bg-info btn-sm">
+                                        <i class="fa fa-edit" style="  color: #ffffff"></i>
+                                    </a>
+                                </div>
+                                <div class="user__info_right_table">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <th class="w-50">{{$t('category')}}</th>
+                                                <!-- <td class="text-capitalize">{{ $specialtyCategory->category->name ?? '' }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('specialty_category_type')}}</th>
+                                                <!-- <td>{{ $specialtyCategory->specialtyCategoryType->name }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('certificate_number')}}</th>
+                                                <!-- <td>{{ $specialtyCategory->certificate_number }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('issued_date')}}</th>
+                                                <!-- <td>{{ $specialtyCategory->issued_date }}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">{{$t('certificate_validity')}}</th>
+                                                <!-- <td>{{ $specialtyCategory->certificate_validity }}</td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- @endforeach -->
+                            </div>
+
+
+                            <!-- @if(($relatives = $employee->relatives) && $employee->relatives->count()) -->
+                                <div class="">
+                                    <!-- <div class="my-5">
+                                        <hr>
+                                        <h4 class="text-center my-1">{{$t('relatives')</h4>
+                                        <hr>
+                                    </div> -->
+
+                                    <div class="d-flex justify-space-between mt-4 mb-3">
+                                        <span class="user__info_right_title">{{$t('relatives')}}</span>
+                                        <span>
+                                            <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#relatives_info_modal">
+                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            </button>
+                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        </span>
+                                    </div>
+                                    <!-- @foreach ($relatives as $relative) -->
+                                    <!-- <div class="d-flex justify-content-between mt-4 mb-3">
+                                        <h4 class="mb-0">{{$relative->relativeType->name}}</h4>
+                                    </div> -->
+                                    <div class="user__info_right_table mb-3">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                            <tr>
+                                                <th class="w-50">
+                                                    <!-- {{$relative->relativeType->name}} -->
+                                                </th>
+                                                <td>
+                                                    <!-- {{ $relative->full_name }} -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">
+                                                    {{$t('birth_info')}}
+                                                </th>
+                                                <td>
+                                                    <!-- {{ $relative->birth_info }} -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">
+                                                    {{$t('workplace_and_position')}}
+                                                </th>
+                                                <td>
+                                                    <!-- {{ $relative->workplace_and_position }} -->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="w-50">
+                                                    {{$t('the_address')}}
+                                                </th>
+                                                <td>
+                                                    <!-- {{ $relative->address }} -->
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- @endforeach -->
+                                </div>
+                            <!-- @endif -->
+                        </div>
+                    </div>
                     </div>
                 </div>
-
             </div>
 
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Button trigger modal -->
+            
+
+            <!-- Modal -->
+            <div class="modal fade " id="personal_info_modal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="" @click.prevent="cancelModal('#personal_info_modal')">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+                                <span class="modal__block_subtitle">{{$t('personal_and_passport_data')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100 d-flex align-center">
+                                            <div class="form-group">
+                                                <label for="pinfl">{{$t('pin')}}</label>
+                                                <input type="text" class="form-control" name="employee[pinfl]" id="pinfl" v-model="personalInfo.pinfl">
+                                            </div>
+                                            <button class="modal__block_btn_primary ml-2" style="margin-top: 8px;">{{$t('find')}}</button>
+                                        </div>
+
+                                        <div class="w-100">
+                                            <div class="modal__block_img"></div>
+                                            <div class="form-group">
+                                                <label for="birth_date">{{$t('date_of_birth')}}</label>
+                                                <input type="text" class="form-control" name="employee[birth_date]" id="birth_date" v-model="personalInfo.birth_date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nationality_id">{{$t('nationality')}}</label>
+                                                <!-- {{-- <input type="text" class="form-control" name="employee[nationality_id]" id="nationality_id" v-model="personalInfo.nationality_id"> --}} -->
+                                                <select2 :options="nationalities" term="name" name="nationality_id"
+                                                    id="nationality" class="form-control"
+                                                    data-placeholder="{{$t('choose')}}" v-model="personalInfo.nationality_id">
+                                                </select2>
+
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="gender">{{$t('userGender')}}</label>
+                                                <input type="text" class="form-control" name="employee[gender]" id="gender" v-model="personalInfo.gender">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="citizenship_id">{{$t('citizenship')}}</label>
+                                                <select2 :options="countries" term="name" name="citizenship_id" id="citizenship_id"
+                                                    class="form-control" data-placeholder="{{$t('choose')}}"
+                                                    v-model="personalInfo.citizenship_id">
+                                                </select2>
+                                                <!-- {{-- <input type="text" class="form-control" name="employee[citizenship_id]" id="citizenship_id" v-model="personalInfo.citizenship_id"> --}} -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="firstname">{{$t('personName')}}</label>
+                                                <input type="text" class="form-control" name="firstname" id="firstname" v-model="fullnameInfo.firstname">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="lastname">{{$t('surname')}}</label>
+                                                <input type="text" class="form-control" name="lastname" id="lastname" v-model="fullnameInfo.lastname">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="middlename">{{$t('middle_name')}}</label>
+                                                <input type="text" class="form-control" name="middlename" id="middlename" v-model="fullnameInfo.middlename">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="birth_place">{{$t('birth_place')}}</label>
+                                                <input type="text" class="form-control" name="birth_place" id="birth_place" v-model="personalInfo.birth_place">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label for="birth_country_id">{{$t('birth_country')}}</label>
+                                                <select2 :options="countries" term="name" name="birth_country_id"
+                                                    id="birth_country_id" class="form-control"
+                                                    data-placeholder="{{$t('choose')}}" v-model="personalInfo.birth_country_id">
+                                                </select2>
+                                                <!-- {{-- <input type="text" class="form-control" name="birth_country_id" id="birth_country_id" v-model="personalInfo.birth_country_id"> --}} -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey" @click.prevent="cancelModal('#personal_info_modal')">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4" >{{$t('save')}}</button>
+                                    <!-- @click.prevent="saveData({{$employee}})" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- Modal  3-->
+            <div class="modal fade " id="work_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+
+
+
+
+                                <span class="modal__block_subtitle">{{$t('current_workplaces')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+
+
+
+                                    <div class="row" v-for="(item, index) in workplaces" :key="index" v-bind:class="(workplaces.length-1)!=index?'mb-2 pb-4 border-bottom border-light':''">
+
+                                        <input type="hidden" :value="item.id" :name="'workplace['+index+'][id]'">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="organization">{{$t('organization')}}<span
+                                                        class="text-red">*</span></label>
+                                                <select2 :options="organizations" term="name_full"
+                                                    class="form-control"
+                                                    data-placeholder="{{$t('organization')}}"
+                                                    >
+                                                </select2>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="position">{{$t('position')}}<span
+                                                        class="text-red">*</span></label>
+                                                <select2 :options="item.positions" term="name"
+                                                    :name="'workplace['+index+'][position_id]'" :url="item.positionUrl"
+                                                    :id="'position_'+index" class="form-control"
+                                                    data-placeholder="{{$t('position')}}" v-model="item.position_id"
+                                                    required>
+                                                </select2>
+                                            </div>
+                                            <input type="hidden" v-model="item.organization_structure_id"
+                                                :name="'workplace['+index+'][organization_structure_id]'">
+
+                                            <div class="form-group">
+                                                <label>{{$t('start_date')}}</label>
+                                                <input type="date" class="form-control"
+                                                    :name="'workplace['+index+'][start_date]'" v-model="item.start_date" required>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label for="department">{{$t('department')}}<span
+                                                        class="text-red">*</span></label>
+                                                <treeselect v-model="item.node_id"
+                                                    v-on:select="(node)=>onDepartmentSelect(node,item)" :multiple="false"
+                                                    :options="item.treeData" :value="item.node_id||null" :clearable="false"
+                                                    :searchable="false" placeholder="{{$t('choose')}}">
+                                                </treeselect>
+                                                <input type="hidden" v-model="item.department_id"
+                                                    :name="'workplace['+index+'][department_id]'" />
+
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>{{$t('workplace_rate')}}<span
+                                                        class="text-red">*</span></label>
+                                                <input type="number" step="0.01" min="0.01" max="2" class="form-control"
+                                                    :name="'workplace['+index+'][rate]'" v-model="item.rate" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>{{$t('end_date')}}</label>
+                                                <input type="date" class="form-control"
+                                                    :name="'workplace['+index+'][end_date]'" v-model="item.end_date">
+                                            </div>
+
+                                        </div>
+
+                                        <div
+                                            class="col-sm-2 d-flex align-content-center align-items-center justify-content-end">
+                                            <span type="button" class="btn btn-danger" v-if="!index==0"
+                                                v-bind:class="[index==0?'d-none':'d-block']"
+                                                v-on:click="removeWorkplace(index,$event)"><i
+                                                    class="fa fa-minus"></i></span>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('organization')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('position')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('start_date')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('is_active')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('department')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('workplace_rate')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('final_date')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <!-- <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('commentary')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Modal  4-->
+            <div class="modal fade " id="worked_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+                                <span class="modal__block_subtitle">{{$t('previous_workplaces')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('organization')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('position')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('start_date')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('is_active')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('department')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('workplace_rate')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('final_date')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <!-- <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('commentary')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div> -->
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- Modal  5-->
+            <div class="modal fade " id="education_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('education')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('education_type')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('educational_organization')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('diploma_number')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('final_date')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('education_level')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('specialty')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('start_date')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- Modal  5-->
+            <div class="modal fade " id="address_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('the_address')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('country')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('city')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('postal_code')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('region')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('district')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('line')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <!-- Modal  6-->
+            <div class="modal fade " id="languages_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('employee_languages')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('language')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('language')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('language')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('language')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- Modal  7-->
+            <div class="modal fade " id="government_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('employee_government_awards')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('government_award')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('government_award')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('government_award')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <!-- Modal  8-->
+            <div class="modal fade " id="political_party_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('employee_political_party')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('political_party')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('political_party')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('political_party')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <!-- Modal  9-->
+            <div class="modal fade " id="speciality_categories_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('specialty_categories')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('userGender')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('citizenship')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('personName')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('surname')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Modal  10-->
+            <div class="modal fade " id="relatives_info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> -->
+                        <div class="modal-body">
+                            <div class="modal__block">
+                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <span class="modal__block_title">Редактировать сотрудника</span>
+
+
+
+                                <span class="modal__block_subtitle">{{$t('relatives')}}</span>
+
+                                <div class="modal__block_form">
+                                    <div class="modal__block_form_left">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('personName')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('workplace_and_position')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal__block_form_right">
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('birth_info')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="form-group">
+                                                <label>{{$t('the_address')}}</label>
+                                                <input type="text" class="form-control" name="note" id="note" v-model="note">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal__block_footer">
+                                    <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                                    <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+      
+
+
+            
+            
+
     </div>
-</div>
+
 </template>
 
 <script>
@@ -1406,58 +2126,55 @@ export default {
 
 
             // ============= FILTERS START =============
-            otherForm: {
-                scient_level_id: '',
-                political_party_type_id: '',
-                government_award_type_id: '',
-                language_type_id: '',
+            leave: null,
+            submitTypes: {
+                store: 'store',
+                update: 'update'
             },
-            filterBasic: {
+            // employee_workplaces_list: employee_workplaces,
+            employee_workplaces_list: [],
+            submitType: 'store',
+
+            showLeaveModal: false,
+            workplace_id: [],
+            // employee_workplaces: employee_workplaces,
+            employee_workplaces: [],
+
+            // leaves: @json($leaves),
+            leave_type_id: '',
+            start_date: '',
+            end_date: '',
+            note: '',
+
+
+
+
+            workplaces: [],
+            loading: false,
+
+
+            oldWorkplaces: [],
+            personalInfo: {
                 pinfl: '',
-                firstname: '',
-                lastname: '',
-                middlename: '',
-                organization_id: '',
-                branch_id: '',
-                leave_type_id: '',
-                with_subdivisions: false,
-            },
-            filter: {
-                pinfl: '',
-                lastname: '',
-                firstname: '',
-                middlename: '',
                 birth_date: '',
                 nationality_id: '',
-                citizenship_id: '',
-                birth_country_id: '',
-                birth_place: '',
                 gender: '',
-                phone: '',
-                email: '',
-
-
-
-                identity_card_type_id: '',
-                // identity_card_given: '',
-                identity_card_number: '',
-                start_date: '',
-                end_date: '',
-
-
-
-                education_type: '',
-                education_level_id: '',
-                institution_id: '',
-                diploma_number: '',
-                specialty_id: '',
-                faculty_id: '',
-                begin_year: '',
-                end_year: '',
-
-                category_id: '',
-                speciality_category_type_id: '',
+                citizenship_id: '',
+                
+                birth_place: '',
+                birth_country_id: '',
             },
+            fullnameInfo: {
+                firstname: '',
+                lastname: '',
+                middlename: '',
+            },
+            // countries: @json($countries),
+            // nationalities: @json($nationalities),
+            // organizations: @json($organizations),
+            countries: [],
+            nationalities: [],
+            organizations: [],
             // ============= FILTERS END =============
 
 
@@ -1572,7 +2289,7 @@ export default {
             this.filterBasic = filters
         }
         
-        await this.getHierarchy(0);
+        // await this.getHierarchy(0);
 
         await this.getIdentityCardTypesList();
         await this.getLanguageList();
@@ -1598,7 +2315,13 @@ export default {
         // ============= GET_EDUCATION_APIS END =============
     },
     async mounted(){
+        if (this.employee_workplaces.length == 1) {
+            this.workplace_id.push(this.employee_workplaces[0].id);
+        }
+        console.log(this.workplaces)
 
+
+        console.log(this.organizations)
     },
     methods: {
         // ============= ORGANIZATIONS_SEARCH START =============
@@ -1638,101 +2361,208 @@ export default {
 
 
         // ============= GENERAL_FUNCTIONS START =============
-        addDepartmentToBreadcrumb(item){
-            if(this.departmentInBreadcrumbExist){
-                this.hierarchyListNames.pop();
-            }
-            this.departmentInBreadcrumb = true;
-            this.departmentInBreadcrumbExist = true;
-            this.hierarchyListNames.push(item);
+        cancelModal(id){
+            $(id).modal('hide');
         },
-        async applySearchByHierarchy(id){
-            this.page = 1;
-            this.employeesList = [];
-            if(id){
-                this.organizationStructureId = id
-            }
-            this.isshow = false;
-            await this.getEmployees(id);
-        },
-        async getEmployees(){
-            this.loading = true;
-            this.errorMessage = false
-            await this.axios.get(`ajax/organization-structure/${this.organizationStructureId}/employees?page=${this.page}`)
-                .then((response) => {
-                    if(response.data.data.length != 0){
-                        this.employeesList = response.data.data
-                        this.page = response.data.meta.current_page
-                        this.pageCount = response.data.meta.last_page
-                    }else{
-                        this.errorMessage = true
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            this.loading = false;
-        },
-        async applyFilters(){
-            this.page2 = 1;
-            this.employeesList2 = []
-            await this.getFilteredEmployees();
-        },
-        async onSubmit(){
-            sessionStorage.setItem("employeeFilters", JSON.stringify(this.filterBasic));
-        },
-        async getFilteredEmployees(){
-            this.loading2 = true;
-            this.errorMessage2 = false
-            this.filterRadio = 'results';
-            await this.axios.get(`ajax/employees`, {
-                params: { ...this.filter, ...this.otherForm, page: this.page2}
-            })
-            .then((response) => {
-                if(response.data.data.length != 0){
-                    this.employeesList2 = response.data.data
-                    this.page2 = response.data.meta.current_page
-                    this.pageCount2 = response.data.meta.last_page
-                }else{
-                    this.errorMessage2 = true
+        async saveData(employee){
+            const employeeData = [
+                {
+                    id: employee.id,
+                    pinfl: employee.pinfl, 
+                    birth_date: employee.birth_date, 
+                    nationality_id: employee.nationality_id, 
+                    gender: employee.gender, 
+                    citizenship_id: employee.citizenship_id, 
+                    birth_place: employee.birth_place, 
+                    birth_country_id: employee.birth_country_id, 
+                },
+                {
+                    firstname: employee.employee_names[0].firstname, 
+                    lastname: employee.employee_names[0].lastname, 
+                    middlename: employee.employee_names[0].middlename, 
                 }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-            this.loading2 = false;
-        },
-        async backFilterButton(){
-            await this.getHierarchy(this.hierarchyParentId[this.hierarchyParentId.length - 1])
-            this.hierarchyParentId.pop()
-            this.hierarchyParentId.pop()
+            ]
+            await axios.put(`/ajax/employee/${this.personalInfo.id}/update`, employeeData).then(
+                response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(() => {
 
-            if(this.departmentInBreadcrumb){
-                this.hierarchyListNames.pop();
-                this.departmentInBreadcrumb = false;
+                })
+        },
+        showMainModal(employee){
+            Object.assign(this.personalInfo, {
+                id: employee.id,
+                pinfl: employee.pinfl, 
+                birth_date: employee.birth_date, 
+                nationality_id: employee.nationality_id, 
+                gender: employee.gender == 'female' ? 'Женщина' : 'Мужчина', 
+                citizenship_id: employee.citizenship_id, 
+                birth_place: employee.birth_place, 
+                birth_country_id: employee.birth_country_id, 
+            })
+
+
+            Object.assign(this.fullnameInfo, {
+                id: employee.id,
+                firstname: employee.employee_names[0].firstname, 
+                lastname: employee.employee_names[0].lastname, 
+                middlename: employee.employee_names[0].middlename, 
+            })
+
+
+
+            // $('#myModal').modal('hide')
+
+
+
+            // this.personalInfo: {
+            //     pinfl: '',
+            //     birth_date: '',
+            //     nationality_id: '',
+            //     gender: '',
+            //     citizenship_id: '',
+            //     firstname: '',
+            //     lastname: '',
+            //     middlename: '',
+            //     birth_place: '',
+            //     birth_country_id: '',
+            // }
+        },
+        getId(id){
+            console.log(id);
+
+            console.log(this.oldWorkplaces);
+        },
+        submit: function () {
+            const payload = {
+                leave_type_id: this.leave_type_id,
+                start_date: this.start_date,
+                end_date: this.end_date,
+                note: this.note,
+                workplace_id: this.workplace_id
             }
-            this.hierarchyListNames.pop();
-            this.departmentInBreadcrumbExist = false;
 
-            this.errorMessage = false;
+            if (this.submitType == this.submitTypes.store) {
+                axios.post("{{ route('employees.leaves.store', $employee) }}", payload).then(
+                    response => {
+                        console.log(response)
+                        this.showLeaveModal = false;
+                        this.resetValues();
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                    .finally(() => {
+                    })
+
+            } else if (this.submitType == this.submitTypes.update) {
+                let url = "{{ route('employees.leaves.update', [$employee, ':leave']) }}";
+                console.log(url)
+                url = url.replace(':leave', Number(this.leave.id));
+
+                axios.put(url, payload)
+                    .then(response => {
+                        console.log(response)
+                        this.resetValues();
+                        this.showLeaveModal = false;
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+
         },
-        async getHierarchy(id, name) {
-            this.loading = true;
-            await this.axios.get('ajax/hierarchy?organization_id=' + id)
-                .then((response) => {
-                    this.hierarchyList = response.data
-                    this.hierarchyList2 = this.hierarchyList.data.children
+        showModal: function () {
+            this.resetValues();
+            this.showLeaveModal = true;
+        },
+        updateLeave: function (leave) {
+            // leave = JSON.parse(leave);
 
-                    if(name){
-                        this.hierarchyListNames.push(name);
-                    }
-                    this.hierarchyParentId.push(this.hierarchyId);
-                    this.hierarchyId = id;
+            this.leave = leave;
+
+            this.employee_workplaces = this.employee_workplaces.filter(w => w.id == leave.workplace_id)
+            this.submitType = this.submitTypes.update;
+
+            this.leave_type_id = leave.leave_type_id;
+            this.start_date = leave.start_date;
+            this.end_date = leave.end_date;
+            if (!Number.isNaN(leave.workplace_id)) {
+                this.workplace_id.push(leave.workplace_id);
+            }
+            this.note = leave.note;
+            this.showLeaveModal = true;
+        },
+        cancel: function () {
+            this.resetValues();
+            this.showLeaveModal = false;
+        },
+        resetValues: function () {
+            this.employee_workplaces = this.employee_workplaces_list;
+            this.leave_type_id = '';
+            this.workplace_id = [];
+            this.start_date = '';
+            this.end_date = '';
+            this.note = '';
+            this.submitType = this.submitTypes.store;
+            this.leave = null;
+        },
+        deleteLeave: function (leave) {
+            leave = JSON.parse(leave)
+            let url = "{{ route('employees.leaves.destroy', [$employee, ':leave']) }}";
+
+            axios.delete(url.replace(':leave', leave.id))
+                .then(response => {
+                    console.log(response);
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.log(error)
+                });
+        },
+
+
+
+
+
+
+
+        onStatusChange: function (index, wplace) {
+            console.log(wplace);
+            this.popUpLoading();
+            this.updateStatus(index, wplace);
+        },
+        updateStatus: function (index, workplace) {
+            let url = "{{route('workplaces.updateStatus',':id')}}";
+            url = url.replace(':id', workplace.id)
+
+            const payload = {status: workplace.status ? 'inactive' : 'active'};
+            console.log(workplace.status, payload);
+            axios.put(url, payload)
+                .then(response => {
+                    setTimeout(() => {
+                        console.log(response)
+                        this.workplaces[index].status = response.data.status == 'active' ? true : false;
+                        console.log(this.workplaces[index].status, response.data.status);
+                        this.loading = false;
+                    }, 2000)
                 })
-            this.loading = false;
+                .catch(error => {
+                    this.loading = false;
+                    console.log(error.response?.data)
+                    $('#error-alert .message').text(error.response.data.message)
+                    $('#error-alert').show()
+                    window.scroll(0, 0);
+                });
+        },
+        popUpLoading: function () {
+            this.loading = true;
         },
         // ============= GENERAL_FUNCTIONS END =============
 
@@ -2040,5 +2870,152 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
+.vue-treeselect__control {
+    border-radius: 1rem;
+    padding: .5rem 1rem !important;
+    height: 2.5rem !important;
+    border: 2px solid #a0a3bd !important;
+    color: #1b1b1b !important;
+    font-size: .875rem !important;
+    box-shadow: none !important;
+    transition: box-shadow .2s !important;
+}
 
+.vue-treeselect__placeholder{
+    line-height: normal!important;
+}
+
+.vue-treeselect__placeholder .vue-treeselect-helper-zoom-effect-off,
+.vue-treeselect__single-value {
+    display: flex !important;
+    text-align: center !important;
+    line-height: normal !important;
+}
+
+
+
+
+
+
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    display: table;
+    transition: opacity 0.3s ease;
+    overflow-y: scroll;
+
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    max-width: 800px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+    border-radius: 1rem;
+
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-body {
+    margin: 20px 0;
+}
+
+.modal-default-button {
+    float: right;
+}
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.add,
+.remove {
+    display: flex;
+    align-items: center;
+}
+
+.tree-node-text:hover {
+    color: #101e31;
+    cursor: pointer;
+
+}
+
+#modal-form .btn:first-child {
+    margin-right: 0.5rem;
+}
+
+
+@media (min-width: 576)and (max-width: 768) {
+    .modal-container {
+        width: 300px !important;
+    }
+}
+
+@media (min-width: 769) and (max-width: 1024) {
+    .modal-container {
+        width: 500px !important;
+    }
+}
+
+@media (min-width: 1024) {
+    .modal-container {
+        width: 700px !important;
+    }
+}
+
+.status-loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    opacity: 60%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+}
+
+.loader-container {
+    position: relative;
+    left: calc(50% - 60px);
+    right: calc(50% - 60px);
+    top: calc(50% - 100px);
+}
+
+
+/* .table-actions{
+    margin-top: 15px !important;
+} */
+/* .table-actions:first-child {
+    margin-top: 0 !important;
+} */
 </style>
