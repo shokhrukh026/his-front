@@ -1,19 +1,15 @@
 <template>
-<div class="d-flex justify-space-between mb-4">
-    <div class="d-flex">
-        <h1 class="text-dark fz-18rem">{{$t('organizations')}}</h1>
-        <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
-        <a @click="openOrganizationAddModal" class="btn btn-primary text-nowrap ml-3">
-            <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_organization')}}
-        </a>
-        <!-- @endif -->
-    </div>
+<div class="row mb-3">
+    <h1 class="text-dark mx-2 px-2 fz-18rem">{{$t('organizations')}}</h1>
+    <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
+    <a href="{{route('organizations.create')}}" class="btn btn-primary text-nowrap d-flex align-center">
+        <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_organization')}}
+    </a>
+    <!-- @endif -->
     
-    <div class="d-flex">
-        <a href="{{route('exportToExcel')}}" class="btn btn-success text-nowrap ml-3">
-            <i class="fa fa-file-alt mr-2 fz-12px"></i> {{$t('export.excel')}}
-        </a>
-    </div>
+    <a href="{{route('exportToExcel')}}" class="btn btn-success text-nowrap ml-auto d-flex align-center" style="margin-right: 10px;">
+        <i class="fa fa-file-alt mr-2 fz-12px"></i> {{$t('export.excel')}}
+    </a>
 </div>
 <div class="row">
     <form action="?" class="col-12 mb-2">
@@ -244,55 +240,11 @@
         </div>
     </div>
 </div>
-<dialogAddOrg></dialogAddOrg>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
-import { storeToRefs } from 'pinia';
-import { mainStore } from '../../stores/main';
-import dialogAddOrg from './DialogAddOrganization.vue'
-
 export default {
-    components: {
-        dialogAddOrg
-    },
-    setup(){
-        const mainStorage = mainStore();
-        let openAddModal = ref(false);
-        // const { count } = store //NOT REACTIVE
-        // const { count } = storeToRefs(store) //REACTIVE
-        // console.log(count) // => 0
-        // store.count++;
-        // store.increment(2);
 
-        let username = ref('')
-        let password = ref('')
-        // const loginToAccount = async () => {
-        //     await authStorage.SIGN_IN({username: username.value, password: password.value})
-        // };
-
-        let state =  ref(false);
-        let language = ref(1);
-        let languageOptions = ref([
-            {id: 1, title: 'UZ'},
-            {id: 2, title: 'EN'},
-            {id: 3, title: 'RU'},
-        ]);
-
-        onMounted(async() => {
-            await mainStorage.GET_ORGGANIZATIONS();
-        })
-
-        return{
-            username, password, state, language, languageOptions,
-            openAddModal
-        }
-    },
-
-    mounted(){
-
-    }
 }
 </script>
 

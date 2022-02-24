@@ -955,6 +955,8 @@
     height: 100%;
     padding: 10px;
     cursor: pointer;
+    outline: none;
+    border: none;
 }
 
 .settings__nav img{

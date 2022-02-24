@@ -104,8 +104,11 @@
     
     
     <div class="col-sm-auto d-flex">
-        <div class="settings__nav">
+        <button class="settings__nav" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
             <img src="../../assets/icons/Setting.svg" alt="">
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#" @click="goToLogin()">Выход</a>
         </div>
 
         <div class="dropdown">
@@ -181,12 +184,12 @@
 <script>
 import { ref, onMounted } from 'vue'
 // import { useI18n } from "vue-i18n";
-import { useStore } from '../../stores/main'
+import { mainStore } from '../../stores/main'
 import { storeToRefs } from 'pinia'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = mainStore()
     const { sidebarCollapse } = storeToRefs(store)
 
 
@@ -194,6 +197,11 @@ export default {
       store,
       sidebarCollapse
     }
+  },
+  methods: {
+      goToLogin(){
+          this.$router.push('/login');
+      }
   }
 }
 </script>

@@ -32,7 +32,7 @@
 
 
 <script>
-import { useStore } from '../stores/main'
+import { mainStore } from '../stores/main'
 import { storeToRefs } from 'pinia'
 
 import Navbar from './components/Navbar.vue'
@@ -46,7 +46,7 @@ export default {
         Footer
     },
     setup() {
-        const store = useStore()
+        const store = mainStore()
         const { sidebarCollapse } = storeToRefs(store)
 
 

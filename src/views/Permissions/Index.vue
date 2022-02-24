@@ -1,6 +1,6 @@
 <template>
-<div class="row mb-3">
-    <h1 class="text-dark mr-4 ml-2 px-1 fz-18rem">{{$t('permissions')}}</h1>
+<div class="d-flex justify-space-between mb-3">
+    <h1 class="text-dark fz-18rem">{{$t('permissions')}}</h1>
     <!-- @if(Auth::user()->hasPermissionTo('permissions_create')) -->
         <a href="{{route('permissions.create')}}" class="btn btn-primary text-nowrap d-flex align-center">
             <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_right')}}

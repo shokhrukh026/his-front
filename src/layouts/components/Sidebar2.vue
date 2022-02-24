@@ -126,12 +126,12 @@
 <script>
 import { ref, onMounted } from 'vue'
 // import { useI18n } from "vue-i18n";
-import { useStore } from '../../stores/main'
+import { mainStore } from '../../stores/main'
 import { storeToRefs } from 'pinia'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = mainStore()
     const { sidebarCollapse } = storeToRefs(store)
 
 

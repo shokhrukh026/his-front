@@ -122,7 +122,6 @@
         padding: 32px !important;
 
 
-
         &_photo{
             width: 215px;
             height: 215px;
@@ -247,10 +246,40 @@
                 border: none !important;
                 border-bottom: 1px solid #E1E5F0 !important;
             }
+
             table,
             table tbody tr:last-child th,
             table tbody tr:last-child td{
                 border-bottom: none !important;
+            }
+
+
+
+
+            table thead th,
+            table thead th{
+                border: none !important;
+                border-left: 1px solid #E1E5F0 !important;
+            }
+            table thead th:first-child{
+                border-left: none !important;
+            }
+            table thead th:last-child{
+                border-right: none !important;
+            }
+
+
+            table tbody td,
+            table tbody td{
+                border: none !important;
+                border-left: 1px solid #E1E5F0 !important;
+                border-top: 1px solid #E1E5F0 !important;
+            }
+            table tbody td:first-child{
+                border-left: none !important;
+            }
+            table tbody td:last-child{
+                border-right: none !important;
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
-<div class="row mb-3">
-        <h1 class="text-dark ml-2 mr-4 px-1 fz-18rem">{{$t('userRoles.role')}}</h1>
+<div class="d-flex justify-space-between mb-3">
+        <h1 class="text-dark fz-18rem">{{$t('userRoles.role')}}</h1>
         <!-- @if(Auth::user()->hasPermissionTo('roles_create')) -->
             <a href="{{route('roles.create')}}" class="btn btn-primary text-nowrap d-flex align-center">
                 <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_role')}}
