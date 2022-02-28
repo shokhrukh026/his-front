@@ -19,91 +19,38 @@
     </div>
 
 
-    <div style="flex-grow: 1;" class="for-offset-header-search"></div>
 
     <div class="col-sm-0 py-2 text-center">
         <div class="text-bold">
-            <a target="_blank" href="https://t.me/joinchat/N7k6yfgU4fNiMzFi" class="text-nowrap text-decoration-none">
-            <!-- {{__('app.qa')}} -->
+            <a target="_blank" href="https://t.me/joinchat/N7k6yfgU4fNiMzFi" class="text-nowrap text-decoration-none text-primary text-bold">
+                {{$t('qa')}}
             </a>
         </div>
     </div>
 
 
 
-    <div style="flex-grow: 1;" class="for-offset-header-search"></div>
     
-    <div class="py-2 text-center">
-        <div class="text-bold">
-
-
-        <!-- <div class="main__box">
-            <input type="checkbox" id="check">
-            <div class="main__box_search">
-                <div class="search_and_select">
-                    <input type="text" placeholder="Искать">
-                    <select name="" id="">
-                        <option value="fast">Быстрый поиск</option>
-                        <option value="extended">Расширенный поиск</option>
-                    </select>
-                </div>
-                <label for="check" class="icon">
-                    <i class="fas fa-search"></i>
-                </label>
-            </div>
-        </div> -->
-
-
-        <div class="search__nav">
-            <input type="text" placeholder="Искать">
-            <img src="../../assets/icons/Search.svg" alt="">
-        </div>
-
-
-        <!-- <div class="notification__nav">
-            <img src="{{asset('icons/Notification.svg')}}" alt="">
-        </div> -->
-        
-
-            <!-- <div class="header-all-block" id="header-search-all-block-filter">
-
-                <div class="d-flex align-center header-search__text" onclick="showSearchInput()">
-                    <div class="search-icon-block-employees-result" id="header-search-icon-filter-page">
-                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="search-icon-block-employees-result__icon">
-                            <circle cx="10.7666" cy="10.7666" r="8.98856" stroke="#223555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M17.0183 17.4851L20.5423 21" stroke="#223555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-{{--                            <img src="./img/Search.png" alt="" id="header-search-icon-filter-page">--}}
-                </div>
-
-                <div class="header-input-search" id="header_search">
-                    <input type="text" placeholder="Быстрый поиск">
-                    <div class="header-input-search__append-text">Расширенный поиск</div>
-                </div>
-
-                <div id="header-search-close-icon-filter-page" class="header-search-close-icon">
-                    <svg onclick="closeSearchInput()"
-                        width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16.6665 18.0001L5.99983 7.33338C5.63539 6.96894 5.63539 6.36449 5.99983 6.00004C6.36428 5.6356 6.96873 5.6356 7.33317 6.00004L17.9999 16.6667C18.3643 17.0312 18.3643 17.6356 17.9999 18.0001C17.6354 18.3645 17.031 18.3645 16.6665 18.0001Z" fill="#223555"/>
-                        <path d="M6.00012 18.0001C5.63568 17.6356 5.63568 17.0312 6.00012 16.6667L16.6668 6.00004C17.0313 5.6356 17.6357 5.6356 18.0002 6.00004C18.3646 6.36449 18.3646 6.96894 18.0002 7.33338L7.33346 18.0001C6.96902 18.3645 6.36457 18.3645 6.00012 18.0001Z" fill="#223555"/>
-                    </svg>
-                </div>
-
-{{--                        <img--}}
-{{--                                src="./img/add.png"--}}
-{{--                                alt=""--}}
-{{--                                class="header-search-close-icon"--}}
-{{--                                id="header-search-close-icon-filter-page"--}}
-{{--                                onclick="closeSearchInput()"--}}
-{{--                        >--}}
-            </div> -->
-        </div>
-    </div>
+ 
 
     
     
     <div class="col-sm-auto d-flex">
+
+        <div class="text-center mr-2">
+            <div class="text-bold">
+
+            <div class="search__nav">
+                <input type="text" placeholder="Искать">
+                <img src="../../assets/icons/Search.svg" alt="">
+            </div>
+    
+            </div>
+        </div>
+
+
+
+
         <button class="settings__nav" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
             <img src="../../assets/icons/Setting.svg" alt="">
         </button>

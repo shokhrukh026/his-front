@@ -364,6 +364,18 @@
             width: 50%;
             margin: 10px 0 10px 15px;
         }
+
+        &_delete_btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fae7ef;
+            border-radius: 7px;
+            height: 40px;
+            margin: 0 0 3px 10px;
+            padding: 2px 4px;
+            cursor: pointer;
+        }
     }
 
     &_btn_grey{
