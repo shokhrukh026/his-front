@@ -3,9 +3,9 @@
     <div class="d-flex">
         <h1 class="text-dark fz-18rem">{{$t('organizations')}}</h1>
         <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
-        <a @click="openOrganizationAddModal" class="btn btn-primary text-nowrap ml-3">
+        <router-link tag="a" to="/organizations/create" class="btn btn-primary text-nowrap ml-3">
             <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_organization')}}
-        </a>
+        </router-link>
         <!-- @endif -->
     </div>
     
@@ -139,35 +139,33 @@
     <div class="col-12"  id="delete-modal">
         <div class="delete-modal">
             <!-- <modal v-if="showDeleteAlertModal"
-            @close="showDeleteAlertModal=false">
-            <form id="modal-form" slot="modal-container"
-                method="POST" :action="url">
-                @method('DELETE')
-                @csrf
-                <div class="" slot="header">
-                    <h4 class="modal-title mb-4">
-                        {{$t('delete_organization')}}
-                    </h4>
-                </div>
-
-                <div class="" slot="body">
-                    <div>
-                        <p>
-                            {{$t('do_you_really_want_to_delete_questionless')}} <span class="font-weight-bold">@{{organization.name_full}}</span>
-                        </p>
+                @close="showDeleteAlertModal=false">
+                <form id="modal-form" slot="modal-container"
+                    method="POST" :action="url">
+                    @method('DELETE')
+                    @csrf
+                    <div class="" slot="header">
+                        <h4 class="modal-title mb-4">
+                            {{$t('delete_organization')}}
+                        </h4>
                     </div>
 
-                </div>
+                    <div class="" slot="body">
+                        <div>
+                            <p>
+                                {{$t('do_you_really_want_to_delete_questionless')}} <span class="font-weight-bold">@{{organization.name_full}}</span>
+                            </p>
+                        </div>
+                    </div>
 
-                <div class="d-flex justify-content-end" slot="footer">
-                    <button type="button" class="btn btn-light"
-                        v-on:click="showDeleteAlertModal=false">{{$t('cancel')}}</button>
-                    <button type="submit"
-                        class="btn btn-danger">{{$t('delete')}}</button>
-                </div>
-            </form>
-
-        </modal> -->
+                    <div class="d-flex justify-content-end" slot="footer">
+                        <button type="button" class="btn btn-light"
+                            v-on:click="showDeleteAlertModal=false">{{$t('cancel')}}</button>
+                        <button type="submit"
+                            class="btn btn-danger">{{$t('delete')}}</button>
+                    </div>
+                </form>
+            </modal> -->
         </div>
         <div class="card">
             <div class="table-responsive">
