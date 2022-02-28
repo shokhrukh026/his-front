@@ -824,6 +824,11 @@
   "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.12.1.tgz"
   "version" "0.12.1"
 
+"vue-final-modal@^3.4.3":
+  "integrity" "sha512-sp6M09oXGcRM3d3Jr80UywWx4C9I18nH/549fgNrs8qbCcw+DJc8QSUFkJ91lqWndGQ1q5rYen4i4IIrpHPVYA=="
+  "resolved" "https://registry.npmjs.org/vue-final-modal/-/vue-final-modal-3.4.3.tgz"
+  "version" "3.4.3"
+
 "vue-i18n-extract@1.0.2":
   "integrity" "sha512-+zwDKvle4KcfloXZnj5hF01ViKDiFr5RMx5507D7oyDXpSleRpekF5YHgZa/+Ra6Go68//z0Nya58J9tKFsCjw=="
   "resolved" "https://registry.npmjs.org/vue-i18n-extract/-/vue-i18n-extract-1.0.2.tgz"

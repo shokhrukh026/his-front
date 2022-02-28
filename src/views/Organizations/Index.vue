@@ -3,7 +3,7 @@
     <div class="d-flex">
         <h1 class="text-dark fz-18rem">{{$t('organizations')}}</h1>
         <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
-        <a @click="openOrganizationAddModal" class="btn btn-primary text-nowrap ml-3">
+        <a @click="openOrganizationAddModal()" class="btn btn-primary text-nowrap ml-3">
             <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_organization')}}
         </a>
         <!-- @endif -->
@@ -244,7 +244,236 @@
         </div>
     </div>
 </div>
-<dialogAddOrg></dialogAddOrg>
+
+
+
+
+
+<!-- <dialogAddOrg :modalTitle="'add'" v-if="showModal" :showModal="showModal">
+    <template v-slot:header>
+        <h5 class="modal-title">asdasd</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </template>
+
+    <template v-slot:body>
+        Assalamu alaykum!
+    </template>
+
+    <template v-slot:footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </template>
+</dialogAddOrg> -->
+
+
+
+
+
+<!-- <div class="modal fade" tabindex="-1" id="modalExample" data-backdrop="static" >
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+        <h5 class="modal-title">Добавить организации</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <img src="../../assets/icons/closeButton.svg" />
+        </button>
+        asdasd
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+<div class="modal fade" id="modalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div> -->
+            <div class="modal-body">
+                <div class="modal__block">
+                    <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
+                    <span class="modal__block_title">Добавить организации</span>
+
+
+                    <div v-if="organizationModalSteps == 0" class="modal__block">
+
+
+                        <span class="modal__block_subtitle">{{$t('main_data')}}</span>
+
+                        <div class="modal__block_form">
+                            <div class="modal__block_form_left">
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('inn')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('parent')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('type')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('level')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal__block_form_right">
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('service_type')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('kopf')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('dep_affiliation')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('identification_code')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal__block_footer">
+                            <!-- <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                            <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button> -->
+                            <div></div>
+                            
+                            <button class="modal__block_btn_primary ml-4" @click="goFurther()">
+                                <span>{{$t('further')}}</span>
+                                <img src="../../assets/icons/arrow-right.svg" class="ml-1"/>
+                            </button>
+                        </div>
+
+
+                    </div>
+
+
+                    <div v-else-if="organizationModalSteps == 1" class="modal__block">
+
+
+                        <span class="modal__block_subtitle">{{$t('the_address')}}</span>
+
+                        <div class="modal__block_form">
+                            <div class="modal__block_form_left">
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('inn')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('parent')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('type')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('level')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal__block_form_right">
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('service_type')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('kopf')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('dep_affiliation')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('identification_code')}}</label>
+                                        <input type="text" class="form-control" v-model="note">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal__block_footer">
+                            <!-- <button class="modal__block_btn_grey">{{$t('cancel')}}</button>
+                            <button class="modal__block_btn_primary ml-4">{{$t('save')}}</button> -->
+                            <button class="modal__block_btn_primary ml-4" @click="goBack()">
+                                <img src="../../assets/icons/arrow-right.svg" class="mr-2 rotate_180deg"/>
+                                <span class="mr-2">{{$t('back')}}</span>
+                            </button>
+
+                            <button class="modal__block_btn_primary ml-4" @click="goFurther()">
+                                <span class="ml-2">{{$t('further')}}</span>
+                                <img src="../../assets/icons/arrow-right.svg" class="ml-2"/>
+                            </button>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 </template>
 
 <script>
@@ -259,15 +488,16 @@ export default {
     },
     setup(){
         const mainStorage = mainStore();
-        let openAddModal = ref(false);
+        let showModal = ref(false);
         // const { count } = store //NOT REACTIVE
         // const { count } = storeToRefs(store) //REACTIVE
         // console.log(count) // => 0
         // store.count++;
         // store.increment(2);
 
-        let username = ref('')
-        let password = ref('')
+        let firstStep = ref(true)
+        let secondStep = ref('')
+        let organizationModalSteps = ref(0)
         // const loginToAccount = async () => {
         //     await authStorage.SIGN_IN({username: username.value, password: password.value})
         // };
@@ -285,13 +515,29 @@ export default {
         })
 
         return{
-            username, password, state, language, languageOptions,
-            openAddModal
+            firstStep, secondStep, state, language, languageOptions,
+            showModal, organizationModalSteps
         }
     },
 
-    mounted(){
-
+    methods: {
+        confirm() {
+            // some code...
+            this.show = false
+        },
+        cancel(close) {
+            // some code...
+            close()
+        },
+        openOrganizationAddModal(){
+            $('#modalExample').modal('toggle')
+        },
+        goFurther(){
+            this.organizationModalSteps++;
+        },
+        goBack(){
+            this.organizationModalSteps--;
+        }
     }
 }
 </script>

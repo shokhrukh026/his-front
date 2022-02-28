@@ -55,7 +55,6 @@ export default{
     },
     full_name_placeholder: 'Фамилия Имя',
     trainings: 'Тренинги',
-    level_id: 'Масштаб предоставления медицинских услуг',
     id: 'ID',
     save: 'Сохранить',
     not_active: 'Не активен',
@@ -786,10 +785,10 @@ export default{
     faculty: 'Факультет',
     specialty_category_type: 'Тип категории специальности',
     category_type: 'Вид категории',
+    
+    further: 'Далее',
 
-
-
-
+    
 
 
 

@@ -9,6 +9,7 @@ import './assets/css/image.css'
 import './assets/css/style.css'
 
 
+import  vfmPlugin  from 'vue-final-modal'
 
 // import VueApexCharts from 'vue-apexcharts'
 import VueApexCharts from "vue3-apexcharts";
@@ -42,5 +43,11 @@ app.use(VueApexCharts)
 
 app.component('apexchart', VueApexCharts)
 app.component("v-select", vSelect);
+
+app.use(vfmPlugin({
+  key: '$vfm',
+  componentName: 'VueFinalModal',
+  dynamicContainerName: 'ModalsContainer'
+}))
 
 app.mount('#app')

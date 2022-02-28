@@ -1,19 +1,16 @@
 <template>
-<div class="modal" tabindex="-1">
+<div class="modal modal-active" tabindex="-1" id="modalExample">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <slot name="header"></slot>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <slot name="body"></slot>
+        asdasd
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <slot name="footer"></slot>
       </div>
     </div>
   </div>
@@ -22,10 +19,13 @@
 
 <script>
 export default {
+    props: ['showModal', 'modalTitle'],
 
 }
 </script>
 
 <style>
-
+.modal-active{
+    display: block;
+}
 </style>
