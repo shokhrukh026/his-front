@@ -1,6 +1,6 @@
 <template>
-<div class="modal fade" id="addOrganizationModal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal fade" id="addEmployeeModal" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg active">
         <div class="modal-content">
             <!-- <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="modal__block">
                     <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="" @click="closeModal()">
-                    <span class="modal__block_title">Добавить организации</span>
+                    <span class="modal__block_title">{{ $t('add_employee') }}</span>
 
                     <div v-if="organizationModalSteps == 0" class="modal__block">
 
@@ -20,201 +20,78 @@
 
                         <div class="modal__block_form">
                             <div class="modal__block_form_left">
-                                <div class="w-100">
+                                <div class="d-flex align-center w-100">
+
                                     <div class="form-group">
-                                        <label>{{$t('inn')}}</label>
+                                        <label>{{$t('pin')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd.inn">
                                     </div>
-                                </div>
-                                <div class="w-100">
-                                    <div class="form-group">
-                                        <label>{{$t('parent')}}</label>
-                                        <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.top_level" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                        class="form-control mb-3">
-                                            <template #no-options>
-                                                Нет результатов
-                                            </template>
-                                            <template #option>
-                                                <div class="">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-                                            <template #selected-option>
-                                                <div class="selected">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
 
-                                            <template #list-footer>
-                                                <li class="pagination">
-                                                    <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                                    <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                                </li>
-                                            </template>
-                                        </v-select>
+                                    <button class="modal__block_btn_primary ml-2" style="margin: 12px 0 0 0;" @click="goFurther()">
+                                        <span>{{$t('find')}}</span>
+                                    </button>
+
+                                </div>
+                                <div class="w-100 d-flex">
+                                    <img src="../../assets/img/PhotoPlace.svg" class=""/>
+                                    <div class="ml-3">
+                                        <div class="form-group">
+                                            <label>{{$t('date_of_birth')}}</label>
+                                            <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{$t('nationality')}}</label>
+                                            <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('type')}}</label>
-                                          <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.organization_type" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                        class="form-control mb-3">
-                                            <template #no-options>
-                                                Нет результатов
-                                            </template>
-                                            <template #option>
-                                                <div class="">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-                                            <template #selected-option>
-                                                <div class="selected">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-
-                                            <template #list-footer>
-                                                <li class="pagination">
-                                                    <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                                    <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                                </li>
-                                            </template>
-                                        </v-select>
-                                    </div>
+                                        <label>{{$t('userGender')}}</label>
+                                        <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                    </div> 
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('level')}}</label>
-                                        <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.scale_of_med_services" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                        class="form-control mb-3">
-                                            <template #no-options>
-                                                Нет результатов
-                                            </template>
-                                            <template #option>
-                                                <div class="">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-                                            <template #selected-option>
-                                                <div class="selected">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-
-                                            <template #list-footer>
-                                                <li class="pagination">
-                                                    <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                                    <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                                </li>
-                                            </template>
-                                        </v-select>
-                                    </div>
+                                        <label>{{$t('citizenship')}}</label>
+                                        <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                    </div> 
                                 </div>
+                               
                             </div>
 
                             <div class="modal__block_form_right">
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('service_type')}}</label>
-                                        <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.med_service_type" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                        class="form-control mb-3">
-                                            <template #no-options>
-                                                Нет результатов
-                                            </template>
-                                            <template #option>
-                                                <div class="">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-                                            <template #selected-option>
-                                                <div class="selected">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-
-                                            <template #list-footer>
-                                                <li class="pagination">
-                                                    <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                                    <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                                </li>
-                                            </template>
-                                        </v-select>
-                                    </div>
-                                </div>
-                                <div class="w-100">
-                                    <div class="form-group">
-                                        <label>{{$t('kopf')}}</label>
-                                        <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.government_body" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                        class="form-control mb-3">
-                                            <template #no-options>
-                                                Нет результатов
-                                            </template>
-                                            <template #option>
-                                                <div class="">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-                                            <template #selected-option>
-                                                <div class="selected">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-
-                                            <template #list-footer>
-                                                <li class="pagination">
-                                                    <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                                    <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                                </li>
-                                            </template>
-                                        </v-select>
-                                    </div>
-                                </div>
-                                <div class="w-100">
-                                    <div class="form-group">
-                                        <label>{{$t('dep_affiliation')}}</label>
-                                        <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.institution_code" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
-                                        class="form-control mb-3">
-                                            <template #no-options>
-                                                Нет результатов
-                                            </template>
-                                            <template #option>
-                                                <div class="">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-                                            <template #selected-option>
-                                                <div class="selected">
-                                                    {{ option.name_full }}
-                                                </div>
-                                            </template>
-
-                                            <template #list-footer>
-                                                <li class="pagination">
-                                                    <button :disabled="page4 == 1" @click.prevent="getPrevOrganizationList()">Предыдущее</button>
-                                                    <button :disabled="page4 == pageCount4" @click.prevent="getNextOrganizationList()">Следующее</button>
-                                                </li>
-                                            </template>
-                                        </v-select>
-                                    </div>
-                                </div>
-                                <div class="w-100">
-                                    <div class="form-group">
-                                        <label>{{$t('identification_code')}}</label>
+                                        <label>{{$t('personName')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd.inn">
                                     </div>
                                 </div>
+                                <div class="w-100">
+                                    <div class="form-group">
+                                        <label>{{$t('surname')}}</label>
+                                        <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                   <div class="form-group">
+                                        <label>{{$t('middle_name')}}</label>
+                                        <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                   <div class="form-group">
+                                        <label>{{$t('middle_name')}}</label>
+                                        <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                    </div>
+                                </div>
+                                <div class="w-100">
+                                   <div class="form-group">
+                                        <label>{{$t('birth_place')}}</label>
+                                        <input type="text" class="form-control" v-model="organizationAdd.inn">
+                                    </div>
+                                </div>
+                                
                             </div>
 
                         </div>
@@ -237,7 +114,7 @@
                     <div v-else-if="organizationModalSteps == 1" class="modal__block">
 
 
-                        <span class="modal__block_subtitle">{{$t('names_of_organization')}}</span>
+                        <span class="modal__block_subtitle">{{$t('identity_document')}}</span>
 
                         <div class="modal__block_form">
                         <!-- <div class="d-flex align-center flex-direction-column justify-space-between h-100">
@@ -247,19 +124,19 @@
                             <div class="modal__block_form_left">
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('name_short')}} (O'zbekcha)</label>
+                                        <label>{{$t('identity_card_type')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd">
                                     </div>
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('name_short')}} (Ўзбекча)</label>
+                                        <label>{{$t('identity_card_number')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd">
                                     </div>
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('name_short')}} (Русский)</label>
+                                        <label>{{$t('final_date')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd">
                                     </div>
                                 </div>
@@ -268,19 +145,13 @@
                             <div class="modal__block_form_right">
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('name_full')}} (O'zbekcha)</label>
+                                        <label>{{$t('issuer_name')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd">
                                     </div>
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('name_full')}} (Ўзбекча)</label>
-                                        <input type="text" class="form-control" v-model="organizationAdd">
-                                    </div>
-                                </div>
-                                <div class="w-100">
-                                    <div class="form-group">
-                                        <label>{{$t('name_full')}} (Русский)</label>
+                                        <label>{{$t('start_date')}}</label>
                                         <input type="text" class="form-control" v-model="organizationAdd">
                                     </div>
                                 </div>
@@ -315,13 +186,13 @@
 
 
                         
-                        <span class="modal__block_subtitle">{{$t('the_address')}}</span>
+                        <span class="modal__block_subtitle">{{$t('current_workplaces')}}</span>
 
                         <div class="modal__block_form">
                             <div class="modal__block_form_left">
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('country')}}</label>
+                                        <label>{{$t('organization')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
@@ -351,7 +222,7 @@
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('city')}}</label>
+                                        <label>{{$t('position')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
@@ -396,7 +267,7 @@
                             <div class="modal__block_form_right">
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('region')}}</label>
+                                        <label>{{$t('department')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
@@ -824,11 +695,6 @@ export default {
             // some code...
             close()
         },
-        openOrganizationAddModal(){
-          if(this.showModal){
-            $('#addOrganizationModal').modal('toggle')
-          }
-        },
         goFurther(){
             this.organizationModalSteps++;
         },
@@ -840,5 +706,7 @@ export default {
 </script>
 
 <style>
-
+.modal-active{
+    display: block;
+}
 </style>

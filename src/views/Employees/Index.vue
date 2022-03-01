@@ -1,15 +1,15 @@
 <template>
 <div id="section1" class="header-tab-block">
 
-    <div class="row mb-3">
-        <h1 class="text-black mx-4 px-1 fz-18rem">{{$t('users')}}</h1>
-        <!-- @if (Auth::user()->hasPermissionTo('employees_create')) -->
-            <a href="{{ route('employees.create') }}" class="btn btn-primary mb-3 text-nowrap d-flex align-center">
-                <i class="fas fa-plus mr-2 fz-12px"></i> 
-                
-                {{$t('add_employee')}}
+    <div class="d-flex justify-space-between mb-4">
+        <div class="d-flex">
+            <h1 class="text-black fz-18rem">{{$t('users')}}</h1>
+            <!-- @if (Auth::user()->hasPermissionTo('employees_create')) -->
+            <a @click="openEmployeeAddModal()" class="btn btn-primary text-nowrap ml-3">
+                <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_employee')}}
             </a>
-        <!-- @endif -->
+            <!-- @endif -->
+        </div>
     </div>
 
 
@@ -1332,22 +1332,46 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
                         </div>
                     </div>
                 </div>
 
             </div>
-
         </div>
     </div>
+    <DialogAddEmployee :showModal="showModal"></DialogAddEmployee>
 </div>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect';
+import DialogAddEmployee from './DialogAddEmployee.vue'
 export default {
     components: {
-        Multiselect 
+        Multiselect,
+        DialogAddEmployee 
     },
     data(){
         return {
@@ -1630,7 +1654,9 @@ export default {
 
             this.url = url.replace(':employee', employee.id);
         },
-
+        openEmployeeAddModal(){
+            $('#addEmployeeModal').modal('toggle');
+        },
 
 
 
