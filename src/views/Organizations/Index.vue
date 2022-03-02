@@ -172,6 +172,8 @@
                     </form>
                 </modal> -->
             </div>
+            <!-- {{organizationsStorage.organizationsList}} -->
+            {{abc}}
             <div class="card">
                 <div class="table-responsive">
                     <table class="table table-striped table-sm mb-0">
@@ -201,9 +203,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <!-- @foreach($organizations as $organization)
                             <tr>
-                                <td class="pl-3">{{$organization->identification_code }}</td>
+                                <td>{{abc}}</td>
+                                <td>asdasd</td>
+                            </tr>
+                        <!-- @foreach($organizations as $organization) -->
+                            <tr v-for="(item, index) in abc" :key="index">
+                                <!-- <td>{{item.identification_code}}</td>
+                                <td>{{item.name_full}}</td>
+                                <td>{{item.parent}}</td>
+                                <td>{{item.type.ru ? item.type.ru : ''}}</td>
+                                <td>{{item.level.ru ? item.level.ru : ''}}</td>
+                                <td>{{item.identification_code}}</td> -->
+
+
+                                <td class="pr-3">
+                                    <div class="d-flex">
+                                        <!-- @if(auth()->user()->hasPermissionTo('organizations_view')) -->
+                                            <!-- <router-link class="btn btn-sm bg-success d-flex align-center"
+                                                :to="{name: 'organizations-show', params: {id: item.id}}">
+                                                <i class="fas fa-eye"></i>
+                                            </router-link> -->
+                                        <!-- @endif -->
+                                        <!-- @if(auth()->user()->hasPermissionTo('organizations_edit')) -->
+                                            <!-- <router-link class="btn btn-sm bg-info ml-2 d-flex align-center"
+                                                to="{{route('organizations.edit', $organization)}}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </router-link> -->
+                                        <!-- @endif -->
+                                        <!-- @if(auth()->user()->hasPermissionTo('organizations_delete')) -->
+                                        <!-- <router-link class="btn btn-sm bg-danger ml-2 d-flex align-center"
+                                            to="javascript:void(0)" @click="getOrganization({{$organization}})">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </router-link> -->
+                                    <!-- @endif -->
+                                    </div>
+                                </td>
+
+
+
+
+
+                                <!-- <td class="pl-3">{{$organization->identification_code }}</td>
                                 <td class="pl-3">{{$organization->name_full }}</td>
                                 <td class="pl-3">{{$organization->parent?$organization->parent->name_full:'-'}}</td>
                                 <td class="pl-3">{{$organization->type->name ?? '' }}</td>
@@ -234,9 +275,12 @@
                                         </a>
                                     @endif
                                     </div>
-                                </td>
+                                </td> -->
+
+
+
                             </tr>
-                        @endforeach -->
+                        <!-- @endforeach -->
                         </tbody>
                     </table>
                 </div>
@@ -298,8 +342,8 @@
 <script>
 import { ref, reactive, onMounted } from "vue";
 import { storeToRefs } from 'pinia';
-import { mainStore } from '../../stores/main';
 import dialogAddOrg from './DialogAddOrganization.vue';
+import { organizationsStore } from '../../stores/organizations';
 
 export default {
     components: {
@@ -321,17 +365,17 @@ export default {
 
 
         });
-        const mainStorage = mainStore();
+        const organizationsStorage = organizationsStore();
         let showModal = ref(false);
         // const { count } = store //NOT REACTIVE
-        // const { count } = storeToRefs(store) //REACTIVE
+        const { organizationsList } = storeToRefs(organizationsStorage) //REACTIVE
         // console.log(count) // => 0
         // store.count++;
         // store.increment(2);
 
-        let firstStep = ref(true)
-        let secondStep = ref('')
-        let organizationModalSteps = ref(0)
+        let firstStep = ref(true);
+        let secondStep = ref('');
+        let organizationModalSteps = ref(0);
         // const loginToAccount = async () => {
         //     await authStorage.SIGN_IN({username: username.value, password: password.value})
         // };
@@ -343,11 +387,7 @@ export default {
             {id: 2, title: 'EN'},
             {id: 3, title: 'RU'},
         ]);
-
-        onMounted(async() => {
-            await mainStorage.GET_ORGGANIZATIONS();
-        })
-
+        let abc = ref([''])
 
         function addRegionServiceInput(){
             if(this.regionServiceInputs.length >= 5){
@@ -356,13 +396,19 @@ export default {
                 this.regionServiceInputs.push({id: this.regionServiceInputs.length});
             }
         }
-
         function removeRegionServiceInput(index){
             this.regionServiceInputs.splice(index, 1);
         }
 
+        onMounted(async() => {
+            await organizationsStorage.GET_ORGANIZATIONS();
+            abc.value = organizationsList.value;
+            console.log(abc.value);
+        })
+
+        
         return{
-            firstStep, secondStep, state, language, languageOptions,
+            firstStep, secondStep, state, language, languageOptions, organizationsStorage, abc,
             showModal, organizationModalSteps, regionServiceInputs, organizationAdd,
 
             addRegionServiceInput, removeRegionServiceInput

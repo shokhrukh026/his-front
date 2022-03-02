@@ -265,41 +265,41 @@
                                     //$dep=$upperOrg?$upperOrg->departmentAffiliation:null;
                                     //}
                                     }
-                                    @endphp
-                                    <tr>
-                                        <td class="p-2">
-                                            {{ $officialName->firstname }}&nbsp;{{ $officialName->lastname }}
-                                            &nbsp;{{ $officialName->middlename }}
+                                    @endphp -->
+                                    <tr v-for="(item, index) in employees" :key="index">
+                                        <!-- <td class="p-2">
+                                            {{ item.firstname }}&nbsp;{{ item.lastname }}
+                                            &nbsp;{{ item.middlename }}
                                         </td>
-                                        <td class="p-2">{{ $org ? $org->name_full : '-' }}</td>
-                                        <td class="p-2">{{ $dep ? $dep->name : '-' }}</td>
-                                        <td class="p-2">{{ $position ? $position->name : '-' }}</td>
-                                        <td class="p-2 pr-3">
+                                        <td class="p-2">{{ $org ? $org.name_full : '-' }}</td>
+                                        <td class="p-2">{{ $dep ? $dep.name : '-' }}</td>
+                                        <td class="p-2">{{ $position ? $position.name : '-' }}</td>
+                                        <td class="p-2 pr-3"> -->
                                             <div class="d-flex justify-content-end">
-                                                @if (auth()->user()->hasPermissionTo('employees_view'))
-                                                <a class="btn btn-sm bg-success d-flex align-center"
+                                                <!-- @if (auth().user().hasPermissionTo('employees_view')) -->
+                                                <!-- <a class="btn btn-sm bg-success d-flex align-center"
                                                     href="{{ route('employees.show', $employee) }}">
                                                     <i class="fas fa-eye" style="color: white;"></i>
-                                                </a>
-                                                @endif
-                                                @if (auth()->user()->hasPermissionTo('employees_edit'))
-                                                <a class="btn btn-sm bg-info ml-2 d-flex align-center"
+                                                </a> -->
+                                                <!-- @endif -->
+                                                <!-- @if (auth().user().hasPermissionTo('employees_edit')) -->
+                                                <!-- <a class="btn btn-sm bg-info ml-2 d-flex align-center"
                                                     href="{{ route('employees.edit', $employee) }}">
                                                     <i class="fas fa-pencil-alt"></i>
-                                                </a>
-                                                @endif
-                                                @if (auth()->user()->hasPermissionTo('employees_delete'))
-                                                <a class="btn btn-sm bg-danger ml-2 d-flex align-center"
+                                                </a> -->
+                                                <!-- @endif -->
+                                                <!-- @if (auth().user().hasPermissionTo('employees_delete')) -->
+                                                <!-- <a class="btn btn-sm bg-danger ml-2 d-flex align-center"
                                                     href="javascript:void(0)"
-                                                    data-employee="{{ $employee->official_full_name }}"
+                                                    data-employee="{{ $employee.official_full_name }}"
                                                     v-on:click="getEmployee($event, {{ $employee }})">
                                                     <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                                @endif
+                                                </a> -->
+                                                <!-- @endif -->
                                             </div>
-                                        </td>
+                                        <!-- </td> -->
                                     </tr>
-                                    @endforeach -->
+                                    <!-- @endforeach -->
                                 </tbody>
                             </table>
                         </div>
@@ -1366,12 +1366,80 @@
 </template>
 
 <script>
+import { ref, reactive, onMounted } from "vue";
+import { storeToRefs } from 'pinia';
+import { employeeStore } from '../../stores/employee';
+
 import Multiselect from 'vue-multiselect';
 import DialogAddEmployee from './DialogAddEmployee.vue'
+
 export default {
     components: {
         Multiselect,
         DialogAddEmployee 
+    },
+    setup(){
+        let regionServiceInputs = ref([
+            {id: 1}
+        ]);
+        let organizationAdd = reactive({
+            inn: '',
+            top_level: '',
+            organization_type: '',
+            scale_of_med_services: '',
+            med_service_type: '',
+            organizational_legal_form: '',
+            government_body: '',
+            institution_code: '',
+
+
+        });
+        const employeeStorage = employeeStore();
+        let showModal = ref(false);
+        // const { count } = store //NOT REACTIVE
+        const { employees } = storeToRefs(employeeStorage) //REACTIVE
+        // console.log(count) // => 0
+        // store.count++;
+        // store.increment(2);
+
+        let firstStep = ref(true);
+        let secondStep = ref('');
+        let organizationModalSteps = ref(0);
+        // const loginToAccount = async () => {
+        //     await authStorage.SIGN_IN({username: username.value, password: password.value})
+        // };
+
+        let state =  ref(false);
+        let language = ref(1);
+        let languageOptions = ref([
+            {id: 1, title: 'UZ'},
+            {id: 2, title: 'EN'},
+            {id: 3, title: 'RU'},
+        ]);
+
+        onMounted(async() => {
+            await employeeStorage.GET_EMPLOYEES();
+        })
+
+
+        function addRegionServiceInput(){
+            if(this.regionServiceInputs.length >= 5){
+                console.log('Error!')
+            }else{
+                this.regionServiceInputs.push({id: this.regionServiceInputs.length});
+            }
+        }
+
+        function removeRegionServiceInput(index){
+            this.regionServiceInputs.splice(index, 1);
+        }
+
+        return{
+            firstStep, secondStep, state, language, languageOptions, employees,
+            showModal, organizationModalSteps, regionServiceInputs, organizationAdd,
+
+            addRegionServiceInput, removeRegionServiceInput
+        }
     },
     data(){
         return {

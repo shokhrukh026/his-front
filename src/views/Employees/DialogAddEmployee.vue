@@ -188,13 +188,13 @@
                         
                         <span class="modal__block_subtitle">{{$t('current_workplaces')}}</span>
 
-                        <div class="modal__block_form">
+                        <div class="modal__block_form" v-for="(item, index) in current_works" :key="index">
                             <div class="modal__block_form_left">
                                 <div class="w-100">
                                     <div class="form-group">
                                         <label>{{$t('organization')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.institution_code" :searchable="true"
+                                        v-model="item.organization" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
                                         class="form-control mb-3">
                                             <template #no-options>
@@ -224,7 +224,7 @@
                                     <div class="form-group">
                                         <label>{{$t('position')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.institution_code" :searchable="true"
+                                        v-model="item.position" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
                                         class="form-control mb-3">
                                             <template #no-options>
@@ -252,14 +252,14 @@
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('postal_code')}}</label>
-                                        <input type="text" class="form-control" v-model="organizationAdd">
+                                        <label>{{$t('start_date')}}</label>
+                                        <input type="text" class="form-control" v-model="item.start_date">
                                     </div>
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('latitude')}}</label>
-                                        <input type="text" class="form-control" v-model="organizationAdd">
+                                        <label>{{$t('is_active')}}</label>
+                                        <input type="text" class="form-control" v-model="item.is_active">
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +269,7 @@
                                     <div class="form-group">
                                         <label>{{$t('department')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.institution_code" :searchable="true"
+                                        v-model="item.department" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
                                         class="form-control mb-3">
                                             <template #no-options>
@@ -297,9 +297,9 @@
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('neighborhood')}}</label>
+                                        <label>{{$t('workplace_rate')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
-                                        v-model="organizationAdd.institution_code" :searchable="true"
+                                        v-model="item.workplace_rate" :searchable="true"
                                         :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
                                         class="form-control mb-3">
                                             <template #no-options>
@@ -327,15 +327,22 @@
                                 </div>
                                 <div class="w-100">
                                     <div class="form-group">
-                                        <label>{{$t('line')}}</label>
-                                        <input type="text" class="form-control" v-model="organizationAdd">
+                                        <label>{{$t('final_date')}}</label>
+                                        <input type="text" class="form-control" v-model="item.final_date">
                                     </div>
                                 </div>
-                                <div class="w-100">
-                                    <div class="form-group">
-                                        <label>{{$t('longitude')}}</label>
-                                        <input type="text" class="form-control" v-model="organizationAdd">
-                                    </div>
+                                <div class="w-100 d-flex align-center justify-content-end" style="margin-top: 28px;">
+
+                                    <button class="modal__block_btn_primary ml-4 bg-success" style="width: 40px;" @click="addPlaceOfWork()" v-if="index == 0">
+                                        <!-- <span class="ml-2">{{$t('further')}}</span> -->
+                                        <img src="../../assets/icons/Plus.svg"/>
+                                    </button>
+
+                                    <button class="modal__block_btn_primary ml-4 bg-danger" style="width: 40px;" @click="removePlaceOfWork(index)" v-if="index > 0">
+                                        <!-- <span class="ml-2">{{$t('further')}}</span> -->
+                                        <img src="../../assets/icons/Delete-white.svg" style="width: 20px;"/>
+                                    </button>
+
                                 </div>
                             </div>
 
@@ -578,8 +585,6 @@ export default {
             organizational_legal_form: '',
             government_body: '',
             institution_code: '',
-
-
         });
         const mainStorage = mainStore();
         // const { count } = store //NOT REACTIVE
@@ -602,7 +607,7 @@ export default {
         ]);
 
         onMounted(async() => {
-          await mainStorage.GET_ORGGANIZATIONS();
+          await mainStorage.GET_ORGANIZATIONS();
         })
 
 
@@ -610,7 +615,23 @@ export default {
 
 
         async function saveOrganizationData(){
-          // await mainStorage.GET_ORGGANIZATIONS();
+          // await mainStorage.GET_ORGANIZATIONS();
+        }
+
+        let current_works = reactive([{
+            organization: '',
+            position: '',
+            start_date: '',
+            is_active: '',
+            department: '',
+            workplace_rate: '',
+            final_date: ''
+        }])
+        function addPlaceOfWork(){
+            current_works.push({ organization: '', position: '', start_date: '', is_active: '', department: '', workplace_rate: '', final_date: '' });
+        }
+        function removePlaceOfWork(index){
+            current_works.pop(index);
         }
 
 
@@ -671,18 +692,19 @@ export default {
 
 
         function closeModal(){
-          instance.parent.type.methods.openOrganizationAddModal()
+          instance.parent.type.methods.openEmployeeAddModal()
         }
 
         return{
-            language, languageOptions,
+            language, languageOptions, current_works,
             organizationModalSteps, regionServiceInputs, organizationAdd,
             phoneContactInputs, emailContactInputs,
 
             addRegionServiceInput, removeRegionServiceInput, closeModal,
             addPhoneContactInput, removePhoneContactInput, 
             addEmailContactInput, removeEmailContactInput,
-            saveOrganizationData
+            saveOrganizationData, addPlaceOfWork, 
+            removePlaceOfWork
         }
     },
 

@@ -3,7 +3,7 @@ import { authStore } from './auth'
 import { BASE_URL } from '../../variables';
 import axios from 'axios';
 
-export const mainStore = defineStore('main', {
+export const employeeStore = defineStore('employee', {
   state: () => {
     let authStorage = storeToRefs(authStore());
     console.log(authStorage.user)
@@ -11,6 +11,7 @@ export const mainStore = defineStore('main', {
       user: authStorage.user,
       sidebarCollapse: false,
       organizations: [],
+      employees: [],
     }
   },
   actions: {
@@ -37,7 +38,7 @@ export const mainStore = defineStore('main', {
         headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
       })
       .then((e) => {
-        // this.user = e.data
+        this.employees = e.data
         // router.push({path: '/home'});
         return e.data;
       })

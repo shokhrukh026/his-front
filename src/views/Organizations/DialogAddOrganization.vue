@@ -680,7 +680,7 @@
 <script>
 import { ref, reactive, onMounted } from "vue";
 import { storeToRefs } from 'pinia';
-import { mainStore } from '../../stores/main';
+import { organizationsStore } from '../../stores/organizations';
 import { getCurrentInstance } from "vue";
 
 export default {
@@ -710,7 +710,7 @@ export default {
 
 
         });
-        const mainStorage = mainStore();
+        const organizationsStorage = organizationsStore();
         // const { count } = store //NOT REACTIVE
         // const { count } = storeToRefs(store) //REACTIVE
         // console.log(count) // => 0
@@ -731,7 +731,7 @@ export default {
         ]);
 
         onMounted(async() => {
-          await mainStorage.GET_ORGGANIZATIONS();
+          await organizationsStorage.GET_ORGANIZATIONS();
         })
 
 
@@ -739,7 +739,7 @@ export default {
 
 
         async function saveOrganizationData(){
-          // await mainStorage.GET_ORGGANIZATIONS();
+          // await organizationsStorage.GET_ORGANIZATIONS();
         }
 
 

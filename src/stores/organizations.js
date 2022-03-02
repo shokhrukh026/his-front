@@ -3,26 +3,26 @@ import { authStore } from './auth'
 import { BASE_URL } from '../../variables';
 import axios from 'axios';
 
-export const mainStore = defineStore('main', {
+export const organizationsStore = defineStore('organizations', {
   state: () => {
     let authStorage = storeToRefs(authStore());
     console.log(authStorage.user)
     return {
       user: authStorage.user,
       sidebarCollapse: false,
-      organizations: [],
+      organizationsList: [],
     }
   },
   actions: {
     // =============== GET_REQUESTS START ===============
-    async GET_ORGGANIZATIONS(){
+    async GET_ORGANIZATIONS(){
       await axios({
         method: "GET",
         url: BASE_URL + 'organization',
         headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
       })
       .then((e) => {
-        this.organizations = e.data
+        this.organizationsList = e.data
         // router.push({path: '/home'});
         return e.data;
       })
@@ -30,111 +30,111 @@ export const mainStore = defineStore('main', {
         return error;
       })
     },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async GET_EMPLOYEES(){
-      await axios({
-        method: "GET",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async GET_EMPLOYEES(){
+    //   await axios({
+    //     method: "GET",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
     // =============== GET_REQUESTS END ===============
 
 
@@ -171,141 +171,141 @@ export const mainStore = defineStore('main', {
 
 
     // =============== POST_REQUESTS START ===============
-    async GET_ORGGANIZATIONS(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'organization',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        this.organizations = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async POST_EMPLOYEES(){
-      await axios({
-        method: "POST",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
+    // async GET_ORGANIZATIONS(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'organization',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     this.organizations = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async POST_EMPLOYEES(){
+    //   await axios({
+    //     method: "POST",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
     // =============== POST_REQUESTS END ===============
 
 
@@ -346,126 +346,126 @@ export const mainStore = defineStore('main', {
 
 
     // =============== PUT_REQUESTS START ===============
-    async GET_ORGGANIZATIONS(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'organization',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        this.organizations = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async PUT_EMPLOYEES(){
-      await axios({
-        method: "PUT",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
+    // async GET_ORGANIZATIONS(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'organization',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     this.organizations = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async PUT_EMPLOYEES(){
+    //   await axios({
+    //     method: "PUT",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
     // =============== PUT_REQUESTS END ===============
 
 
@@ -499,164 +499,157 @@ export const mainStore = defineStore('main', {
 
 
     // =============== DELETE_REQUESTS START ===============
-    async GET_ORGGANIZATIONS(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'organization',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        this.organizations = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
-    async DELETE_EMPLOYEES(){
-      await axios({
-        method: "DELETE",
-        url: BASE_URL + 'employee',
-        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
-      })
-      .then((e) => {
-        // this.user = e.data
-        // router.push({path: '/home'});
-        return e.data;
-      })
-      .catch((error) => {
-        return error;
-      })
-    },
+    // async GET_ORGANIZATIONS(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'organization',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     this.organizations = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
+    // async DELETE_EMPLOYEES(){
+    //   await axios({
+    //     method: "DELETE",
+    //     url: BASE_URL + 'employee',
+    //     headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+    //   })
+    //   .then((e) => {
+    //     // this.user = e.data
+    //     // router.push({path: '/home'});
+    //     return e.data;
+    //   })
+    //   .catch((error) => {
+    //     return error;
+    //   })
+    // },
     // =============== DELETE_REQUESTS END ===============
-
-
-
-
-
-
-
 
 
 
