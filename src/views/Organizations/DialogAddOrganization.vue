@@ -31,8 +31,9 @@
                                         <label>{{$t('parent')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.top_level" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="parentList"
                                         class="form-control mb-3">
+                                         <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -61,8 +62,9 @@
                                         <label>{{$t('type')}}</label>
                                           <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.organization_type" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="typeList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -91,8 +93,9 @@
                                         <label>{{$t('level')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.scale_of_med_services" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="levelList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -124,8 +127,9 @@
                                         <label>{{$t('service_type')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.med_service_type" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="serviceTypeList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -154,8 +158,9 @@
                                         <label>{{$t('kopf')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.government_body" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="kopfList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -184,8 +189,9 @@
                                         <label>{{$t('dep_affiliation')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="dep_affiliationList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -324,8 +330,9 @@
                                         <label>{{$t('country')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="countryList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -354,8 +361,9 @@
                                         <label>{{$t('city')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="cityList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -399,8 +407,9 @@
                                         <label>{{$t('region')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="regionList"
                                         class="form-control mb-3">
+                                         <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -429,8 +438,9 @@
                                         <label>{{$t('neighborhood')}}</label>
                                         <v-select :reduce="elem => elem.id" label="name" 
                                         v-model="organizationAdd.institution_code" :searchable="true"
-                                        :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                        :filterable="false" :options="neighborhoodList" 
                                         class="form-control mb-3">
+                                        <!-- @search="onOrganizationsSearch"  -->
                                             <template #no-options>
                                                 Нет результатов
                                             </template>
@@ -502,11 +512,12 @@
                                 <div class="w-100">
                                     <div class="d-flex align-center" v-for="(item, index) in regionServiceInputs" :key="index">
                                         <div class="form-group w-75">
-                                            <label>{{$t('region')}}</label>
+                                            <label>{{$t('service_area')}}</label>
                                             <v-select :reduce="elem => elem.id" label="name" 
                                             v-model="organizationAdd.institution_code" :searchable="true"
-                                            :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                            :filterable="false" :options="serviceAreaList" 
                                             class="form-control mb-3">
+                                            <!-- @search="onOrganizationsSearch"  -->
                                                 <template #no-options>
                                                     Нет результатов
                                                 </template>
@@ -611,8 +622,9 @@
                                             <label>{{$t('url')}}</label>
                                             <v-select :reduce="elem => elem.id" label="name" 
                                             v-model="organizationAdd.institution_code" :searchable="true"
-                                            :filterable="false" :options="organizationsList" @search="onOrganizationsSearch" 
+                                            :filterable="false" :options="urlList"
                                             class="form-control mb-3">
+                                             <!-- @search="onOrganizationsSearch"  -->
                                                 <template #no-options>
                                                     Нет результатов
                                                 </template>
@@ -707,9 +719,33 @@ export default {
             organizational_legal_form: '',
             government_body: '',
             institution_code: '',
-
-
         });
+
+
+
+
+        // =============== GET_LISTS START ===============
+        let topLevelList = ref([])
+        let parentList = ref([])
+        let typeList = ref([])
+        let levelList = ref([])
+        let serviceTypeList = ref([])
+        let kopfList = ref([])
+        let dep_affiliationList = ref([])
+        let countryList = ref([])
+        let cityList = ref([])
+        let regionList = ref([])
+        let neighborhoodList = ref([])
+        let serviceAreaList = ref([])
+        let urlList = ref([])
+        // =============== GET_LISTS END ===============
+
+
+
+
+
+
+
         const organizationsStorage = organizationsStore();
         // const { count } = store //NOT REACTIVE
         // const { count } = storeToRefs(store) //REACTIVE
@@ -807,6 +843,13 @@ export default {
             language, languageOptions,
             organizationModalSteps, regionServiceInputs, organizationAdd,
             phoneContactInputs, emailContactInputs,
+
+
+
+            topLevelList, parentList, typeList, levelList, levelList,
+            serviceTypeList, kopfList, dep_affiliationList, countryList, cityList, 
+            regionList, neighborhoodList, serviceAreaList, urlList,
+
 
             addRegionServiceInput, removeRegionServiceInput, closeModal,
             addPhoneContactInput, removePhoneContactInput, 

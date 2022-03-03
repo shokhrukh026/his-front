@@ -6,7 +6,6 @@ import axios from 'axios';
 export const mainStore = defineStore('main', {
   state: () => {
     let authStorage = storeToRefs(authStore());
-    console.log(authStorage.user)
     return {
       user: authStorage.user,
       sidebarCollapse: false,

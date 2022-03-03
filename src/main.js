@@ -36,6 +36,10 @@ import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
 
+import VPagination from "@hennge/vue3-pagination";
+import "@hennge/vue3-pagination/dist/vue3-pagination.css";
+
+
 const app = createApp(App)
 app.config.globalProperties.axios = axiosInstance
 
@@ -44,8 +48,10 @@ app.use(createPinia())
 app.use(i18n)
 app.use(VueApexCharts)
 
-app.component('apexchart', VueApexCharts)
 app.component("v-select", vSelect);
+app.component("v-pagination", VPagination);
+app.use(VPagination);
+
 
 app.use(vfmPlugin({
   key: '$vfm',

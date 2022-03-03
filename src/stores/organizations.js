@@ -6,7 +6,6 @@ import axios from 'axios';
 export const organizationsStore = defineStore('organizations', {
   state: () => {
     let authStorage = storeToRefs(authStore());
-    console.log(authStorage.user)
     return {
       user: authStorage.user,
       sidebarCollapse: false,
@@ -15,10 +14,12 @@ export const organizationsStore = defineStore('organizations', {
   },
   actions: {
     // =============== GET_REQUESTS START ===============
-    async GET_ORGANIZATIONS(){
+    async GET_ORGANIZATIONS(page){
+      console.log(page)
       await axios({
         method: "GET",
         url: BASE_URL + 'organization',
+        params: {page: page},
         headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
       })
       .then((e) => {

@@ -759,7 +759,7 @@ export default{
     photo_should_not_exceed_512_kb: 'Фото не должно превышать 512 кб!',
     leaves: 'Отпуска',
     leave_type: 'Тип отпуска',
-    export_excel: '"Экспорт в Excel"',
+    export_excel: 'Экспорт в Excel',
 
     block_of_region: '"Регион в адресном блоке"',
     latitude: 'Координата северной широты',

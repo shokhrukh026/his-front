@@ -16,7 +16,7 @@
         
         <div class="d-flex">
             <a href="{{route('exportToExcel')}}" class="btn btn-success text-nowrap ml-3">
-                <i class="fa fa-file-alt mr-2 fz-12px"></i> {{$t('export.excel')}}
+                <i class="fa fa-file-alt mr-2 fz-12px"></i> {{$t('export_excel')}}
             </a>
         </div>
     </div>
@@ -173,65 +173,75 @@
                 </modal> -->
             </div>
             <!-- {{organizationsStorage.organizationsList}} -->
-            {{abc}}
             <div class="card">
                 <div class="table-responsive">
                     <table class="table table-striped table-sm mb-0">
                         <thead>
                             <tr role="row">
-                                <th class="pl-3 py-2">
+                                <th class="py-2">
                                     {{$t('identification_code')}}
                                 </th>
-                                <th class="pl-3 py-2">
+                                <th class="py-2">
                                     {{$t('name_full')}}
                                 </th>
-                                <th class="pl-3 py-2">
+                                <th class="py-2">
                                     {{$t('parent_organization')}}
                                 </th>
-                                <th class="pl-3 py-2">
+                                <th class="py-2">
                                     {{$t('type')}}
                                 </th>
-                                <th class="pl-3 py-2">
+                                <th class="py-2">
                                     {{$t('level')}}
                                 </th>
-                                <th class="pl-3 py-2">
+                                <th class="py-2">
                                     {{$t('service_type')}}
                                 </th>
-                                <th class="pr-3 py-2" width="1">
+                                <th class="py-2" width="1">
                                     {{$t('action')}}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>{{abc}}</td>
-                                <td>asdasd</td>
-                            </tr>
                         <!-- @foreach($organizations as $organization) -->
-                            <tr v-for="(item, index) in abc" :key="index">
-                                <!-- <td>{{item.identification_code}}</td>
-                                <td>{{item.name_full}}</td>
-                                <td>{{item.parent}}</td>
+                            <tr v-for="(item, index) in organizationsList.data" :key="index">
+                                <td>{{item.identification_code}}</td>
+                                <td>{{item.full_name.uz}}</td>
+                                <td>{{item.parent.uz}}</td>
                                 <td>{{item.type.ru ? item.type.ru : ''}}</td>
                                 <td>{{item.level.ru ? item.level.ru : ''}}</td>
-                                <td>{{item.identification_code}}</td> -->
+                                <td>
+                                    <template v-for="(item2, index2) in item.service_types" :key="index2">{{index2 > 0 ? ', ' + item2.uz.split(' ').join('')  : item2.uz.split(' ').join('') }}</template>
+                                </td>
+                                <!-- <td class="pl-3 d-flex flex-wrap">
+                                    @foreach ($organization->serviceTypes as $sType)
+                                    <span class="m-1">{{$sType->name ?$sType->name.($loop->last?'':', ') :'' }}</span>
+                                    @endforeach
+                                </td> -->
 
 
                                 <td class="pr-3">
                                     <div class="d-flex">
                                         <!-- @if(auth()->user()->hasPermissionTo('organizations_view')) -->
-                                            <!-- <router-link class="btn btn-sm bg-success d-flex align-center"
+                                            <router-link class="btn btn-sm bg-success d-flex align-center"
                                                 :to="{name: 'organizations-show', params: {id: item.id}}">
-                                                <i class="fas fa-eye"></i>
-                                            </router-link> -->
+                                                <i class="fas fa-eye text-white"></i>
+                                            </router-link>
                                         <!-- @endif -->
                                         <!-- @if(auth()->user()->hasPermissionTo('organizations_edit')) -->
+                                            <router-link class="btn btn-sm bg-warning d-flex align-center ml-2"
+                                                :to="{name: 'organizations-show', params: {id: item.id}}">
+                                                <i class="fas fa-pencil-alt text-white"></i>
+                                            </router-link>
                                             <!-- <router-link class="btn btn-sm bg-info ml-2 d-flex align-center"
                                                 to="{{route('organizations.edit', $organization)}}">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </router-link> -->
                                         <!-- @endif -->
                                         <!-- @if(auth()->user()->hasPermissionTo('organizations_delete')) -->
+                                            <router-link class="btn btn-sm bg-danger d-flex align-center ml-2"
+                                                :to="{name: 'organizations-show', params: {id: item.id}}">
+                                                <i class="fas fa-trash-alt text-white"></i>
+                                            </router-link>
                                         <!-- <router-link class="btn btn-sm bg-danger ml-2 d-flex align-center"
                                             to="javascript:void(0)" @click="getOrganization({{$organization}})">
                                             <i class="fas fa-trash-alt"></i>
@@ -240,99 +250,29 @@
                                     </div>
                                 </td>
 
-
-
-
-
-                                <!-- <td class="pl-3">{{$organization->identification_code }}</td>
-                                <td class="pl-3">{{$organization->name_full }}</td>
-                                <td class="pl-3">{{$organization->parent?$organization->parent->name_full:'-'}}</td>
-                                <td class="pl-3">{{$organization->type->name ?? '' }}</td>
-                                <td class="pl-3">{{$organization->level->name ?? '' }}</td>
-                                <td class="pl-3 d-flex flex-wrap">
-                                    @foreach ($organization->serviceTypes as $sType)
-                                    <span class="m-1">{{$sType->name ?$sType->name.($loop->last?'':', ') :'' }}</span>
-                                    @endforeach
-                                </td>
-                                <td class="pr-3">
-                                    <div class="d-flex">
-                                        @if(auth()->user()->hasPermissionTo('organizations_view'))
-                                            <a class="btn btn-sm bg-success d-flex align-center"
-                                                href="{{ route('organizations.show', $organization) }}">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        @if(auth()->user()->hasPermissionTo('organizations_edit'))
-                                            <a class="btn btn-sm bg-info ml-2 d-flex align-center"
-                                                href="{{route('organizations.edit', $organization)}}">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </a>
-                                        @endif
-                                        @if(auth()->user()->hasPermissionTo('organizations_delete'))
-                                        <a class="btn btn-sm bg-danger ml-2 d-flex align-center"
-                                            href="javascript:void(0)" v-on:click="getOrganization({{$organization}})">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    @endif
-                                    </div>
-                                </td> -->
-
-
-
                             </tr>
                         <!-- @endforeach -->
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination-wrapper row align-items-center justify-content-between mx-0 pt-2">
-                    <!-- <div class="col-auto">{{$organizations->links()}}</div>
-                    <div class="col-auto mb-2 py-1 text-primary font-weight-bold">{{$t('total')}}: {{ number_format($organizations->total(), 0, '.', ' ') }}</div> -->
+                    <!-- <div class="col-auto">{{organizationsList.per_page}}</div> -->
+                     <v-pagination
+                        v-model="page"
+                        :pages="organizationsList.last_page"
+                        :range-size="4"
+                        active-color="#DCEDFF"
+                    />
+                        <!-- @update:modelValue="updateHandler" -->
+
+
+                    <!-- <div class="col-auto mb-2 py-1 text-primary font-weight-bold">{{$t('total')}}: {{ number_format($organizations->total(), 0, '.', ' ') }}</div> -->
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-    <!-- <dialogAddOrg :modalTitle="'add'" v-if="showModal" :showModal="showModal">
-        <template v-slot:header>
-            <h5 class="modal-title">asdasd</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </template>
-
-        <template v-slot:body>
-            Assalamu alaykum!
-        </template>
-
-        <template v-slot:footer>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </template>
-    </dialogAddOrg> -->
-
-
-
-
-
-    <!-- <div class="modal fade" tabindex="-1" id="addOrganizationModal" data-backdrop="static" >
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-        <div class="modal-content">
-            <h5 class="modal-title">Добавить организации</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <img src="../../assets/icons/closeButton.svg" />
-            </button>
-            asdasd
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-    </div>
-    </div> -->
     <dialogAddOrg :showModal="showModal"></dialogAddOrg>
-
 </div>
 
 
@@ -340,7 +280,7 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import { storeToRefs } from 'pinia';
 import dialogAddOrg from './DialogAddOrganization.vue';
 import { organizationsStore } from '../../stores/organizations';
@@ -387,7 +327,7 @@ export default {
             {id: 2, title: 'EN'},
             {id: 3, title: 'RU'},
         ]);
-        let abc = ref([''])
+        let page = ref(1)
 
         function addRegionServiceInput(){
             if(this.regionServiceInputs.length >= 5){
@@ -400,16 +340,20 @@ export default {
             this.regionServiceInputs.splice(index, 1);
         }
 
-        onMounted(async() => {
-            await organizationsStorage.GET_ORGANIZATIONS();
-            abc.value = organizationsList.value;
-            console.log(abc.value);
+
+        watch(page, async (currentValue, oldValue) => {
+            await organizationsStorage.GET_ORGANIZATIONS(currentValue);
         })
 
-        
+        onMounted(async() => {
+            await organizationsStorage.GET_ORGANIZATIONS(page.value);
+        })
+
         return{
-            firstStep, secondStep, state, language, languageOptions, organizationsStorage, abc,
+            firstStep, secondStep, state, language, languageOptions, organizationsStorage, organizationsList,
             showModal, organizationModalSteps, regionServiceInputs, organizationAdd,
+
+            page,
 
             addRegionServiceInput, removeRegionServiceInput
         }
@@ -417,12 +361,10 @@ export default {
 
     methods: {
         confirm() {
-            // some code...
-            this.show = false
+            this.show = false;
         },
         cancel(close) {
-            // some code...
-            close()
+            close();
         },
         openOrganizationAddModal(){
             $('#addOrganizationModal').modal('toggle');
