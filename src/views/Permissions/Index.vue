@@ -2,9 +2,9 @@
 <div class="d-flex justify-space-between mb-3">
     <h1 class="text-dark fz-18rem">{{$t('permissions')}}</h1>
     <!-- @if(Auth::user()->hasPermissionTo('permissions_create')) -->
-        <a href="{{route('permissions.create')}}" class="btn btn-primary text-nowrap d-flex align-center">
+        <div class="btn btn-primary text-nowrap d-flex align-center" @click="openPermissionAddModal()">
             <i class="fas fa-plus mr-2 fz-12px"></i> {{$t('add_right')}}
-        </a>
+        </div>
     <!-- @endif -->
 </div>
 <div class="row">
@@ -99,11 +99,26 @@
             </div>
         </div>
     </div>
+
+    <DialogAddPermission></DialogAddPermission>
 </div>
 </template>
 
 <script>
+import DialogAddPermission from './DialogAddPermission.vue';
 export default {
+    components: {
+        DialogAddPermission
+    },
+    setup(){
+        function openPermissionAddModal(){
+            $('#addPermissionModal').modal('toggle');
+        }
+
+        return{
+            openPermissionAddModal
+        }
+    }
 
 }
 </script>

@@ -289,24 +289,6 @@ h4, .h4 {
 .form-group {
     position: relative;
 }
-// .form-outline {
-//     position: relative;
-//     .trailing {
-//         position: absolute;
-//         z-index: 1;
-//         right: 1rem;
-//         top: 50%;
-//         -webkit-transform: translateY(-50%);
-//         transform: translateY(-50%);
-//         pointer-events: none;
-//     }
-//     .trailing ~ .form-control {
-//         padding-right: 2.5rem;
-//     }
-//     .trailing ~ .form-label {
-//         max-width: calc(100% - 3.5rem);
-//     }
-// }
 .form-control {
     display: flex;
     align-items: center;
@@ -316,21 +298,6 @@ h4, .h4 {
     border-radius: 4px;
     // padding: 8px 8px;
     white-space: normal;
-
-
-    // padding: 0.5rem 1rem;
-    // height: 2.5rem;
-    // border: 2px solid #A0A3BD;
-    // color: $gray-900;
-    // font-size: 0.875rem;
-    // box-shadow: none;
-    // transition: box-shadow 0.2s;
-    // &:focus {
-    //     color: $gray-900;
-    //     background-color: #fff;
-    //     border-color: $gray-900;
-    //     outline: 0;
-    // }
 }
 .custom-control {
     min-height: 1.125rem;
@@ -629,151 +596,8 @@ select.form-control::-ms-expand {
 
 
 
-// .form-outline {
-//     .form-control {
-//         border: 0;
-//         box-shadow: none;
-//     }
-//     .form-control~.form-label {
-//         position: absolute;
-//         overflow: hidden;
-//         top: 0;
-//         left: 1rem;
-//         margin-bottom: 0;
-//         padding: 0.60rem 0 0 0;
-//         max-width: calc(100% - 2rem);
-//         pointer-events: none;
-//         white-space: nowrap;
-//         font-weight: normal;
-//         font-size: 0.875rem;
-//         text-overflow: ellipsis;
-//         -webkit-transform-origin: 0 0;
-//         transform-origin: 0 0;
-//         -webkit-transition: all .2s ease-out;
-//         transition: all .2s ease-out;
-//         color: #A0A3BD;
-//     }
-//     .form-control.active~.form-label,
-//     .form-control:focus~.form-label {
-//         color: #6E7191;
-//         -webkit-transform: translateY(-0.95rem) scale(.8);
-//         transform: translateY(-0.95rem) scale(.8);
-//     }
-//     .form-control~.form-notch {
-//         display: -webkit-box;
-//         display: -ms-flexbox;
-//         display: flex;
-//         position: absolute;
-//         left: 0;
-//         top: 0;
-//         width: 100%;
-//         max-width: 100%;
-//         height: 100%;
-//         text-align: left;
-//         pointer-events: none;
-//         div {
-//             pointer-events: none;
-//             border: 2px solid #A0A3BD;
-//             -webkit-box-sizing: border-box;
-//             box-sizing: border-box;
-//             background: transparent;
-//         }
-//         .form-notch-leading {
-//             left: 0;
-//             top: 0;
-//             width: calc(0.875rem - 1px);
-//             height: 100%;
-//             border-right: none;
-//             border-radius: $border-radius 0 0 $border-radius;
-//         }
-//         .form-notch-middle {
-//             -webkit-box-flex: 0;
-//             -ms-flex: 0 0 auto;
-//             flex: 0 0 auto;
-//             width: auto;
-//             max-width: calc(100% - 0.875rem);
-//             height: 100%;
-//             border-right: none;
-//             border-left: none;
-//         }
-//         .form-notch-trailing {
-//             -webkit-box-flex: 1;
-//             flex-grow: 1;
-//             height: 100%;
-//             border-left: none;
-//             border-radius: 0 $border-radius $border-radius 0;
-//         }
-//     }
-//     .form-control.active~.form-notch .form-notch-leading,
-//     .form-control:focus~.form-notch .form-notch-leading {
-//         border-right: none;
-//         -webkit-transition: all .2s linear;
-//         transition: all .2s linear;
-//     }
-//     .form-control:focus~.form-notch .form-notch-leading {
-//         border-top: .125rem solid $gray-900;
-//         border-bottom: .125rem solid $gray-900;
-//         border-left: .125rem solid $gray-900;
-//     }
-//     .form-control.active~.form-notch .form-notch-middle,
-//     .form-control:focus~.form-notch .form-notch-middle {
-//         border-top: none;
-//         border-right: none;
-//         border-left: none;
-//         -webkit-transition: all .2s linear;
-//         transition: all .2s linear;
-//     }
-//     .form-control:focus~.form-notch .form-notch-middle {
-//         border-bottom: .125rem solid;
-//         border-color: $gray-900;
-//     }
-//     .form-control.active~.form-notch .form-notch-trailing,
-//     .form-control:focus~.form-notch .form-notch-trailing {
-//         border-left: none;
-//         -webkit-transition: all .2s linear;
-//         transition: all .2s linear;
-//     }
-//     .form-control:focus~.form-notch .form-notch-trailing {
-//         border-top: .125rem solid $gray-900;
-//         border-bottom: .125rem solid $gray-900;
-//         border-right: .125rem solid $gray-900;
-//     }
-// }
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* ======= LOGIN_SECTION START ======= */
-.login-card-body,
-.register-card-body {
-    border-radius: 1rem;
-}
-
-.login-card-body .input-group .input-group-text,
-.register-card-body .input-group .input-group-text {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-    transition: none;
-}
-
-.login-card-body .input-group .form-control:focus ~ .input-group-append .input-group-text,
-.register-card-body .input-group .form-control:focus ~ .input-group-append .input-group-text {
-    border-color: $gray-900;
-}
-.login-logo {
-    font-size: 1rem;
-    line-height: 1.4;
-}
-/* ======= LOGIN_SECTION END ======= */
 
 
 
@@ -791,33 +615,6 @@ select.form-control::-ms-expand {
 
 
 /* ======= SIDEBAR_SECTION START ======= */
-// .main-sidebar {
-//     // overflow: hidden;
-//     padding: 25px 0;
-//     width: $sidebar-width;
-//     background: #fff;
-//     border-right: 1px solid #F4F5F8;
-    
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-
-//     .brand-text{
-//         color: $primary;
-//         font-weight: 600;
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
 .sidebar{
     position: fixed;
     top: 0;
@@ -1138,137 +935,28 @@ select.form-control::-ms-expand {
 
 
 
-
-
-
-
-
-
-
-
-// .sidebar-collapse .main-sidebar {
-//     margin-left: -$sidebar-width;
-// }
-
-
-// .sidebar-collapse .sidebar {
+// .toggle-sidebar {
+//     position: absolute;
+//     right: 0;
+//     bottom: 50px;
 //     padding: 0;
-// }
-
-// .wrapper {
-//     position: relative;
-//     overflow: hidden;
-// }
-
-// .layout-fixed .wrapper .sidebar {
-//     height: calc(100% - 60px);
-// }
-
-// .os-theme-light > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-//     background: $primary;
-//     opacity: 0.4;
-// }
-
-// [class*=sidebar-dark] {
-//     .brand-link {
-//         border: 0;
-//         margin: 0 25px 25px 25px;
-//         padding: 0;
-//         width: auto;
-//         color: $gray-900;
-//         font-size: 13px;
-//         line-height: 1.3;
-//         transition: margin 0.3s, width 0.3s;
-//         .brand-image {
-//             margin: 0 10px 0 0;
-//             max-height: 52px;
-//             transition: margin 0.3s, width 0.3s;
-//         }
-//     }
-//     .sidebar a {
-//         color: $primary;
-//     }
-// }
-
-// .sidebar-collapse [class*=sidebar-dark] .brand-link {
-//     margin: 0 14px 25px 14px;
-//     .brand-image {
-//         margin: 0;
-//     }
-// }
-
-// .nav-sidebar .nav-item > .nav-link {
-//     display: flex;
-//     align-items: center;
-//     margin-bottom: 0;
-//     padding: 5px 5px 5px 25px;
+//     width: 80px;
 //     height: 50px;
-// }
-
-// .nav-sidebar > .nav-item .nav-icon {
-//     margin: 0 12px 0 0;
+//     line-height: 50px;
+//     text-align: center;
+//     background: #F4F5F8;
+//     border: 0;
+//     border-radius: 16px 0 0 16px;
+//     transition: border-radius 0.3s, background 0.3s, color 0.3s;
+//     &:hover {
+//         color: $primary;
+//         background: #F1F0FC;
+//     }
 //     svg {
-//         max-width: 100%;
+//         transform: rotate(0deg);
+//         transition: transform 0.3s;
 //     }
 // }
-
-// .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.router-link-active  {
-//     position: relative;
-//     // background-color: #F4F5F7;
-//     // color: $primary;
-
-//     background: linear-gradient(110.81deg, #14ADFF -1.78%, #1464C0 94.52%);
-//     color: #FFFFFF !important;
-
-//     border-radius: 0 16px 16px 0;
-//     box-shadow: none;
-//     transition: border-radius 0.3s;
-//     &:before {
-//         content: '';
-//         position: absolute;
-//         left: 0;
-//         top: 0;
-//         bottom: 0;
-//         width: 3px;
-//         background: $primary;
-//     }
-//     p{
-//         color: #fff !important;
-//     }
-// }
-
-// .sidebar-collapse .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.router-link-active  {
-//     border-radius: 0;
-// }
-
-// [class*=sidebar-dark-] .nav-sidebar>.nav-item:hover>.nav-link:not(.router-link-active ),
-// [class*=sidebar-dark-] .nav-sidebar>.nav-item>.nav-link:focus:not(.router-link-active ) {
-//     background-color: transparent;
-//     color: $primary;
-// }
-
-.toggle-sidebar {
-    position: absolute;
-    right: 0;
-    bottom: 50px;
-    padding: 0;
-    width: 80px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    background: #F4F5F8;
-    border: 0;
-    border-radius: 16px 0 0 16px;
-    transition: border-radius 0.3s, background 0.3s, color 0.3s;
-    &:hover {
-        color: $primary;
-        background: #F1F0FC;
-    }
-    svg {
-        transform: rotate(0deg);
-        transition: transform 0.3s;
-    }
-}
 
 // .website {
 //     position: absolute;
@@ -1301,10 +989,6 @@ select.form-control::-ms-expand {
     }
     transition: all 0.5s ease;
 }
-
-// .sidebar-collapse .main-header .hamburger svg {
-//     transform: rotate(180deg);
-// }
 /* ======= SIDEBAR_SECTION END ======= */
 
 
@@ -1541,7 +1225,6 @@ select.form-control::-ms-expand {
         position: absolute;
         visibility: hidden;
     }
-
     .sidebar-collapse .website {
         left: 10px;
         font-size: 10px;
@@ -1550,6 +1233,107 @@ select.form-control::-ms-expand {
     .content-wrapper {
         padding: 1.2rem;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+@media (min-width: 2001px) {
+
+    
+
+}
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1281px to 1280px
+*/
+@media (min-width: 1601px) and (max-width: 2000px) {
+
+    /* CSS */
+
+} 
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1281px to 1280px
+*/
+@media (min-width: 1281px) and (max-width: 1600px) {
+
+    /* CSS */
+
+} 
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1025px to 1280px
+*/
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Tablets, Ipads (portrait)
+##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Tablets, Ipads (landscape)
+##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Low Resolution Tablets, Mobiles (Landscape)
+##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Most of the Smartphones Mobiles (Portrait)
+##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px); 
+    }
+
 }
 /* ======= MEDIA_QUERIES_SECTION END ======= */
 
@@ -1575,76 +1359,76 @@ $border-color-default: #E9ECEF;
 $border-color-fill: $primary;
 $size: 40px;
 $howManySteps: 100;
-.circular.progress {
-    width: $size;
-    height: $size;
-    line-height: $size;
-    background: none;
-    margin: 0 auto;
-    box-shadow: none;
-    position: relative;
-    &:after {
-        content: "";
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        border: $borderWidth solid $border-color-default;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    > span {
-        width: 50%;
-        height: 100%;
-        overflow: hidden;
-        position: absolute;
-        top: 0;
-        z-index: 1;
-    }
-    .progress-left {
-        left: 0;
-    }
-    .progress-bar {
-        width: 100%;
-        height: 100%;
-        background: none;
-        border-width: $borderWidth;
-        border-style: solid;
-        position: absolute;
-        top: 0;
-        border-color: $border-color-fill;
-    }
-    .progress-left .progress-bar {
-        left: 100%;
-        border-top-right-radius: ($size/2);
-        border-bottom-right-radius: ($size/2);
-        border-left: 0;
-        -webkit-transform-origin: center left;
-        transform-origin: center left;
-    }
-    .progress-right {
-        right: 0;
-        .progress-bar {
-            left: -100%;
-            border-top-left-radius: ($size/2);
-            border-bottom-left-radius: ($size/2);
-            border-right: 0;
-            -webkit-transform-origin: center right;
-            transform-origin: center right;
-        }
-    }
-    .progress-value {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        text-align: center;
-        color: $primary;
-        border-radius: 50%;
-    }
-}
+// .circular.progress {
+//     width: $size;
+//     height: $size;
+//     line-height: $size;
+//     background: none;
+//     margin: 0 auto;
+//     box-shadow: none;
+//     position: relative;
+//     &:after {
+//         content: "";
+//         width: 100%;
+//         height: 100%;
+//         border-radius: 50%;
+//         border: $borderWidth solid $border-color-default;
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//     }
+//     > span {
+//         width: 50%;
+//         height: 100%;
+//         overflow: hidden;
+//         position: absolute;
+//         top: 0;
+//         z-index: 1;
+//     }
+//     .progress-left {
+//         left: 0;
+//     }
+//     .progress-bar {
+//         width: 100%;
+//         height: 100%;
+//         background: none;
+//         border-width: $borderWidth;
+//         border-style: solid;
+//         position: absolute;
+//         top: 0;
+//         border-color: $border-color-fill;
+//     }
+//     .progress-left .progress-bar {
+//         left: 100%;
+//         border-top-right-radius: ($size/2);
+//         border-bottom-right-radius: ($size/2);
+//         border-left: 0;
+//         -webkit-transform-origin: center left;
+//         transform-origin: center left;
+//     }
+//     .progress-right {
+//         right: 0;
+//         .progress-bar {
+//             left: -100%;
+//             border-top-left-radius: ($size/2);
+//             border-bottom-left-radius: ($size/2);
+//             border-right: 0;
+//             -webkit-transform-origin: center right;
+//             transform-origin: center right;
+//         }
+//     }
+//     .progress-value {
+//         display: flex;
+//         width: 100%;
+//         height: 100%;
+//         align-items: center;
+//         justify-content: center;
+//         font-size: 10px;
+//         text-align: center;
+//         color: $primary;
+//         border-radius: 50%;
+//     }
+// }
 
 @for $i from 1 through $howManySteps {
     $stepName: ($i*(100 / $howManySteps));

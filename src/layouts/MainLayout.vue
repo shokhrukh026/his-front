@@ -3,6 +3,7 @@
     <div class="wrapper">
         <Navbar></Navbar>
         <Sidebar></Sidebar>
+        <div class="overlay"></div>
         <div class="content-wrapper" :class="sidebarCollapse ? '' : 'sidebar__close'">
             <!-- <div class="content-header">@yield("contentHeader")</div> -->
 
