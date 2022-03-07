@@ -114,7 +114,7 @@
             <!-- @foreach ($employee->employeeTelecoms as $telecom) -->
             <!-- @if ($telecom->contactPointSystem->label == 'phone') -->
             <button class="user__info_left_phone_btn">
-                <img src="{{asset('icons/Calling.svg')}}" alt="">
+                <img src="../../assets/icons/Calling.svg" alt="">
                 <span class="ml-1">
                     <!-- {{ $telecom->value ?? '' }} -->
                 </span>
@@ -204,7 +204,7 @@
                                 <span class="user__info_right_title">Личные и паспортные данные</span>
                                 <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#personal_info_modal" >
                                     <!-- @click.prevent = "showMainModal({{$employee->load('nationality')->load('citizenship')->load('birthCountry')}})" -->
-                                    <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                    <img src="../../assets/icons/Edit.svg" alt="">
                                 </button>
                             </div>
 
@@ -272,7 +272,7 @@
                             <div class="d-flex justify-space-between mt-4 mb-3">
                                 <span class="user__info_right_title">Документ, удостоверяющий личность</span>
                                 <!-- {{-- <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#passport_info_modal">
-                                    <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                    <img src="../../assets/icons/Edit.svg" alt="">
                                 </button> --}} -->
                             </div>
 
@@ -321,9 +321,9 @@
                                         <span class="user__info_right_title">{{ place.organization_structure.organization.name_full ?? '' }}</span>
                                         <span>
                                         <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#work_info_modal">
-                                            <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            <img src="../../assets/icons/Edit.svg" alt="">
                                         </button>
-                                        <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                         </span>
                                     </div>
         
@@ -399,9 +399,9 @@
                                         <span>
                                             <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#worked_info_modal" >
                                             <!-- @click="getId({{$ow->id}})" -->
-                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                <img src="../../assets/icons/Edit.svg" alt="">
                                             </button>
-                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                            <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                         </span>
                                     </div>
                                     
@@ -461,7 +461,7 @@
                                         <!-- @if (Auth::user()->hasPermissionTo('education_diploma_edit')) -->
                                             <!-- <a href="{{ route('employees.education-diplomas.edit', [$employee, $educationDiploma]) }}" class="ml-2"> -->
                                                 <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#education_info_modal">
-                                                    <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                    <img src="../../assets/icons/Edit.svg" alt="">
                                                 </button>
                                             <!-- </a> -->
                                         <!-- @endif -->
@@ -471,7 +471,7 @@
                                                 @method('DELETE') -->
                                                 <button type="submit" class="p-0 ml-2 border-none bg-white">
                                                     <!-- <i class="fa fa-trash" style="color: #ffffff"></i> -->
-                                                    <img src="{{asset('icons/Delete.svg')}}" alt="">
+                                                    <img src="../../assets/icons/Delete.svg" alt="">
                                                 </button>
                                             </form>
                                         <!-- @endif -->
@@ -672,9 +672,9 @@
                                     <span class="user__info_right_title">{{$t('the_address')}} {{$key + 1}}</span>
                                     <span>
                                         <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#address_info_modal">
-                                            <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            <img src="../../assets/icons/Edit.svg" alt="">
                                         </button>
-                                        <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                     </span>
                                 </div>
     
@@ -741,7 +741,7 @@
 
                                 <div class="d-flex justify-content-end align-center mt-4" @click="showModal()">
                                     <span class="user__info_right_title mr-2">Добавить Отпуск</span>
-                                    <img src="{{asset('icons/Plus-circle.svg')}}" alt="">
+                                    <img src="../../assets/icons/Plus-circle.svg" alt="">
                                 </div>
     
     
@@ -922,9 +922,9 @@
                                         <span class="user__info_right_title">{{$t('employee_languages')}}</span>
                                         <span>
                                             <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#languages_info_modal">
-                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                <img src="../../assets/icons/Edit.svg" alt="">
                                             </button>
-                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                            <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                         </span>
                                     </div>
                                     <div class="user__info_right_table">
@@ -960,9 +960,9 @@
                                         <span class="user__info_right_title">{{$t('employee_government_awards')}}</span>
                                         <span>
                                             <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#government_info_modal">
-                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                <img src="../../assets/icons/Edit.svg" alt="">
                                             </button>
-                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                            <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                         </span>
                                     </div>
                                     <div class="user__info_right_table">
@@ -995,9 +995,9 @@
                                         <span class="user__info_right_title">{{$t('employee_political_party')}}</span>
                                         <span>
                                             <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#political_party_info_modal">
-                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                <img src="../../assets/icons/Edit.svg" alt="">
                                             </button>
-                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                            <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                         </span>
                                     </div>
                                     <div class="user__info_right_table">
@@ -1027,9 +1027,9 @@
                                     <span class="user__info_right_title">{{$t('specialty_categories')}}</span>
                                     <span>
                                         <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#speciality_categories_info_modal">
-                                            <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                            <img src="../../assets/icons/Edit.svg" alt="">
                                         </button>
-                                        <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                        <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                     </span>
                                 </div>
                                 <!-- @foreach ($employee->specialtyCategories as $specialtyCategory) -->
@@ -1089,9 +1089,9 @@
                                         <span class="user__info_right_title">{{$t('relatives')}}</span>
                                         <span>
                                             <button type="button" class="border-none bg-white" data-toggle="modal" data-target="#relatives_info_modal">
-                                                <img src="{{asset('icons/Edit.svg')}}" alt="">
+                                                <img src="../../assets/icons/Edit.svg" alt="">
                                             </button>
-                                            <img class="ml-2" src="{{asset('icons/Delete.svg')}}" alt="">
+                                            <img class="ml-2" src="../../assets/icons/Delete.svg" alt="">
                                         </span>
                                     </div>
                                     <!-- @foreach ($relatives as $relative) -->
@@ -1176,7 +1176,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="" @click.prevent="cancelModal('#personal_info_modal')">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="" @click.prevent="cancelModal('#personal_info_modal')">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1292,7 +1292,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1467,7 +1467,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1556,7 +1556,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1641,7 +1641,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1723,7 +1723,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1789,7 +1789,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1851,7 +1851,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1915,7 +1915,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -1980,7 +1980,7 @@
                         </div> -->
                         <div class="modal-body">
                             <div class="modal__block">
-                                <img class="modal__block_close" src="{{asset('icons/Close-icon.svg')}}" alt="">
+                                <img class="modal__block_close" src="../../assets/icons/Close-icon.svg" alt="">
                                 <span class="modal__block_title">Редактировать сотрудника</span>
 
 
@@ -2064,10 +2064,8 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
 export default {
     components: {
-        Multiselect 
     },
     data(){
         return {
@@ -2868,7 +2866,6 @@ export default {
 }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 .vue-treeselect__control {
     border-radius: 1rem;
