@@ -387,7 +387,7 @@
     opacity: 0;
 }
   
-.overlay {
+/* .overlay {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -399,7 +399,7 @@
     transition: .5s ease;
     background-color: #f5f6fa;
     border-radius: 8px;
-}
+} */
 
 .text {
     color: #223555;

@@ -81,14 +81,10 @@
     .tab-content{
         padding: 30px 0;
         .tab-pane{
-
+            
         }
     }
 }
-
-
-
-
 /* ======= TABS_SECTION END ======= */
 
 
@@ -430,3 +426,161 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= MEDIA_QUERIES_SECTION START ======= */
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+@media (min-width: 2001px) {
+
+    
+
+}
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1281px to 1280px
+*/
+@media (min-width: 1601px) and (max-width: 2000px) {
+
+    /* CSS */
+
+} 
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1281px to 1280px
+*/
+@media (min-width: 1281px) and (max-width: 1600px) {
+
+    /* CSS */
+
+} 
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1025px to 1280px
+*/
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Tablets, Ipads (portrait)
+##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Tablets, Ipads (landscape)
+##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Low Resolution Tablets, Mobiles (Landscape)
+##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Most of the Smartphones Mobiles (Portrait)
+##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {
+    .header-tab-block{
+        &__header{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+    
+            div:first-child{
+                flex-wrap: wrap;
+    
+                h1{
+                    margin-bottom: 15px !important;
+                }
+                a{
+                    margin-left: 0 !important;
+                }
+            }
+        }
+        .nav-tabs{
+            border: none;
+    
+            .nav-item{
+                
+                .active{
+                    border-radius: 0 !important;
+                    background: none;
+                    color: black;
+                    border-bottom: 2px solid black !important;
+                }
+    
+    
+                .nav-link{
+                    border-radius: none;
+                    outline: none;
+                    font-size: 20px;
+                    line-height: 28px;
+                    margin: 0 2px;
+                    border: none;
+                    // border-bottom: 2px solid #D3DBDA;
+                }
+            }
+        }
+    
+
+    
+        .tab-content{
+            padding: 30px 0;
+            .tab-pane{
+                .info-menu__item{
+                    width: 100%;
+                    margin-right: 0 !important;
+                }
+                .result{
+                    padding: 0 !important;
+                }
+            }
+        }
+    }
+}
+/* ======= MEDIA_QUERIES_SECTION END ======= */

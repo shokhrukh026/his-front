@@ -2,8 +2,8 @@
 <div class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <Navbar></Navbar>
-        <Sidebar></Sidebar>
-        <div class="overlay"></div>
+        <Sidebar :class="sidebarCollapse ? '' : 'sidebar__mobile_open'"></Sidebar>
+        <div :class="sidebarCollapse ? 'overlay' : ''" @click="sidebarCollapse = !sidebarCollapse"></div>
         <div class="content-wrapper" :class="sidebarCollapse ? '' : 'sidebar__close'">
             <!-- <div class="content-header">@yield("contentHeader")</div> -->
 
@@ -23,13 +23,6 @@
     </div>
 </div>
 </template>
-
-<script>
-
-</script>
-
-
-
 
 
 <script>

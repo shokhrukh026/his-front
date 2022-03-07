@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-sm-auto align-self-lg-center">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary mt-sm-4 w-100" name="filter">
+                        <button type="submit" class="btn btn-primary mt-sm-4" name="filter">
                             <i class="fas fa-filter mr-2 fz-12px"></i> {{$t('filter')}}
                         </button>
                     </div>

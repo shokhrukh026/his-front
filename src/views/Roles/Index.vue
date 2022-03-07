@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-md-auto align-self-lg-center">
-                    <button type="submit" class="btn btn-primary mt-md-2 mb-3 mb-md-0 w-100" name="filter">
+                    <button type="submit" class="btn btn-primary mt-md-2 mb-3 mb-md-0" name="filter">
                         <i class="fas fa-filter mr-2 fz-12px"></i> {{$t('filter')}}
                     </button>
                 </div>

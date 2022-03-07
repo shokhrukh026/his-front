@@ -1,0 +1,203 @@
+/* 
+========================
+    Project Name: HRM
+    Authors: 
+    Authors Email: shokirjonov98@gmail.com
+    Version: 1.0.0
+========================
+========================
+    TABLE OF CONTENTS
+========================
+1. PRIMARY_STYLES_SECTION
+2. DASHBOARD_SECTION
+3. 
+4. 
+5. 
+6. 
+7. 
+8. 
+9. 
+10. 
+11. 
+12. MEDIA_QUERIES_SECTION
+12. 
+========================
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= PRIMARY_STYLES_SECTION START ======= */
+
+/* ======= PRIMARY_STYLES_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= PRIMARY_STYLES_SECTION START ======= */
+.organization__container{
+
+    &_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+/* ======= PRIMARY_STYLES_SECTION END ======= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ======= MEDIA_QUERIES_SECTION START ======= */
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+@media (min-width: 2001px) {
+
+    
+
+}
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1281px to 1280px
+*/
+@media (min-width: 1601px) and (max-width: 2000px) {
+
+    /* CSS */
+
+} 
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1281px to 1280px
+*/
+@media (min-width: 1281px) and (max-width: 1600px) {
+
+    /* CSS */
+
+} 
+
+/* 
+##Device = Laptops, Desktops
+##Screen = B/w 1025px to 1280px
+*/
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Tablets, Ipads (portrait)
+##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Tablets, Ipads (landscape)
+##Screen = B/w 768px to 1024px
+*/
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Low Resolution Tablets, Mobiles (Landscape)
+##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {
+
+    /* CSS */
+
+}
+
+/* 
+##Device = Most of the Smartphones Mobiles (Portrait)
+##Screen = B/w 320px to 479px
+*/
+@media (min-width: 320px) and (max-width: 480px) {
+    .organization__container{
+
+        &_header{
+            div{
+                flex-wrap: wrap;
+                margin-bottom: 10px;
+
+                h1{
+                    margin-bottom: 10px;
+                }
+                a{
+                    margin-left: 0 !important; 
+                }
+            }
+        }
+    }
+}
+/* ======= MEDIA_QUERIES_SECTION END ======= */

@@ -186,6 +186,10 @@ h4, .h4 {
     color: #869099;
     padding: 1rem; 
     transition: all 0.5s ease;
+
+    div{
+        flex-wrap: wrap;
+    }
 }
 /* ======= OTHER_STYLES_SECTION END ======= */
 
@@ -1323,7 +1327,12 @@ select.form-control::-ms-expand {
 ##Screen = B/w 320px to 479px
 */
 @media (min-width: 320px) and (max-width: 480px) {
-
+    .sidebar__mobile_open{
+        left: -77px;
+    }
+    .sidebar__close{
+        margin-left: 0px !important;
+    }
     .overlay{
         position: fixed;
         top: 0;
@@ -1332,6 +1341,37 @@ select.form-control::-ms-expand {
         height: 100vh;
         background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(2px); 
+        z-index: 99 !important;
+        opacity: 0.5 !important;
+    }
+
+
+    .charts-block .vue-apexcharts{
+        width: 100%;
+    }
+
+
+    .main-header {
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 1rem 1rem 1rem 0 !important;
+        border-bottom: 0;
+        color: $primary;
+        font-size: 0.875rem;
+        .hamburger {
+            position: relative;
+            z-index: 1;
+            width: 50px;
+            height: 40px;
+            color: $primary;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            svg {
+                transform: rotate(0deg);
+                transition: transform 0.3s;
+            }
+        }
+        transition: all 0.5s ease;
     }
 
 }

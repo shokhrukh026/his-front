@@ -1,6 +1,6 @@
 <template>
 <div class="organization__container">
-    <div class="d-flex justify-space-between mb-4">
+    <div class="organization__container_header mb-4">
         <div class="d-flex">
             <h1 class="text-dark fz-18rem">{{$t('organizations')}}</h1>
             <!-- @if(Auth::user()->hasPermissionTo('organizations_create')) -->
@@ -131,7 +131,7 @@
                     </div>
                 </div>
 
-                <div class="col-2">
+                <div class="col-3 mb-2">
                     <button type="submit" class="btn btn-primary d-flex align-center">
                         <i class="fa fa-filter mr-2 fz-12px"></i>
                         {{$t('filter')}} 

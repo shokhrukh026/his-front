@@ -1,7 +1,7 @@
 <template>
 <div id="section1" class="header-tab-block">
 
-    <div class="d-flex justify-space-between mb-4">
+    <div class="header-tab-block__header mb-4">
         <div class="d-flex">
             <h1 class="text-black fz-18rem">{{$t('users')}}</h1>
             <!-- @if (Auth::user()->hasPermissionTo('employees_create')) -->
@@ -36,7 +36,7 @@
                 <!-- <form action="{{ route('employees.index') }}" @submit="onSubmit()" class="col-12"> -->
                 <form @submit="onSubmit()" class="col-12">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-sm-6 col-lg-3">
                             <div class="form-group">
                                 <input type="tel" data-inputmask-mask="99999999999999" class="form-control" name="pinfl"
                                     :placeholder="$t('pin')" v-model="filterBasic.pinfl">
@@ -185,7 +185,7 @@
 
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3 mb-3">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-filter mr-2 fz-12px"></i>{{$t('filter')}}
                             </button>
@@ -266,15 +266,16 @@
                                     //}
                                     }
                                     @endphp -->
-                                    <tr v-for="(item, index) in employees" :key="index">
-                                        <!-- <td class="p-2">
-                                            {{ item.firstname }}&nbsp;{{ item.lastname }}
-                                            &nbsp;{{ item.middlename }}
+                                    <tr v-for="(item, index) in employees.data" :key="index">
+                                        <td class="p-2">
+                                            {{ item.employee_names.firstname }}&nbsp;{{ item.employee_names.middlename }}
+                                            &nbsp;{{ item.employee_names.lastname }}
                                         </td>
-                                        <td class="p-2">{{ $org ? $org.name_full : '-' }}</td>
-                                        <td class="p-2">{{ $dep ? $dep.name : '-' }}</td>
-                                        <td class="p-2">{{ $position ? $position.name : '-' }}</td>
-                                        <td class="p-2 pr-3"> -->
+                                        <!-- <td class="p-2">{{ item}}</td>
+                                        <td class="p-2">{{ item ? $dep.name : '-' }}</td>
+                                        <td class="p-2">{{ $position ? $position.name : '-' }}</td> -->
+                                        <!-- <td class="p-2 pr-3"> -->
+
                                             <div class="d-flex justify-content-end">
                                                 <!-- @if (auth().user().hasPermissionTo('employees_view')) -->
                                                 <!-- <a class="btn btn-sm bg-success d-flex align-center"
