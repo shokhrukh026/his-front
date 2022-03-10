@@ -34,7 +34,6 @@
                     <a class="nav-link" data-toggle="tab" href="#organization__contacts">{{$t('contact_points')}}</a>
                 </li>
             </ul>
-
             <div class="tab-content">
                 <div class="tab-pane fade in active show" id="organization__main_data">
                     <div class="mt-3">
@@ -63,7 +62,7 @@
                                     {{-- </tr> --}} -->
                                     <tr>
                                         <th class="w-50">{{$t('inn')}}</th>
-                                        <!-- <td>{{ $organization->tin }}</td> -->
+                                        <td>{{ organizationData.data }}</td>
                                     </tr>
                                     <tr>
                                         <th class="w-50">{{$t('parent')}}</th>
@@ -158,7 +157,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="organization__address">
-                    <div class="mt-3">
+                    <div class="mt-3" v-for="(item, index) in organizationData.data.addresses" :key="index">
                         <div>
                             <h4>{{$t('the_address')}}</h4>
                         </div>
@@ -169,31 +168,31 @@
                                     <tbody>
                                         <tr>
                                             <th class="w-50">{{$t('use')}}</th>
-                                            <!-- <td>{{ $address->addressUse->name ?? '' }}</td> -->
+                                            <!-- <td>{{ item.use }}</td> -->
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('country')}}</th>
-                                            <!-- <td>{{ $address->country->name ?? '' }}</td> -->
+                                            <td>{{ item.country.uz }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('state')}}</th>
-                                            <!-- <td>{{ $address->state->name ?? '' }}</td> -->
+                                            <td>{{ item.state ? item.state : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('city')}}</th>
-                                            <!-- <td>{{ $address->city->name ?? '' }}</td> -->
+                                            <td>{{ item.city ? item.city : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('district')}}</th>
-                                            <!-- <td>{{ $address->district->name ?? '' }}</td> -->
+                                            <td>{{ item.district ? item.district : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('postal_code')}}</th>
-                                            <!-- <td>{{ $address->postal_code }}</td> -->
+                                            <td>{{ item.postal_code ? item.postal_code : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('line')}}</th>
-                                            <!-- <td>{{ $address->line }}</td> -->
+                                            <td>{{ item.line ? item.line : '' }}</td>
                                         </tr>
                                         <!-- {{-- <tr>
                                             <th class="w-50">{{$t('start_date')}}</th>
@@ -205,15 +204,15 @@
                                         </tr> --}} -->
                                         <tr>
                                             <th class="w-50">{{$t('latitude')}}</th>
-                                            <!-- <td>{{ $address->latitude }}</td> -->
+                                            <td>{{ item.latitude ? item.latitude : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('longitude')}}</th>
-                                            <!-- <td>{{ $address->longitude }}</td> -->
+                                            <td>{{ item.longitude ? item.longitude : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th class="w-50">{{$t('altitude')}}</th>
-                                            <!-- <td>{{ $address->altitude }}</td> -->
+                                            <td>{{ item.line ? item.line : '' }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -277,8 +276,46 @@
 </template>
 
 <script>
-export default {
+import { ref, reactive, onMounted, watch, toRefs } from "vue";
+import { storeToRefs } from 'pinia';
+import dialogAddOrg from './DialogAddOrganization.vue';
+import dialogDeleteOrg from './DialogDeleteOrganization.vue';
+import { organizationsStore } from '../../stores/organizations';
+import { useRoute } from 'vue-router';
 
+export default {
+    components: {
+        dialogAddOrg,
+        dialogDeleteOrg,
+    },
+    setup(){
+        const route = useRoute();
+        const organizationsStorage = organizationsStore();
+        // let showModal = ref(false);
+        const { organizationData } = storeToRefs(organizationsStorage) //REACTIVE
+        let page = ref(1)
+
+        watch(page, async (currentValue, oldValue) => {
+            await organizationsStorage.GET_ORGANIZATION_SHOW_BY_ID(currentValue, route.params.id);
+        })
+        onMounted(async() => {
+            await organizationsStorage.GET_ORGANIZATION_SHOW_BY_ID(page.value, route.params.id);
+        })
+
+        return{
+            organizationsStorage, organizationData, 
+            page,
+        }
+    },
+
+    methods: {
+        openOrganizationAddModal(){
+            $('#addOrganizationModal').modal('toggle');
+        },
+        openOrganizationDeleteModal(){
+            $('#deleteOrganizationModal').modal('toggle');
+        },
+    }
 }
 </script>
 

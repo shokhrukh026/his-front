@@ -10,12 +10,12 @@ export const organizationsStore = defineStore('organizations', {
       user: authStorage.user,
       sidebarCollapse: false,
       organizationsList: [],
+      organizationData: []
     }
   },
   actions: {
     // =============== GET_REQUESTS START ===============
     async GET_ORGANIZATIONS(page){
-      console.log(page)
       await axios({
         method: "GET",
         url: BASE_URL + 'organization',
@@ -24,6 +24,22 @@ export const organizationsStore = defineStore('organizations', {
       })
       .then((e) => {
         this.organizationsList = e.data
+        // router.push({path: '/home'});
+        return e.data;
+      })
+      .catch((error) => {
+        return error;
+      })
+    },
+    async GET_ORGANIZATION_SHOW_BY_ID(page, id){
+      await axios({
+        method: "GET",
+        url: BASE_URL + `organization/${id}`,
+        params: {page: page},
+        headers: { Authorization: this.user.token_type + ' ' + this.user.access_token },
+      })
+      .then((e) => {
+        this.organizationData = e.data
         // router.push({path: '/home'});
         return e.data;
       })

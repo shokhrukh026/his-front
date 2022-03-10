@@ -238,10 +238,9 @@
                                             </router-link> -->
                                         <!-- @endif -->
                                         <!-- @if(auth()->user()->hasPermissionTo('organizations_delete')) -->
-                                            <router-link class="btn btn-sm bg-danger d-flex align-center ml-2"
-                                                :to="{name: 'organizations-show', params: {id: item.id}}">
-                                                <i class="fas fa-trash-alt text-white"></i>
-                                            </router-link>
+                                            <div class="btn btn-sm bg-danger d-flex align-center ml-2" @click="openOrganizationDeleteModal()">
+                                                <i class="fas fa-trash-alt text-white" ></i>
+                                            </div>
                                         <!-- <router-link class="btn btn-sm bg-danger ml-2 d-flex align-center"
                                             to="javascript:void(0)" @click="getOrganization({{$organization}})">
                                             <i class="fas fa-trash-alt"></i>
@@ -273,21 +272,21 @@
     </div>
 
     <dialogAddOrg :showModal="showModal"></dialogAddOrg>
+    <dialogDeleteOrg :showModal="showModal"></dialogDeleteOrg>
 </div>
-
-
-
 </template>
 
 <script>
 import { ref, reactive, onMounted, watch } from "vue";
 import { storeToRefs } from 'pinia';
 import dialogAddOrg from './DialogAddOrganization.vue';
+import dialogDeleteOrg from './DialogDeleteOrganization.vue';
 import { organizationsStore } from '../../stores/organizations';
 
 export default {
     components: {
         dialogAddOrg,
+        dialogDeleteOrg,
     },
     setup(){
         let regionServiceInputs = ref([
@@ -368,6 +367,9 @@ export default {
         },
         openOrganizationAddModal(){
             $('#addOrganizationModal').modal('toggle');
+        },
+        openOrganizationDeleteModal(){
+            $('#deleteOrganizationModal').modal('toggle');
         },
         goFurther(){
             this.organizationModalSteps++;
